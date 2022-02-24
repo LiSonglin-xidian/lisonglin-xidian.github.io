@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="keywords" content="">
+<meta name="description" content="温故而知新">
+<meta name="theme-color" content="">
+<title>源流，文脉与高山 | Gridea</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1645692985586">
+<link rel="stylesheet" href="/media/css/pisces.css">
+<link rel="stylesheet" href="/media/fonts/font-awesome.css">
+<link
+  href="//fonts.loli.net/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"
+  rel="stylesheet" type="text/css">
+
+<link href="/media/hljs/styles/github.css"
+  rel="stylesheet">
+
+<link rel="stylesheet" href="/styles/main.css">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/media/js/jquery.js"></script>
+<script src="/media/hljs/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.ui.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+
+  <meta name="description" content="源流，文脉与高山" />
+  <meta name="keywords" content="" />
+</head>
+
+<body>
+  <div class="head-top-line"></div>
+  <div class="header-box">
+    
+<div class="pisces">
+  <header class="header  ">
+    <div class="blog-header box-shadow-wrapper bg-color " id="header">
+      <div class="nav-toggle" id="nav_toggle">
+        <div class="toggle-box">
+          <div class="line line-top"></div>
+          <div class="line line-center"></div>
+          <div class="line line-bottom"></div>
+        </div>
+      </div>
+      <div class="site-meta">       
+        <div class="site-title">
+          
+            <a href="/" class="brand">
+              <span>Gridea</span>
+            </a>  
+          
+        </div>
+        
+      </div>
+      <nav class="site-nav" id="site_nav">
+        <ul id="nav_ul">
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/" target="_self">
+                  <i class="fa fa-globe"></i> 首页
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/archives" target="_self">
+                  <i class="fa fa-globe"></i> 归档
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/tags" target="_self">
+                  <i class="fa fa-globe"></i> 标签
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/post/about" target="_self">
+                  <i class="fa fa-globe"></i> 关于
+                </a>
+              
+            </li>
+          
+          
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<script type="text/javascript"> 
+ 
+  let showNav = true;
+
+  let navToggle = document.querySelector('#nav_toggle'),
+  siteNav = document.querySelector('#site_nav');
+  
+  function navClick() {
+    let sideBar = document.querySelector('.sidebar');
+    let navUl = document.querySelector('#nav_ul');
+    navToggle.classList.toggle('nav-toggle-active');
+    siteNav.classList.toggle('nav-menu-active');
+    if (siteNav.classList.contains('nav-menu-active')) {
+      siteNav.style = "height: " + (navUl.children.length * 42) +"px !important";
+    } else {
+      siteNav.style = "";
+    }
+  }
+
+  navToggle.addEventListener('click',navClick);  
+</script>
+  </div>
+  <div class="main-continer">
+    
+    <div
+      class="section-layout pisces ">
+      <div class="section-layout-wrapper">
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://songlinli.ml/post/yuan-liu-wen-mai-yu-gao-shan/"> 源流，文脉与高山 </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2022-02-24 16:54:23">2022-02-24</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span
+        >13<span class="language" data-lan="minute"
+          >分钟</span
+        ></span
+      >
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span
+        >3773<span class="pc-show language" data-lan="words"
+          >字数</span
+        ></span
+      >
+    </span>
+    
+  </div>
+</section>
+
+            <div class="post-body next-md-body" id="post_body">
+              <h1 id="源流">源流</h1>
+<p><strong>易</strong>：<strong>《河图》《洛书》《易经》</strong>，群经之首，华夏文明的总源头。<br>
+<strong>道</strong>：<strong>《道德经》</strong>，三皇之学的集大成，是对易的总结和升华。后世儒法两家的思想根源。老子的思想，后来发展出了五个比较突出的流派。鬼谷子，杨朱，苏秦张仪，韩非子、申不害，庄子、列子，关尹子、尹文，被称之为老学五派。孔子，也是老子的思想传人。<br>
+<strong>儒</strong>：<strong>《礼记》《论语》《尚书》</strong>。儒为周朝之学，奠基人是周公，由孔子发扬光大。道为儒之本，儒为道之末。<br>
+<strong>法</strong>：<strong>《管子》《商君书》《韩非》</strong>。管仲、商君之书，源头为道家。韩非子，源头为道儒两家。<br>
+<strong>医</strong>：中医的思想源头，在易经。中医的四大名著为**《黄帝内经》《难经》《伤寒杂病论》《神农本草经》<strong>。有人把《温病条辩》列入中医四大名著，这不合适，温病学说，不是至道，它只是道的一个方面，这种只能叫方医。《难经》思想，承自《黄帝内经》。《黄帝内经》是中医的最高经典，世人不读内经，用伤寒的方剂思想来总括中医，甚至把中医等同于中药，这是非常非常堕落的，这是文盲中医。<br>
+<strong>兵</strong>：代表书籍是在宋朝编撰的</strong>《武经七书》<strong>，兵家的思想总源头，是易和道。《武经七书》由</strong>《孙子兵法》《吴子兵法》《六韬》《司马法》《三略》《尉缭子》《李卫公问对》**七部著名兵书汇编而成。世人喜欢把兵家思想，照搬到商战上去，不过，如果不懂道，又怎么用兵呢，瞎比划也没什么用。<br>
+至道四经：《道德经》《庄子》《黄帝内经》《黄帝阴符经》👈</p>
+<h1 id="文脉">文脉</h1>
+<p><strong>伏羲</strong>：<strong>《河图》《洛书》《伏羲八卦》</strong>，我们民族文化一切的总源头。伏羲之于华夏，如同太阳之于万物。<br>
+<strong>神农</strong>：<strong>《神农本草经》</strong>。神农就是炎帝，炎黄子孙，黄帝占一半，神农占一半。炎黄部落融合，是中原统一的基础。这本书，讲的是医家至道。本草纲目那些乱七八糟的书，是对《神农本草经》在传承上的污染。<br>
+<strong>黄帝</strong>：<strong>《黄帝内经》《黄帝阴符经》《黄帝四经》</strong>。内经讲治身奉生之道，而要治身，就得理解天地之道，所以内经里，多数讲的还是天地大道，它是中医之宗之源。离开内经讲中医，如同脚不连地去走路。阴符经，讲宇宙万物的一本书，语言极其凝练简洁。黄帝四经，是一本讲治国理政的书。<br>
+<strong>伊尹</strong>：<strong>《汤液经法》《汤誓》《伊训》</strong>。商朝建国的奠基人，伟大的政治家，也是伟大的医学家。伊尹进一步发展了神农本草经。他是张仲景方剂理论的源头。<br>
+<strong>文王</strong>：统一天下，为八卦做卦辞。周朝八百年，奠定了华夏文明走向成熟的基础。<br>
+<strong>姜尚</strong>：<strong>《三韬》《六略》</strong>。很多人认为，道家就是画符捉鬼修炼丹修仙的那些人，完全不是这样。真正代表道家思想和精神的，是伊尹，姜尚，管仲，黄石公，鬼谷子，张良这样的人。那些炼丹修仙画符捉鬼的，只是道家的一个旁门小术。道家的最高思想，就是治理天下的帝王之道。<br>
+<strong>周公</strong>：<strong>《礼记》</strong>。孔子的精神导师，封建制的创立者，宗法制的创立者，影响中国几千年，塑造了后世几千年的中国文化面貌。<br>
+<strong>老子</strong>：<strong>《道德经》</strong>。道德经是三皇之学，它所讲的道，和河图洛书，和易经里的思想和道理，都是相通的。伯阳立教，影响深远。所谓的百家争鸣，不过是道裂为百。所有的各家，总源头，都可以在这里找到。<br>
+<strong>管仲</strong>：<strong>《管子》</strong>。这是一本神奇的伟大的书，里面不仅讲怎么治国，还讲经济，讲管理。现在所有的经济学著作，所有的管理学著作，加起来都比不上这一本书，因为它讲的是道。<br>
+<strong>商鞅</strong>：<strong>《商君书》</strong>。三千年皆为秦政，这个秦政理论总源头，就在这本书里。商鞅塑造了秦政，秦政又塑造了中国后世几千年的国家样貌。可以认为，是商鞅影响并间接塑造了中国几千年的历史。<br>
+<strong>鬼谷子</strong>：<strong>《鬼谷子》《鬼谷子阴符本经七术》</strong>。这两本书，深不可测。有人认为，只是权诈之术，并非如此。鬼谷子的思想，讲的不是术，而是圣人之道。<br>
+<strong>孔子</strong>：<strong>《论语》《易传》《春秋》《诗经》《尚书》</strong>。根深蒂固的影响了中国几千年，中国人的伦理观念，大多都是由孔子塑造的。孔子的思想，已经融入了中国人的血液中。孔子之后，儒分为八，不过孟子荀子之后，大儒就少了。很多人，把贱儒们的帐，都算孔子头上，这显然不对。孔子的道，讲的是大道，是经世济国，开万世太平的大道。后来那些愚不可及的腐儒贱儒，并非孔子之道。体现孔子最高思想的书，是《易传》。<br>
+<strong>庄子</strong>：<strong>《庄子》</strong>。有的人，思想可以突破一隅，有的人思想可以突破一方。有的人思想可以突破地球。有的人思想可以突破银河系。庄子的思想，突破了宇宙。很多时候，他是站在宇宙之外看宇宙，看累了，就撇两眼地球上的蓝星人。<br>
+<strong>孟子</strong>：<strong>《孟子》</strong>。孟子思想的核心，讲的是义，有义的人，就是大丈夫。失道亡德，礼崩乐坏，仁已不存，那么义不可再失。孟子是一个守城人，以一个义来对抗整个崩坏的社会。他觉得，一个人如果不讲义，跟禽兽有什么区别呢。他特别喜欢说别人是禽兽。<br>
+<strong>荀子</strong>：<strong>《荀子》</strong>。孟子失守之后，荀子开始以礼守道，主张性恶论。提倡化性起伪，对百姓进行自上而下主动规训式的的教化，而不能靠他们的自觉，因为他们本来都很坏，不可能自觉。荀子研究的是帝王之术，强调经世致用的大儒精神。在他看来，不能结束社会战乱，带来国家天平的思想，都是没有价值的弱智言论。他认为大多数思想家，都是弱智，因为他们的思想没有用。<br>
+<strong>韩非</strong>：<strong>《韩非子》</strong>。荀子的学生，也是老子思想的学生。他升华了荀子的思想，主张以循名责实来控制百姓。他研究的是帝王之术，他对道德经的理解，比后世绝大多数人都深刻通透。秦始皇之所以能够统一中国，韩非子的思想，功不可没。<br>
+<strong>屈原</strong>：<strong>《离骚》《楚辞》</strong>。和韩非子一样，也是一个极其聪明的人。他并不是一个单纯的爱国诗人和文学家，而是一个圣人和天才。他的治国思想，属于法家的那一套。有人把李白和屈原相并论，那个酒鬼，怎么能和屈原相比呢，差的太远了。诗歌只是屈原的副业，屈原的主业，是和韩非子一样，是要建立一个统一天下的大帝国。屈原说，我血统高贵，我名字高贵，我长的美，我一生下来就是个天才，我的思想也是天下最美的，可是楚王那个丑八怪癞蛤蟆不懂我，作为一个有精神洁癖和文化洁癖的人，跟楚王这个文盲癞蛤蟆周旋的没玩没了，跟一群脏兮兮的奸佞争来斗去，全是精神污染啊，恶心得我还不如死了算了，罢罢罢，于是便投河自尽。<br>
+<strong>秦始皇</strong>：结束战乱，统一天下。开三千年皆秦政的先河。塑造了后面几千年的中国政治基本模式。<br>
+<strong>张良</strong>：<strong>《素书》</strong>。张良，是汉朝几百年江山的奠基之人，他之于汉朝，如同姜尚之于周朝。张良的思想，都来源自这本书。这是一本讲世间大道的书，读懂素书，行走人间，可以无往不利。👈<br>
+<strong>陆贾</strong>：<strong>《新语》</strong>。汉朝文化建设的总设计师。他的思想，影响了汉朝几百年。<br>
+<strong>刘彻</strong>：在他之后，华夏族开始叫汉族。他为华夏人，铸就了汉魂。<br>
+<strong>司马迁</strong>：《史记》。读史可以知兴衰存亡之道，太史公对华夏文明的贡献，非常大。<strong>《史记》《汉书》《资治通鉴》<strong>最高的三本史学著作，又以《史记》最高。<br>
+<strong>韩愈</strong>：</strong>《谏迎佛骨表》</strong>，这是一篇千古檄文。韩愈提出了文化道统概念，主张复兴儒学，对中国文化进行清污与重建。他为宋朝理学家力辟奸邪，提供了一面精神旗帜。<br>
+<strong>陈抟</strong>：<strong>《太极图》《指玄篇》《无极图》</strong>。开后世文化昌盛之先河，他深刻影响了北宋理学的鼻祖周敦颐。周敦颐又深刻影响了北宋五子中的其他几位和朱熹。他是一座高山。<br>
+<strong>北宋五子和朱熹</strong>：<strong>《周元公集》《张载集》《朱子语类》<strong>汉儒凋败之后，华夏文明的又一次文化昌盛时期。<br>
+<strong>王夫之</strong>：</strong>《周易外传》、《黄书》、《尚书引义》、《永历实录》、《春秋世论》、《噩梦》、《读通鉴论》、《宋论》</strong>。王夫之认为，宋朝亡国，和明朝亡国，都是因为程朱理学，与陆王心学，是亡国之学。他上承张载思想，重提经学的经世致用天职，以文载道，以道正天下。他对朱熹和王阳明尚清谈的无用学问，进行了大清算。<br>
+王夫之对后世，极其重要，他把当时中国的文化中心，转移到了湖南。湖南在近代英杰辈出，就在于王夫之的思想辐射。他深刻影响了曾国藩，曾国藩又影响了谭嗣同，谭嗣同影响了杨昌济，杨昌济影响了毛泽东。王夫之说，一个人要是没有志向，跟禽兽没什么区别。他重新唤醒了士大夫们以天下为己任的那种大儒精神。<br>
+<strong>辜鸿铭</strong>：<strong>《中国人的精神》，也叫《春秋大义》</strong>。他是过去的那个中国，最后一个精神贵族，他是清儒中的一个清流。清儒是几千年未有之异端邪说，是荀子所讲的那种贱儒，民国和共和国那些西学东渐的新儒家，则比清儒还贱。不过辜鸿铭是个例外，他是荀子说的那种大儒。他对儒家思想的理解，对中国文化的理解，非常深刻，同时对西方文化的理解和洞察，也非常的深刻。和他相比，鲁迅，林语堂，胡适之辈，都是文化盲流。<br>
+<strong>毛泽东</strong>：<strong>《毛泽东选集》</strong>。王夫之一脉的思想，给毛泽东注入了精神动力，否则难以理解，为什么他小小年纪的时候，就以治国平天下为己任。毛泽东是新中国最有学问的一个人。他研究的是经世济国的大学问，他对历史，文化，政治，军事的洞察力，非常深刻，目光如炬的审视着一切。陈寅恪，郭沫若，冯友兰，钱钟书这样的，研究小学问的学者，自然无法和毛泽东相提并论。毛泽东对那些言必称古希腊古罗马的所谓的知识分子，内心里是很瞧不起的。<br>
+有人说，钱钟书眼高过顶，是个谁都瞧不起的精神贵族，其实他并不是精神贵族，他并不懂天地之道，也不懂经世济国之道。他只是在学问的品味上格调上，比他所瞧不起的那些同行们高一些，但他和他的同行们所研究的这些学问本身，都不是什么大道，只是屑末小学。新中国成立以来，只有一个伟岸的大写的精神贵族，那就是毛泽东。</p>
+<h1 id="高山">高山</h1>
+<p><strong>伏羲</strong>：天根，道魂。<br>
+华夏人的人文始祖，他把华夏人，从游牧文明，升级到农耕文明。他通过对天地万物的观察和理解，把华夏人的文明之根，深深的扎进了天道自然之中。如果没有伏羲，华夏人，可能跟现在那些对着空气瞎叨叨的奉妖事鬼的愚昧民族，没什么区别。因为有了伏羲，华夏人的文化和精神，和生活生产，都走上了一条理解世界，顺应自然，理解未来，趋吉避凶，成就大业的道路。<br>
+<strong>黄帝</strong>：祖根，祖魂。<br>
+黄帝铸就了华夏人的祖根和祖魂。进一步发展了伏羲的思想，把华夏人的生存空间，从狭小的河洛平原，推进到了整个黄河流域，统一了整个中原地区。并且，在各个方面，都使得华夏文明大幅度进步。这个时期的人口大爆炸，奠定了华夏人的人口绝对优势，这个绝对优势太明显，以至于可以保证，即便后代出现了一些不肖子孙败家子，也不会使华夏人亡族亡种。<br>
+<strong>秦始皇</strong>：帝国根，帝国魂。<br>
+继续把华夏人的生存空间，推进到了整个黄河，长江和珠江流域。秦帝国，是历代华夏人建立的帝国的标准版和母本。始皇帝，为华夏人的统一，做出了伟大的贡献。这次统一，比黄帝和大禹的统一，更为深刻，影响也更为深远。他不仅为帝国统治，创立了硬件的疆域标准，也为帝国统治，创立了郡县制和中央集权加文官体系，这个大帝国统治的政治系统。<br>
+<strong>毛泽东</strong>：世界根，世界魂。<br>
+中国近代史的屈辱和磨难，比五胡乱华更甚，危亡形势也更凶险。为了不亡族亡种，无数的伟人英雄们，奋起救亡，图存图强。李鸿章没有立住，袁世凯没有立住，孙文没有立住，蒋介石没有立住，只有毛泽东立住了。他不仅立住了，而且还跟弓箭种、强盗种、野兽种、虫蛇种打了一圈，稳固住了中国的国防，牢牢守住了东北、新疆、西藏、朝鲜这些战略缓冲区，为华夏人的生存，创造了生存安全保险带。毛泽东为中国缔造了国魂，军魂，图强之魂，这就是现代中国自立于世界的根。<br>
+摘自：<a href="https://mp.weixin.qq.com/s/Tq2cQFBBYSj4LID2-lvxTw">华夏文化谱系，中国人的根和魂</a></p>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://songlinli.ml/post/yuan-liu-wen-mai-yu-gao-shan/" title="源流，文脉与高山">https://songlinli.ml/post/yuan-liu-wen-mai-yu-gao-shan/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="Comsol边界条件" href="https://songlinli.ml/post/comsol-bian-jie-tiao-jian/">Comsol边界条件</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="Comsol边界条件" href="https://songlinli.ml/post/comsol-bian-jie-tiao-jian/">上一篇</a>
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="ZeroTier One+远程桌面实现全平台远程连接" href="https://songlinli.ml/post/zerotier-oneyuan-cheng-zhuo-mian-shi-xian-quan-ping-tai-yuan-cheng-lian-jie/">ZeroTier One+远程桌面实现全平台远程连接</a>
+        <a class="nav-mobile-next" title="ZeroTier One+远程桌面实现全平台远程连接" href="https://songlinli.ml/post/zerotier-oneyuan-cheng-zhuo-mian-shi-xian-quan-ping-tai-yuan-cheng-lian-jie/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+            
+            
+  
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+  <footer class="footer">
+    <center id="runTimeBox">
+      已运行:<span id="run_time"></span>
+    </center>
+    <span id="busuanzi_container_site_pv">浏览数:<span id="busuanzi_value_site_pv"></span> 次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span> 人</span>
+
+    <script>
+      BirthDay = new Date('');
+      if (BirthDay.getTime()) {
+        function runTime() {
+          str = "";
+          today = new Date();
+          timeold = today.getTime() - BirthDay.getTime();
+          msPerDay = 24 * 60 * 60 * 1000;
+          e_daysold = timeold / msPerDay;
+          daysold = Math.floor(e_daysold);
+          str += daysold + "天";
+          return str;
+        }
+        setInterval(function () {
+          $("#run_time").html(runTime());
+        }, 1000);
+      } else {
+        document.querySelector('.footer').removeChild(document.querySelector('#runTimeBox'));
+      }
+    </script>
+    <div class="poweredby">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+  </footer>
+  
+    
+        <div class="pisces back-to-top" id="back_to_top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span class="scrollpercent"> <span id="back_to_top_text">0</span>% </span>
+            
+        </div>
+        
+          
+            
+                
+                  
+                        
+                          
+
+                            
+</div>
+<script>
+  let sideBarOpen = "sidebar-open";
+  let body = document.body;
+  let back2Top = document.querySelector("#back_to_top"),
+    back2TopText = document.querySelector("#back_to_top_text"),
+    drawerBox = document.querySelector("#drawer_box"),
+    rightSideBar = document.querySelector(".sidebar"),
+    viewport = document.querySelector("body");
+
+  function scrollAnimation(currentY, targetY) {
+    let needScrollTop = targetY - currentY;
+    let _currentY = currentY;
+    setTimeout(() => {
+      const dist = Math.ceil(needScrollTop / 10);
+      _currentY += dist;
+      window.scrollTo(_currentY, currentY);
+      if (needScrollTop > 10 || needScrollTop < -10) {
+        scrollAnimation(_currentY, targetY);
+      } else {
+        window.scrollTo(_currentY, targetY);
+      }
+    }, 1);
+  }
+
+  back2Top.addEventListener("click", function (e) {
+    scrollAnimation(document.scrollingElement.scrollTop, 0);
+    e.stopPropagation();
+    return false;
+  });
+
+  window.addEventListener("scroll", function (e) {
+    let percent =
+      (document.scrollingElement.scrollTop /
+        (document.scrollingElement.scrollHeight -
+          document.scrollingElement.clientHeight)) *
+      100;
+    if (percent > 1 && !back2Top.classList.contains("back-top-active")) {
+      back2Top.classList.add("back-top-active");
+    }
+    if (percent == 0) {
+      back2Top.classList.remove("back-top-active");
+    }
+    if (back2TopText) {
+      back2TopText.textContent = Math.floor(percent);
+    }
+  });
+
+  let hasCacu = false;
+  window.addEventListener("resize", function (e) {
+    calcuHeight();
+  });
+
+  function calcuHeight() {
+    // 动态调整站点概览高度
+    if (
+      (!hasCacu && back2Top.classList.contains("pisces")) ||
+      back2Top.classList.contains("gemini")
+    ) {
+      let sideBar = document.querySelector(".sidebar");
+      let navUl = document.querySelector("#site_nav");
+      sideBar.style =
+        "margin-top:" + (navUl.offsetHeight + navUl.offsetTop + 15) + "px;";
+      hasCacu = true;
+    }
+  }
+  calcuHeight();
+
+  let open = false,
+    MOTION_TIME = 300,
+    RIGHT_MOVE_DIS = "320px";
+
+  if (drawerBox) {
+    let rightMotions = document.querySelectorAll(".right-motion");
+    let right = drawerBox.classList.contains("right");
+
+    let transitionDir = right
+      ? "transition.slideRightIn"
+      : "transition.slideLeftIn";
+
+    let openProp, closeProp;
+    if (right) {
+      openProp = {
+        paddingRight: RIGHT_MOVE_DIS,
+      };
+      closeProp = {
+        paddingRight: "0px",
+      };
+    } else {
+      openProp = {
+        paddingLeft: RIGHT_MOVE_DIS,
+      };
+      closeProp = {
+        paddingLeft: "0px",
+      };
+    }
+
+    drawerBox.onclick = function () {
+      open = !open;
+      jQuery.Velocity(rightSideBar, "stop");
+      jQuery.Velocity(viewport, "stop");
+      jQuery.Velocity(rightMotions, "stop");
+      if (open) {
+        jQuery.Velocity(
+          rightSideBar,
+          {
+            width: RIGHT_MOVE_DIS,
+          },
+          {
+            duration: MOTION_TIME,
+            begin: function () {
+              jQuery.Velocity(rightMotions, transitionDir, {});
+            },
+          }
+        );
+        jQuery.Velocity(viewport, openProp, {
+          duration: MOTION_TIME,
+        });
+      } else {
+        jQuery.Velocity(
+          rightSideBar,
+          {
+            width: "0px",
+          },
+          {
+            duration: MOTION_TIME,
+            begin: function () {
+              jQuery.Velocity(rightMotions, {
+                opacity: 0,
+              });
+            },
+          }
+        );
+        jQuery.Velocity(viewport, closeProp, {
+          duration: MOTION_TIME,
+        });
+      }
+      for (let i = 0; i < drawerBox.children.length; i++) {
+        drawerBox.children[i].classList.toggle("muse-line");
+      }
+      drawerBox.classList.toggle(sideBarOpen);
+    };
+  }
+
+  // 链接跳转
+  let newWindow = "";
+  if (newWindow === "true") {
+    let links = document.querySelectorAll(".post-body a");
+    links.forEach((item) => {
+      if (!item.classList.contains("btn")) {
+        item.setAttribute("target", "_blank");
+      }
+    });
+  }
+
+  let faSearch = document.querySelector("#fa_search");
+  faSearch &&
+    faSearch.addEventListener("click", function () {
+      document.querySelector("#search_mask").style = "";
+    });
+
+  // 代码高亮
+  hljs.initHighlightingOnLoad();
+
+  // 离开当前页title变化
+  var leaveTitle = "";
+  var normal_title = document.title;
+  if (leaveTitle) {
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState == "hidden") {
+        normal_title = document.title;
+        document.title = leaveTitle;
+      } else {
+        document.title = normal_title;
+      }
+    });
+  }
+</script>
+
+<link rel="stylesheet" href="/media/css/jquery.fancybox.css" />
+<script src="/media/js/jquery.fancybox.js"></script>
+
+<script>
+  let images = document.querySelectorAll(".section img");
+  images.forEach((image) => {
+    var parent = image.parentElement;
+    var next = image.nextElementSibling;
+    parent.removeChild(image);
+    var aelem = document.createElement("a");
+    aelem.href = image.src;
+    aelem.dataset["fancybox"] = "images";
+    aelem.dataset["rel"] = "fancybox-button";
+    aelem.classList.add("fancybox");
+    aelem.appendChild(image);
+    parent.insertBefore(aelem, next);
+  });
+</script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word"></p>
+      <p class="reward-tip"></p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
+  </div>
+</body>
+
+<input hidden id="copy" />
+<script>
+  !function () {
+    let times = document.querySelectorAll('.publish-time');
+    for (let i = 0; i < times.length; i++) {
+      let date = times[i].dataset.t;
+      let time = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
+      if (time < 60) {
+        str = time + '秒之前';
+      } else if (time < 3600) {
+        str = Math.floor(time / 60) + '分钟之前';
+      } else if (time >= 3600 && time < 86400) {
+        str = Math.floor(time / 3600) + '小时之前';
+      } else if (time >= 86400 && time < 259200) {
+        str = Math.floor(time / 86400) + '天之前';
+      } else {
+        str = times[i].textContent;
+      }
+      times[i].textContent = str;
+    }
+  }();
+</script>
+
+<script>
+  let language = '';
+  if (language !== '') {
+    let map = new Map();
+    if (language === 'en') {
+      map.set('search', 'Search');
+      map.set('category', 'Categories');
+      map.set('article', 'Articles');
+      map.set('tag', 'Tags');
+      map.set('top', 'Top');
+      map.set('publish', 'published');
+      map.set('minute', ' minutes');
+      map.set('read-more', 'Read More');
+      map.set('view', 'View');
+      map.set('words', ' words');
+      map.set('category-in', 'category in');
+      map.set('preview', 'Meta');
+      map.set('index', 'Toc');
+      map.set('no-archives', "You haven't created yet");
+      map.set('archives', " articles in total");
+      map.set('cloud-tags', " tags in total");
+      map.set('copyright', "Copyright: ");
+      map.set('author', "Author: ");
+      map.set('link', "Link: ");
+      map.set('leave-message', "Leave a message");
+      map.set('format', "Links Format");
+      map.set('site-name', "Name: ");
+      map.set('site-link', "Link: ");
+      map.set('site-desc', "Desc: ");
+      map.set('stat', " related results, taking ");
+      map.set('stat-time', " ms");
+      map.set('site-img', "Image: ");
+    }
+
+    if (map.size > 0) {
+      let lanElems = document.querySelectorAll('.language');
+      lanElems.forEach(elem => {
+        let lan = elem.dataset.lan, text = map.get(lan);
+        if (elem.__proto__ === HTMLInputElement.prototype) {
+          elem.placeholder = text
+        } else {
+          if (elem.dataset.count) {
+            text = elem.dataset.count + text;
+          }
+          elem.textContent = text;
+        }
+      })
+    }
+  }
+
+  window.Clipboard = (function (window, document, navigator) {
+    var textArea,
+      copy;
+
+    // 判断是不是ios端
+    function isOS() {
+      return navigator.userAgent.match(/ipad|iphone/i);
+    }
+    //创建文本元素
+    function createTextArea(text) {
+      textArea = document.createElement('textArea');
+      textArea.value = text;
+      textArea.style.width = 0;
+      textArea.style.height = 0;
+      textArea.clientHeight = 0;
+      textArea.clientWidth = 0;
+      document.body.appendChild(textArea);
+    }
+    //选择内容
+    function selectText() {
+      var range,
+        selection;
+
+      if (isOS()) {
+        range = document.createRange();
+        range.selectNodeContents(textArea);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        textArea.select();
+      }
+    }
+
+    //复制到剪贴板
+    function copyToClipboard() {
+      try {
+        document.execCommand("Copy")
+      } catch (err) {
+        alert("复制错误！请手动复制！")
+      }
+      document.body.removeChild(textArea);
+    }
+
+    copy = function (text) {
+      createTextArea(text);
+      selectText();
+      copyToClipboard();
+    };
+
+    return {
+      copy: copy
+    };
+  })(window, document, navigator);
+
+  function copyCode(e) {
+    if (e.srcElement.tagName === 'SPAN' && e.srcElement.classList.contains('copy-code')) {
+      let code = e.currentTarget.querySelector('code');
+      var text = code.innerText;
+      if (e.srcElement.textContent === '复制成功') {
+        return;
+      }
+      e.srcElement.textContent = '复制成功';
+      (function (elem) {
+        setTimeout(() => {
+          if (elem.textContent === '复制成功') {
+            elem.textContent = '复制代码'
+          }
+        }, 1000);
+      })(e.srcElement)
+      Clipboard.copy(text);
+    }
+  }
+
+  let pres = document.querySelectorAll('pre');
+  pres.forEach(pre => {
+    let code = pre.querySelector('code');
+    let copyElem = document.createElement('span');
+    copyElem.classList.add('copy-code');
+    copyElem.textContent = '复制代码';
+    pre.appendChild(copyElem);
+    pre.onclick = copyCode
+  })
+
+</script>
+<script src="/media/js/motion.js"></script>
+
+
+  <script
+    src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script>
+    var scroll = new SmoothScroll('a[href*="#"]', {
+      speed: 200
+    });
+  </script>
+
+
+
+
+
+
+</html>

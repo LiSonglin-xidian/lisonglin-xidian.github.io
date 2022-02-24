@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="keywords" content="">
+<meta name="description" content="温故而知新">
+<meta name="theme-color" content="">
+<title>vasp学习总结 | Gridea</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1645692985586">
+<link rel="stylesheet" href="/media/css/pisces.css">
+<link rel="stylesheet" href="/media/fonts/font-awesome.css">
+<link
+  href="//fonts.loli.net/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"
+  rel="stylesheet" type="text/css">
+
+<link href="/media/hljs/styles/github.css"
+  rel="stylesheet">
+
+<link rel="stylesheet" href="/styles/main.css">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/media/js/jquery.js"></script>
+<script src="/media/hljs/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.ui.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+
+  <meta name="description" content="vasp学习总结" />
+  <meta name="keywords" content="" />
+</head>
+
+<body>
+  <div class="head-top-line"></div>
+  <div class="header-box">
+    
+<div class="pisces">
+  <header class="header  ">
+    <div class="blog-header box-shadow-wrapper bg-color " id="header">
+      <div class="nav-toggle" id="nav_toggle">
+        <div class="toggle-box">
+          <div class="line line-top"></div>
+          <div class="line line-center"></div>
+          <div class="line line-bottom"></div>
+        </div>
+      </div>
+      <div class="site-meta">       
+        <div class="site-title">
+          
+            <a href="/" class="brand">
+              <span>Gridea</span>
+            </a>  
+          
+        </div>
+        
+      </div>
+      <nav class="site-nav" id="site_nav">
+        <ul id="nav_ul">
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/" target="_self">
+                  <i class="fa fa-globe"></i> 首页
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/archives" target="_self">
+                  <i class="fa fa-globe"></i> 归档
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/tags" target="_self">
+                  <i class="fa fa-globe"></i> 标签
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/post/about" target="_self">
+                  <i class="fa fa-globe"></i> 关于
+                </a>
+              
+            </li>
+          
+          
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<script type="text/javascript"> 
+ 
+  let showNav = true;
+
+  let navToggle = document.querySelector('#nav_toggle'),
+  siteNav = document.querySelector('#site_nav');
+  
+  function navClick() {
+    let sideBar = document.querySelector('.sidebar');
+    let navUl = document.querySelector('#nav_ul');
+    navToggle.classList.toggle('nav-toggle-active');
+    siteNav.classList.toggle('nav-menu-active');
+    if (siteNav.classList.contains('nav-menu-active')) {
+      siteNav.style = "height: " + (navUl.children.length * 42) +"px !important";
+    } else {
+      siteNav.style = "";
+    }
+  }
+
+  navToggle.addEventListener('click',navClick);  
+</script>
+  </div>
+  <div class="main-continer">
+    
+    <div
+      class="section-layout pisces ">
+      <div class="section-layout-wrapper">
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://songlinli.ml/post/vasp-xue-xi-zong-jie/"> vasp学习总结 </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2022-02-24 16:52:11">2022-02-24</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span
+        >19<span class="language" data-lan="minute"
+          >分钟</span
+        ></span
+      >
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span
+        >4848<span class="pc-show language" data-lan="words"
+          >字数</span
+        ></span
+      >
+    </span>
+    
+  </div>
+</section>
+
+            <div class="post-body next-md-body" id="post_body">
+              <p>vasp学习过程总结</p>
+<!-- more -->
+<h1 id="incar">INCAR</h1>
+<pre><code>SYSTEM = O atom     ##元素符号（计算说明，可以随便写）
+ISMEAR = 0          ##对于分子和原子使用0（不同的值对应的不同的展宽方法，分子原子用0 https://www.bigbrosci.com/2017/10/15/ex1_02_vasp_preparation_input_incar/）
+SIGMA = 0.01        ##对于分子或原子使用0.01（与ismear息息相关，参考网址同上）标准是SIGMA取值要保证OUTCAR中的entropy T*S 这一项，平均到每个原子上小于0.001 eV也就是1meV
+使用命令检查（grep 'entropy T' OUTCAR）
+</code></pre>
+<p><img src="https://songlinli.ml/post-images/1635771143608.png" alt="" loading="lazy"><br>
+1.初始参数、2.自洽迭代（电子优化，SCF）、3.原子驰豫（离子驰豫、结构优化）、4.态密度积分和参数、5.其他</p>
+<h2 id="1初始参数">1.初始参数</h2>
+<h3 id="system注释体系">system注释体系</h3>
+<h3 id="istsrt如果有wavecar文件默认值为1否则为0">ISTSRT：如果有wavecar文件，默认值为1，否则为0。</h3>
+<pre><code>0：开始新的计算，按iniwav初始化波函数
+1：接着计算，通常用在态密度、能带结构、光学性质等电子结构计算，读取已有的wavecar
+2：接着计算，希望保持基矢不变的计算中
+3：接着计算，读取上一次计算的到的电荷密度和波函数，不推荐用
+</code></pre>
+<h3 id="icharg">ICHARG</h3>
+<p>如果ISTART=0，则默认为2，否则为0。决定如何构造初始的电荷密度<br>
+0：从初始的波函数构造<br>
+1：从CHGCAR读入，并同原子密度进行线性插值<br>
+<strong>2：构造原子电子密度线性组合（LCAO），初始的电子密度由赝势来决定</strong><br>
+<strong>11：读入自洽的CHGCAR，并进行能带计算或者态密度的非自洽计算</strong><br>
+12：非自洽的原子密度计算<br>
+ISART和ICHARG这两个关键词分别定义了如何构建初始化的波函数和电荷密度、读入上一次的波函数和电荷密度。<br>
+推荐的做法：<br>
+在进行能带结构、电子态密度等的性质的计算时：设置ISTART=1，ICHARG=11。<br>
+其他情况：一般设置ISTART=0，ICHARG=2。</p>
+<h2 id="2自洽迭代">2.自洽迭代</h2>
+<p>单点计算、静态计算、自洽机刷都代表不优化结构只进行能量计算。</p>
+<h3 id="nelm允许电子自洽迭代的最大步数默认为60有的结构复杂可以适当增大-如果无法自洽收敛需要设置电荷电荷密度混合方法">NELM：允许电子自洽迭代的最大步数，默认为60，有的结构复杂可以适当增大。如果无法自洽收敛，需要设置电荷电荷密度混合方法。</h3>
+<h3 id="ediff它是电子自洽收敛的标准默认为1e-4-当两次差值小于ediff时停止循环-控制电子步自洽收敛标准使用1e-5得到的结构优化结果可信">EDIFF：它是电子自洽收敛的标准，默认为1E-4。当两次差值小于EDIFF时停止循环。控制电子步（自洽）收敛标准，使用1E-5得到的结构优化结果可信。</h3>
+<h3 id="encut平面波截断能默认值从potcar中读入所有元素取值的最大值">ENCUT：平面波截断能，默认值从POTCAR中读入，所有元素取值的最大值</h3>
+<p>2.8.3）ENCUT的取值与体系中所有的元素有关；参考文献中的或者按照以下设置<br>
+A）体系中含有不同元素的时候，查看这些元素POTCAR中的ENMAX值，找出最大的那个；<br>
+B）ENCUT的最小值为所有元素中ENMAX的最大值！<br>
+C）也就是说，找到最大的ENMAX（max）， ENCUT值大于等于ENMAX（max）。</p>
+<h3 id="algo电子优化算法normalialgo-38blocked-davidson方法-veryfastialgo-48rmm-diis算法fast上面两个算法的混合">ALGO：电子优化算法：Normal：IALGO =38(blocked Davidson方法) VeryFast：IALGO =48（RMM-DIIS算法）Fast：上面两个算法的混合。</h3>
+<h2 id="3原子驰豫">3.原子驰豫</h2>
+<h3 id="1原子如何移动以及步长步数和驰豫收敛条件">1.原子如何移动以及步长，步数和驰豫收敛条件：</h3>
+<p>IBRION,ISIF,POTIM,NSW,EDIFFG</p>
+<h3 id="ibrion决定了原子如何移动或者驰豫">IBRION：决定了原子如何移动或者驰豫。</h3>
+<p>3：初始结构很差时使用<br>
+2：共轭梯度法比较可靠<br>
+1：小范围结构优化<br>
+当与实验值在5%内认为是可靠的。<br>
+<img src="https://songlinli.ml/post-images/1635769201550.png" alt="" loading="lazy"></p>
+<h3 id="isif决定了是否计算应力-以及如何对结构优化">ISIF:决定了是否计算应力    以及如何对结构优化</h3>
+<p><img src="https://songlinli.ml/post-images/1635769319193.png" alt="" loading="lazy"><br>
+取值为3，在优化晶胞时使用。取值为2，优化分子时候，驰豫表面，重构表面计算</p>
+<h3 id="potim-nsw-ediffg">POTIM、NSW、EDIFFG ：</h3>
+<p><img src="https://songlinli.ml/post-images/1635769500820.png" alt="" loading="lazy"><br>
+NSW表示最大步数，最大为100000后者更大。EDIFFG表示离子步也就是几何优化的精度。EDIFFG=0.02；0.05或者0.01（高精度）在结构优化中使用（-0.01~-0.03）认可结果。<br>
+POTIM控制的小了使得vasp每次调节小，但是加大计算时间。</p>
+<p>2.分子动力学相关参数：<br>
+SMASS,TEBEG,TEEND,POMASS,NBLOC,KBLOCK,PSTRESS,NSW,POTIM<br>
+<img src="https://songlinli.ml/post-images/1635769635740.png" alt="" loading="lazy"></p>
+<h2 id="4态密度积分">4.态密度积分</h2>
+<p>1：smearing方法和参数：ISMEAR,SIGMA<br>
+2：计算态密度时的能量范围和点数：EMIN,EMAX,NEDOS<br>
+3：计算分波态密度的参数：LORBIT</p>
+<h3 id="ismear">ISMEAR：</h3>
+<p>ISMEAR这一项，目前需要记住的是：</p>
+<p>1）不同的值对应的是不同的展宽方法；<br>
+2）对于分子，原子的计算用0。<br>
+下面是VASP官网的一些解释，新手暂时看不懂不要紧，把需要记住的这两条死死记住就可以了。</p>
+<p>对于半导体和绝缘体体系，ISMEAR的值取绝对不能大于0， 一般用0；<br>
+对所有体系，如果想获取更加精确能量的时候用-5：但使用-5的时候，K点数目小于3则程序会罢工；<br>
+K 点少，半导体或者绝缘体，那么只能用 ISMEAR = 0；<br>
+在DOS能带计算中，使用ISMEAR= -5 用于获取精确的信息。<br>
+对于金属来说，ISMEAR的取值一般为0，1；<br>
+保守地说，ISMEAR = 0 (Gaussian Smearing) 可以满足大部分的体系（金属，导体，半导体，分子）；<br>
+如果不知道怎么取ISMEAR，1）直接用0；2）测试不同的值对计算的影响。</p>
+<h3 id="smearing">smearing</h3>
+<p><img src="https://songlinli.ml/post-images/1635769810181.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635769830617.png" alt="" loading="lazy"></p>
+<h3 id="eminemax输出文件中有-以及-nedos1000平滑度和lorbitdos的输出方式取值为10取值11是分轨道还有nbands能带数目">EMIN/EMAX(输出文件中有) 以及 NEDOS（1000，平滑度）和LORBIT（DOS的输出方式取值为10，取值11是分轨道）还有NBANDS（能带数目）</h3>
+<figure data-type="image" tabindex="1"><img src="https://songlinli.ml/post-images/1635769992712.png" alt="" loading="lazy"></figure>
+<h2 id="5其他">5.其他</h2>
+<h3 id="prec-isym">PREC、ISYM</h3>
+<figure data-type="image" tabindex="2"><img src="https://songlinli.ml/post-images/1635770227760.png" alt="" loading="lazy"></figure>
+<h3 id="磁性体系计算co3o4-fe2o3-ispin-magmom磁矩-voskown">磁性体系计算（Co3O4、Fe2O3）-ISPIN、MAGMOM（磁矩）、VOSKOWN</h3>
+<p>体系的磁矩在OSZICAR中的mag=XX可以看到磁矩大小。<br>
+初始磁矩可以设置为实验值<em>1.5<br>
+或者初始磁矩可以设置为未成对电子数</em>1.5<br>
+<img src="https://songlinli.ml/post-images/1635770343792.png" alt="" loading="lazy"></p>
+<h3 id="逻辑参数lreal-lwave非常大性质计算再打开-lcharg非常大性质计算再打开">逻辑参数LREAL、LWAVE（非常大，性质计算再打开）、LCHARG（非常大，性质计算再打开）</h3>
+<p><img src="https://songlinli.ml/post-images/1635770482184.png" alt="" loading="lazy"><br>
+E）这里LREAL设置为Auto，是为了和后面表面能计算统一。计算时要根据原子数的多少，以及后续的计算选择LREAL的值。不能拿LREAL=.FALSE.和LREAL=ON/.TRUE.计算的结果进行能量比较。<br>
+F) 注意：块体材料计算时，为了后续计算其他性质，常常要求整个计算中使用相同的<strong>ENCUT，ENAUG， PREC， LREAL， ROPT</strong>，这部分大家可以看看手册 8.3 What kind of “technical” errors do exist， overview</p>
+<h3 id="强关联体系氧化铈等lsdauldauldautypeldaul哪个轨道添加uldauu在位库伦ldauj交换相互">强关联体系(氧化铈等)L(S)DA+U：LDAU,LDAUTYPE,LDAUL（哪个轨道添加U）,LDAUU（在位库伦）,LDAUJ（交换相互）</h3>
+<figure data-type="image" tabindex="3"><img src="https://songlinli.ml/post-images/1635770618512.png" alt="" loading="lazy"></figure>
+<h3 id="杂化泛函hse06lhfcalchfscreenlmaxfockprecfock">杂化泛函（HSE06）LHFCALC,HFSCREEN,LMAXFOCK,PRECFOCK</h3>
+<figure data-type="image" tabindex="4"><img src="https://songlinli.ml/post-images/1635771052948.png" alt="" loading="lazy"></figure>
+<h1 id="kpoints">KPOINTS</h1>
+<pre><code>K-POINTS           ##第一行随便写都可以，但是不能没有
+0                  ##零，代表格子自动生成
+Gamma              ##gamma点的centered（只认第一个字母而且大小写都可以，G代表以gamma点为中心生成网络。M为原始的Monkhorst-Pack网格，M在G的基础上在三个方向上平移了1/(2N)个单位）
+1 1 1              ##1*1*1格子运算（在xyz方向上生成对应数目的K点，原子分子选择1，如果ISMEAR=-5计算能量那么就需要使用2 2 2 或者更高的3 3 3）
+0 0 0              ##S1 S2 S3，一般保持0 0 0不变
+</code></pre>
+<p><img src="https://songlinli.ml/post-images/1635766075450.png" alt="" loading="lazy"><br>
+<strong>KPOINTS的建议，一直使用gamma来计算；M平移会导致网格对称性和晶胞对称性不匹配情况，从而计算出错。对于六角晶系的结构必须用gamma。对于非六角晶系，如果M可以计算就使用M</strong></p>
+<h1 id="poscar">POSCAR</h1>
+<pre><code>O atom in a box    ##随便写，不可以不写            
+1.0                ## universal sacling parameters(缩放系数这里是1)
+8.0 0.0 0.0        ## lattice vector a(1)（坐标信息，xyz分别取8埃米）
+0.0 8.0 0.0        ## lattice vector a(2)
+0.0 0.0 8.0        ## lattice vector a(3)
+O                  ## O element ，not zero（体系元素，需要顶格写不能有空格，）
+1                  ## number of atoms
+cartesian          ## positions in cartesian  coordinates（坐标系选择，这里是笛卡尔坐标，也可以是分数坐标。只认识第一个字母，C为笛卡尔坐标，D为分数坐标）
+0 0 0              ## 氧原子的位置坐标PO
+</code></pre>
+<h1 id="potcar">POTCAR</h1>
+<p><img src="https://songlinli.ml/post-images/1635752258063.png" alt="" loading="lazy"><br>
+赝势的种类需要一致；赝势使用的泛函与incar中的泛函需要一致（PBE泛函选用PBE赝势）<br>
+各类元素的赝势文件，</p>
+<pre><code>grep TIT POTCAR可以查看使用了哪些赝势
+</code></pre>
+<p>某些元素，还有一些以 _h， _s 结尾的，应该是 hard和soft的缩写。带h的POTCAR中截断能比普通的要高出很多。带s的截断能要小很多。这里我们就可以通过grep 结合 ENMAX来查看一下：<br>
+VRHFIN 用来看元素的价电子排布，如果你元素周期表倒背如流，可以忽略这个参数；<br>
+LEXCH 表示这个POTCAR对应的是GGA-PBE泛函；如果INCAR中不设定泛函，则默认通过这个参数来设定。<br>
+TITEL 就不用说了，指的是哪个元素，以及POTCAR发布的时间；<br>
+ZVAL 指的是实际上POTCAR中价电子的数目，尤其是做Bader电荷分析的时候，极其重要。<br>
+ENMAX 代表默认的截断能。与INCAR中的ENCUT这个参数相关。</p>
+<pre><code>potpaw_LDA 和 potpaw_PBE。
+</code></pre>
+<h1 id="qe提交作业">QE提交作业</h1>
+<pre><code>#!/bin/bash
+#JSUB -n  10
+##JSUB -R &quot;span[ptile=10]&quot;
+#JSUB -q  normal
+##JSUB -gpgpu 1
+#JSUB -e error.%J
+#JSUB -o output.%J
+##JSUB -m node06
+source /apps/software/intel/2017u2/compilers_and_libraries/linux/bin/compilervars.sh  intel64
+module load gcc/9.4.0
+module load mkl/latest
+module load openmpi/intel/4.1.1
+export PATH=$PATH:~/opt/qe67/bin
+export OMP_NUM_THREADS=4
+
+. /apps/software/tools/hostfile
+mpirun -np $ncpu -ppn 1 -f  $nodelist  pw.x &lt; pwscf.in |tee pwscf.out
+rm   $nodelist
+</code></pre>
+<h1 id="vasp电声耦合-gaas带隙随着温度的变化">VASP电声耦合-GaAs带隙随着温度的变化</h1>
+<h1 id="vasp计算性质">VASP计算性质</h1>
+<p>几何性质（结构参数键长等）、电子性质（态密度等）、状态方程和力学性质（弹性模量）、表面性质（缺陷、吸附能等）、光学性质（折射率等）、分子动力学模拟（扩散系数等）、磁学性质（自旋轨道耦合等）、GW近似（激发态）VASP对材料、凝聚态、表面、催化展开研究。<br>
+<img src="https://songlinli.ml/post-images/1635734489557.png" alt="" loading="lazy"></p>
+<h2 id="vasp理论基础第一性原理">VASP理论基础：第一性原理</h2>
+<p><img src="https://songlinli.ml/post-images/1635737703739.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635737842923.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635737863727.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635737974726.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635738001583.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635738028198.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635738071914.png" alt="" loading="lazy"><br>
+DFT（LDA、GGA、meta-GGA、杂化泛函、范德华力-DFT）<br>
+<img src="https://songlinli.ml/post-images/1635738109320.png" alt="" loading="lazy"><br>
+LDA<br>
+<img src="https://songlinli.ml/post-images/1635738214229.png" alt="" loading="lazy"><br>
+GGA<br>
+<img src="https://songlinli.ml/post-images/1635738243102.png" alt="" loading="lazy"><br>
++U修正（对于d、f轨道电子处理）半经验方法，使用文献中的，或者进行测试<br>
+<img src="https://songlinli.ml/post-images/1635738306431.png" alt="" loading="lazy"><br>
+杂化泛函（带隙计算精确但是时间增加）<br>
+<img src="https://songlinli.ml/post-images/1635738382061.png" alt="" loading="lazy"><br>
+DFT研究基本量从波函数到电子密度的变化。<br>
+赝势理论（内层电子进行了近似、考虑外层电子的简化处理）<br>
+<img src="https://songlinli.ml/post-images/1635738484735.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635738548560.png" alt="" loading="lazy"><br>
+模守恒赝势（NCPP）-超软赝势（US-PP）-平面波赝势（PAW）<br>
+模守恒赝势：全电子赝势，给出准确波函数<br>
+超软赝势：完全非局域的赝势，平面波比较平滑。截断能降低。对某些比较合适<br>
+平面波赝势：现在较常用<br>
+<img src="https://songlinli.ml/post-images/1635738779226.png" alt="" loading="lazy"></p>
+<h1 id="vasp基本输出文件">VASP基本输出文件</h1>
+<h2 id="outcar计算结构输出文件">OUTCAR：计算结构输出文件</h2>
+<pre><code>grep POTCAR OUTCAT来查找OUTCAR中的POSCAR
+grep E-fermi OUTCAR查找OUTCAR中的费米能级
+</code></pre>
+<p>在bashrc中加入<code>alias gr=&quot;grep 'reached required accuracy' OUTCAR&quot;</code> 来快速输入gr判定是否达到收敛。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Band No</th>
+<th style="text-align:center">band energy</th>
+<th style="text-align:center">occupation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">第几条能带1……</td>
+<td style="text-align:center">能量值</td>
+<td style="text-align:center">占据电子数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="oszicar每次迭代或原子驰豫或者md的能量信息">OSZICAR：每次迭代或原子驰豫或者MD的能量信息</h2>
+<p>电子结构优化：固定几何结构，求解薛定谔方程求能量的最小值。<br>
+几何结构优化：在电子结构的基础上根据受力情况调整原子位置。电子步1-离子步1-电子步2-离子步2<br>
+N：电子步的步数；E：体系能量；dE：两步之间的差值……<br>
+DAV、RMM、CG分别是一个电子步中的迭代求解的自洽算法。在INCAR中ALGO=Fast、Normal等来选择；Normal对应DAV算法。<br>
+F前面的1代表几何结构优化次数（离子步）F=体系总能量，对应OUTCAR中的free energy toten；E0对应OUTCAR中的energy（sigma-&gt;0）的能量。一般计算中使用E0就可以了。<br>
+体系的磁矩在OSZICAR中的mag=XX可以看到磁矩大小。<br>
+初始磁矩可以设置为实验值<em>1.5<br>
+或者初始磁矩可以设置为未成对电子数</em>1.5</p>
+<h2 id="contcar原子驰豫或者md后的体系结构文件分数坐标用于续算">CONTCAR：原子驰豫或者MD后的体系结构文件，分数坐标，用于续算</h2>
+<h2 id="chg-和-chgcar电荷密度文件比较大在最后计算再保存">CHG 和 CHGCAR：电荷密度文件，比较大，在最后计算再保存</h2>
+<h2 id="wavecar波函数文件比较大最后计算性质再保存">WAVECAR：波函数文件，比较大，最后计算性质再保存</h2>
+<h2 id="doscar电子态密度文件">DOSCAR：电子态密度文件</h2>
+<h2 id="eigenval各k点本征值文件能带数目能量范围">EIGENVAL：各k点本征值文件，能带数目，能量范围</h2>
+<h2 id="edatcar每次原子驰豫后的每一步轨迹文件">EDATCAR：每次原子驰豫后的每一步轨迹文件</h2>
+<h2 id="ibzkpt布里渊区中的k点">IBZKPT：布里渊区中的k点</h2>
+<h2 id="pcdat对关联函数">PCDAT：对关联函数</h2>
+<h2 id="procar-和-proout波函数投影或者分解的文件">PROCAR 和 PROOUT：波函数投影或者分解的文件</h2>
+<h2 id="locpot总的局域势">LOCPOT：总的局域势</h2>
+<h2 id="elfcat电子局域函数">ELFCAT：电子局域函数</h2>
+<h1 id="晶胞优化">晶胞优化</h1>
+<p><img src="https://songlinli.ml/post-images/1635776322188.png" alt="" loading="lazy"><br>
+实验得到的晶格常数，可以只对原子位置进行驰豫优化。</p>
+<h2 id="优化方法直接优化-状态方程和实验对比哪个好用哪个">优化方法（直接优化、状态方程）和实验对比哪个好用哪个</h2>
+<p><img src="https://songlinli.ml/post-images/1635776395161.png" alt="" loading="lazy"><br>
+Si晶胞优化（晶格参数变化值1%）<br>
+<img src="https://songlinli.ml/post-images/1635776524252.png" alt="" loading="lazy"></p>
+<h1 id="表面吸附w表面吸附co注意isif">表面吸附（W表面吸附CO）注意ISIF</h1>
+<p><img src="https://songlinli.ml/post-images/1635779361287.png" alt="" loading="lazy"><br>
+（1）W晶胞优化<br>
+<img src="https://songlinli.ml/post-images/1635779502676.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635779903034.png" alt="" loading="lazy"><br>
+（4）优化CO<br>
+<img src="https://songlinli.ml/post-images/1635856433971.png" alt="" loading="lazy"></p>
+<h1 id="态密度计算">态密度计算</h1>
+<p><img src="https://songlinli.ml/post-images/1635857214291.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1636525257330.png" alt="" loading="lazy"><br>
+对INCAR进行修改专门计算态密度<br>
+<img src="https://songlinli.ml/post-images/1635857163161.png" alt="" loading="lazy"><br>
+KPOINTS(性质计算高于结构优化的k点)<br>
+态密度的INCAR专用茶参数<br>
+<img src="https://songlinli.ml/post-images/1635858255719.png" alt="" loading="lazy"></p>
+<h1 id="能带结构">能带结构</h1>
+<p><img src="https://songlinli.ml/post-images/1635858549774.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635858698003.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635858813233.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635858773242.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635858836574.png" alt="" loading="lazy"><br>
+能带处理<br>
+<img src="https://songlinli.ml/post-images/1635858955763.png" alt="" loading="lazy"><br>
+电子结构计算总结（scf静态计算、电子自洽迭代；dos态密度；bs能带结构）smyl生成能带路径<br>
+<img src="https://songlinli.ml/post-images/1635859002805.png" alt="" loading="lazy"></p>
+<h1 id="电荷密度">电荷密度</h1>
+<p>先结构优化，然后电子自洽scf等电子结构性质计算<br>
+<img src="https://songlinli.ml/post-images/1635859301178.png" alt="" loading="lazy"><br>
+电荷密度计算步骤<br>
+<img src="https://songlinli.ml/post-images/1635859538543.png" alt="" loading="lazy"><br>
+<img src="https://songlinli.ml/post-images/1635859951852.png" alt="" loading="lazy"><br>
+态密度计算K点要求<br>
+<img src="https://songlinli.ml/post-images/1638602322812.png" alt="" loading="lazy"></p>
+<h2 id="总结">总结</h2>
+<p>结构优化完毕后：</p>
+<p><strong>一步计算DOS</strong>必须的参数：<br>
+1 ISMEAR = -5<br>
+2 LORBIT = 11<br>
+3 高密度的K点</p>
+<p><strong>两步计算DOS</strong>必须的参数:<br>
+<strong>第一步：</strong><br>
+ISMEAR = -5<br>
+LCHARG = .TRUE.<br>
+<strong>稍微低密度的K点</strong><br>
+<strong>第二步：</strong><br>
+ISMEAR = -5<br>
+ICHARGE = 11<br>
+LORBIT = 11<br>
+<strong>高密度的K点</strong><br>
+如果结构优化的时候，存了WAVECAR，计算DOS的时候可以读取WAVECAR，直接一步计算搞定。</p>
+<h1 id="bader电荷计算">bader电荷计算</h1>
+<p>参考<a href="https://www.bigbrosci.com/2011/12/23/A07/">大师兄LVASPTHW</a></p>
+<h2 id="bader电荷计算准备">bader电荷计算准备</h2>
+<p>首先使用vasp获得稳定的结构<br>
+1.将前面的CONTCAR复制为POSCAR<br>
+2.设置INCAR必要参数</p>
+<pre><code>LAECHG=.TRUE. 
+LCHARG = .TRUE.
+NSW = 0
+IBRION = -1 ## 前面有了NSW = 0， 这个也可以不设置
+</code></pre>
+<p>3.KPOINTS可以使用结构优化参数也可以使用大一些的参数<br>
+4.WAVECAR，CHGCAR等有的话就读一下，没有可以适当增加电子步NELM=200</p>
+<h2 id="bader计算环境配置">bader计算环境配置</h2>
+<p>1.VTST脚本中的chgsum.pl<a href="http://theory.cm.utexas.edu/vtsttools/download.html">VTST·Tools-VTST Scripts</a><br>
+2.bader处理的脚本<a href="http://theory.cm.utexas.edu/henkelman/code/bader/">bader</a><br>
+下载解压两个文件夹到任意目录例如：~/bin/bader。<br>
+通过如下方式获得脚本执行权限</p>
+<pre><code>chmod u+x ~/bin/vtstscripts-978/chgsum.pl
+chmod u+x ~/bin/bader
+</code></pre>
+<h2 id="bader计算处理">bader计算处理</h2>
+<p>1.进入计算的scf目录<br>
+2.</p>
+<pre><code>~/bin/vtstscripts-978/chgsum.pl AECCAR0 AECCAR2
+chgsum.pl AECCAR0 AECCAR2
+</code></pre>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>~/bin/bader CHGCAR -ref CHGCAR_sum
+bader CHGCAR -ref CHGCAR_sum
+</code></pre>
+<ol start="4">
+<li>命令结束后，你会得到一些相应输出的文件：ACF.dat， BCF.dat， AVF.dat…</li>
+<li>本人一般查看的是ACF.dat文件</li>
+<li>ACF.dat文件中，第一列的数字对应的是POSCAR中的原子顺序。每个原子的电荷对应的是CHARGE那一列。注意，该列中的电荷是该原子价层电子中的电子总数。如果你想要知道这个原子是带正电或者负电荷，需要减去POTCAR中的电子数目。通过<code>grep ZVAL POTCAR</code>查找POTCAR中原子的电子数目。</li>
+</ol>
+<h1 id="能量换算">能量换算</h1>
+<p>换算系数为： 1 eV/Å2 = 16.02 J/m2<br>
+1 eV = 1.602176487e-19 J<br>
+1 Å2 = (1e-10) (1e-10) m2</p>
+<h1 id="吸附位置">吸附位置</h1>
+<p>不同表面位点：<br>
+观察不同位点的结构特征，在面心立方金属的(111)表面上有4种不同的位点:</p>
+<ol>
+<li>Top位，前面已经花了很多时间介绍了，本节就不再啰嗦</li>
+<li>Bridge位：从名字大家就可以推断这个位点的吸附为两个Top原子的中间。</li>
+<li>Fcc位和Hcp位：这两个吸附位点都是在三个原子的中心，为hollow位。</li>
+</ol>
+<p>那么这两个位点怎么区分呢？</p>
+<p>如果表面的Hollow位正下方（即第二层，图中黄色的）有原子，为Hcp位，在第三层的话（图中红色的），则这个hollow为Fcc位。<br>
+由于Fcc位点的原子在第三层，离表面最远（far），大家把英文单词的far 和 Fcc位的第一个字母关联起来即可。远的那个就是Fcc，近的是Hcp。<br>
+注意： Fcc 和 Hcp 分别是 face centered cubic 和 hexagonal close-packed 的缩写。</p>
+<h2 id="把slab的原子全部固定住然后用gamma点算一下它们的吸附能先大体上判断一下把那些吸附特别强的结构筛选出来用作下一步的计算">把slab的原子全部固定住，然后用gamma点算一下它们的吸附能，先大体上判断一下，把那些吸附特别强的结构筛选出来，用作下一步的计算。</h2>
+<h1 id="表面钝化">表面钝化</h1>
+<p>考虑终端钝化即bulk termination。切出来的slab模型通常(注)在最上层和最下层存在悬挂键（dangling bonds, DB）。在表面或者界面处的悬挂键是真实存在的，对他们的不同处理可以反应表面界面的不同属性。但是最下层的悬挂键却不应该存在，因为这部分的原子层在模拟体相bulk properties，所以需要进行合理的钝化处理。最常见的方式是加氢（或者赝氢）钝化，具体方式为：计算出来<strong>悬挂键</strong>的电子数目N，然后选择2-N个电子的赝氢即可。以III-V为例，可以参考我的文章[1-5]中均有提及：对于Ga，每一个DB有0.75e，所以需要1.25e的赝氢钝化；对于N，每一个DB有1.25e，所以需要0.75e的赝氢钝化。</p>
+<h1 id="scf不收敛">SCF不收敛</h1>
+<p>依次尝试以下方法：<br>
+参考<a href="http://bbs.keinsci.com/thread-11126-1-1.html">啦啦黑还黑</a><br>
+<a href="http://blog.wangruixing.cn/2019/05/01/scf/">世事如棋</a><br>
+（1）先检查几何结构是不是合理，非常离谱的初始结构会导致SCF难收敛。<br>
+（2）依次检查已经设置的参数，对照ppt的建议，是不是选择合理，对于+U和ICHARGE=11的任务，添加LMAXMIN=4 (对于d区体系)，添加LMAXMIN=6 (对于f区体系)。<br>
+（3）检查是不是ISTART=1读取了不合理的波函数，如果是，rm WAVECAR CHGCAR重新跑。<br>
+（4）如果ALGO=Fast或者VeryFast，换成Normal。<br>
+（5）尝试使用更大的SIGMA值，先粗略收敛，再读取CHGCAR和WAVECAR用小的SIGMA计算。<br>
+（5）对于非磁性体系（闭壳层ISPIN=1）添加：（注意AMIX和BMIX对收敛有很大影响，可以自己调试）<br>
+AMIX = 0.2<br>
+BMIX = 0.0001 #almost zero, but 0 will crash some versions<br>
+（6）对于磁性体系（自旋极化，ISPIN=2）添加：<br>
+AMIX = 0.2<br>
+BMIX = 0.0001 #almost zero, but 0 will crash some versions<br>
+AMIX MAG = 0.8<br>
+BMIX MAG = 0.0001 #almost zero, but 0 will crash some versions<br>
+(7)  尝试更换不同的ISMEAR。<br>
+(8)  检查体系是不是特殊的磁性排列，即MAGMOM设置是否合理。<br>
+(9)  提高积分精度，PREC=Accurate 。<br>
+(10) 提高格点精度，ADDGRID = .TRUE. 。<br>
+(11) 先用1 1 1 K点计算收敛，再读取CHGCAR，用高K点计算。<br>
+(12) 尝试不同的ALGO 比如：ALGO=Conjugate。<br>
+(13) 如果在结构优化或者MD过程中，某一步突然不收敛，使用MAXMIX = 50<br>
+(14) 尝试用更小的ENCUT或者更大的ENCUT的预收敛。<br>
+(15) 换更小的赝势或者更soft的赝势。<br>
+(16) 最后给出一个VASP官方教程里解决的不收敛的方法：<br>
+1.用ALGO=N （是否收敛N to 2，Y to 6）<br>
+2. ICHARG=12 (no charge update，非自洽计算，N to5, Y to 3)<br>
+3. ICHARG=2 AMIX=0.1 ; BMIX=0.01(N to 4, Y to 6)<br>
+4. increase BMIXBMIX=3.0 ; AMIN=0.01(N to 5, Y to 6)<br>
+5. Bug report<br>
+6. Use this setting</p>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://songlinli.ml/post/vasp-xue-xi-zong-jie/" title="vasp学习总结">https://songlinli.ml/post/vasp-xue-xi-zong-jie/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="Zotero+Scihub:自动下载保存文献" href="https://songlinli.ml/post/zoteroscihubzi-dong-xia-zai-bao-cun-wen-xian/">Zotero+Scihub:自动下载保存文献</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="Zotero+Scihub:自动下载保存文献" href="https://songlinli.ml/post/zoteroscihubzi-dong-xia-zai-bao-cun-wen-xian/">上一篇</a>
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="Ubuntu 常用命令" href="https://songlinli.ml/post/ubuntu-chang-yong-ming-ling/">Ubuntu 常用命令</a>
+        <a class="nav-mobile-next" title="Ubuntu 常用命令" href="https://songlinli.ml/post/ubuntu-chang-yong-ming-ling/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+            
+            
+  
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+  <footer class="footer">
+    <center id="runTimeBox">
+      已运行:<span id="run_time"></span>
+    </center>
+    <span id="busuanzi_container_site_pv">浏览数:<span id="busuanzi_value_site_pv"></span> 次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span> 人</span>
+
+    <script>
+      BirthDay = new Date('');
+      if (BirthDay.getTime()) {
+        function runTime() {
+          str = "";
+          today = new Date();
+          timeold = today.getTime() - BirthDay.getTime();
+          msPerDay = 24 * 60 * 60 * 1000;
+          e_daysold = timeold / msPerDay;
+          daysold = Math.floor(e_daysold);
+          str += daysold + "天";
+          return str;
+        }
+        setInterval(function () {
+          $("#run_time").html(runTime());
+        }, 1000);
+      } else {
+        document.querySelector('.footer').removeChild(document.querySelector('#runTimeBox'));
+      }
+    </script>
+    <div class="poweredby">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+  </footer>
+  
+    
+        <div class="pisces back-to-top" id="back_to_top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span class="scrollpercent"> <span id="back_to_top_text">0</span>% </span>
+            
+        </div>
+        
+          
+            
+                
+                  
+                        
+                          
+
+                            
+</div>
+<script>
+  let sideBarOpen = "sidebar-open";
+  let body = document.body;
+  let back2Top = document.querySelector("#back_to_top"),
+    back2TopText = document.querySelector("#back_to_top_text"),
+    drawerBox = document.querySelector("#drawer_box"),
+    rightSideBar = document.querySelector(".sidebar"),
+    viewport = document.querySelector("body");
+
+  function scrollAnimation(currentY, targetY) {
+    let needScrollTop = targetY - currentY;
+    let _currentY = currentY;
+    setTimeout(() => {
+      const dist = Math.ceil(needScrollTop / 10);
+      _currentY += dist;
+      window.scrollTo(_currentY, currentY);
+      if (needScrollTop > 10 || needScrollTop < -10) {
+        scrollAnimation(_currentY, targetY);
+      } else {
+        window.scrollTo(_currentY, targetY);
+      }
+    }, 1);
+  }
+
+  back2Top.addEventListener("click", function (e) {
+    scrollAnimation(document.scrollingElement.scrollTop, 0);
+    e.stopPropagation();
+    return false;
+  });
+
+  window.addEventListener("scroll", function (e) {
+    let percent =
+      (document.scrollingElement.scrollTop /
+        (document.scrollingElement.scrollHeight -
+          document.scrollingElement.clientHeight)) *
+      100;
+    if (percent > 1 && !back2Top.classList.contains("back-top-active")) {
+      back2Top.classList.add("back-top-active");
+    }
+    if (percent == 0) {
+      back2Top.classList.remove("back-top-active");
+    }
+    if (back2TopText) {
+      back2TopText.textContent = Math.floor(percent);
+    }
+  });
+
+  let hasCacu = false;
+  window.addEventListener("resize", function (e) {
+    calcuHeight();
+  });
+
+  function calcuHeight() {
+    // 动态调整站点概览高度
+    if (
+      (!hasCacu && back2Top.classList.contains("pisces")) ||
+      back2Top.classList.contains("gemini")
+    ) {
+      let sideBar = document.querySelector(".sidebar");
+      let navUl = document.querySelector("#site_nav");
+      sideBar.style =
+        "margin-top:" + (navUl.offsetHeight + navUl.offsetTop + 15) + "px;";
+      hasCacu = true;
+    }
+  }
+  calcuHeight();
+
+  let open = false,
+    MOTION_TIME = 300,
+    RIGHT_MOVE_DIS = "320px";
+
+  if (drawerBox) {
+    let rightMotions = document.querySelectorAll(".right-motion");
+    let right = drawerBox.classList.contains("right");
+
+    let transitionDir = right
+      ? "transition.slideRightIn"
+      : "transition.slideLeftIn";
+
+    let openProp, closeProp;
+    if (right) {
+      openProp = {
+        paddingRight: RIGHT_MOVE_DIS,
+      };
+      closeProp = {
+        paddingRight: "0px",
+      };
+    } else {
+      openProp = {
+        paddingLeft: RIGHT_MOVE_DIS,
+      };
+      closeProp = {
+        paddingLeft: "0px",
+      };
+    }
+
+    drawerBox.onclick = function () {
+      open = !open;
+      jQuery.Velocity(rightSideBar, "stop");
+      jQuery.Velocity(viewport, "stop");
+      jQuery.Velocity(rightMotions, "stop");
+      if (open) {
+        jQuery.Velocity(
+          rightSideBar,
+          {
+            width: RIGHT_MOVE_DIS,
+          },
+          {
+            duration: MOTION_TIME,
+            begin: function () {
+              jQuery.Velocity(rightMotions, transitionDir, {});
+            },
+          }
+        );
+        jQuery.Velocity(viewport, openProp, {
+          duration: MOTION_TIME,
+        });
+      } else {
+        jQuery.Velocity(
+          rightSideBar,
+          {
+            width: "0px",
+          },
+          {
+            duration: MOTION_TIME,
+            begin: function () {
+              jQuery.Velocity(rightMotions, {
+                opacity: 0,
+              });
+            },
+          }
+        );
+        jQuery.Velocity(viewport, closeProp, {
+          duration: MOTION_TIME,
+        });
+      }
+      for (let i = 0; i < drawerBox.children.length; i++) {
+        drawerBox.children[i].classList.toggle("muse-line");
+      }
+      drawerBox.classList.toggle(sideBarOpen);
+    };
+  }
+
+  // 链接跳转
+  let newWindow = "";
+  if (newWindow === "true") {
+    let links = document.querySelectorAll(".post-body a");
+    links.forEach((item) => {
+      if (!item.classList.contains("btn")) {
+        item.setAttribute("target", "_blank");
+      }
+    });
+  }
+
+  let faSearch = document.querySelector("#fa_search");
+  faSearch &&
+    faSearch.addEventListener("click", function () {
+      document.querySelector("#search_mask").style = "";
+    });
+
+  // 代码高亮
+  hljs.initHighlightingOnLoad();
+
+  // 离开当前页title变化
+  var leaveTitle = "";
+  var normal_title = document.title;
+  if (leaveTitle) {
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState == "hidden") {
+        normal_title = document.title;
+        document.title = leaveTitle;
+      } else {
+        document.title = normal_title;
+      }
+    });
+  }
+</script>
+
+<link rel="stylesheet" href="/media/css/jquery.fancybox.css" />
+<script src="/media/js/jquery.fancybox.js"></script>
+
+<script>
+  let images = document.querySelectorAll(".section img");
+  images.forEach((image) => {
+    var parent = image.parentElement;
+    var next = image.nextElementSibling;
+    parent.removeChild(image);
+    var aelem = document.createElement("a");
+    aelem.href = image.src;
+    aelem.dataset["fancybox"] = "images";
+    aelem.dataset["rel"] = "fancybox-button";
+    aelem.classList.add("fancybox");
+    aelem.appendChild(image);
+    parent.insertBefore(aelem, next);
+  });
+</script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word"></p>
+      <p class="reward-tip"></p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
+  </div>
+</body>
+
+<input hidden id="copy" />
+<script>
+  !function () {
+    let times = document.querySelectorAll('.publish-time');
+    for (let i = 0; i < times.length; i++) {
+      let date = times[i].dataset.t;
+      let time = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
+      if (time < 60) {
+        str = time + '秒之前';
+      } else if (time < 3600) {
+        str = Math.floor(time / 60) + '分钟之前';
+      } else if (time >= 3600 && time < 86400) {
+        str = Math.floor(time / 3600) + '小时之前';
+      } else if (time >= 86400 && time < 259200) {
+        str = Math.floor(time / 86400) + '天之前';
+      } else {
+        str = times[i].textContent;
+      }
+      times[i].textContent = str;
+    }
+  }();
+</script>
+
+<script>
+  let language = '';
+  if (language !== '') {
+    let map = new Map();
+    if (language === 'en') {
+      map.set('search', 'Search');
+      map.set('category', 'Categories');
+      map.set('article', 'Articles');
+      map.set('tag', 'Tags');
+      map.set('top', 'Top');
+      map.set('publish', 'published');
+      map.set('minute', ' minutes');
+      map.set('read-more', 'Read More');
+      map.set('view', 'View');
+      map.set('words', ' words');
+      map.set('category-in', 'category in');
+      map.set('preview', 'Meta');
+      map.set('index', 'Toc');
+      map.set('no-archives', "You haven't created yet");
+      map.set('archives', " articles in total");
+      map.set('cloud-tags', " tags in total");
+      map.set('copyright', "Copyright: ");
+      map.set('author', "Author: ");
+      map.set('link', "Link: ");
+      map.set('leave-message', "Leave a message");
+      map.set('format', "Links Format");
+      map.set('site-name', "Name: ");
+      map.set('site-link', "Link: ");
+      map.set('site-desc', "Desc: ");
+      map.set('stat', " related results, taking ");
+      map.set('stat-time', " ms");
+      map.set('site-img', "Image: ");
+    }
+
+    if (map.size > 0) {
+      let lanElems = document.querySelectorAll('.language');
+      lanElems.forEach(elem => {
+        let lan = elem.dataset.lan, text = map.get(lan);
+        if (elem.__proto__ === HTMLInputElement.prototype) {
+          elem.placeholder = text
+        } else {
+          if (elem.dataset.count) {
+            text = elem.dataset.count + text;
+          }
+          elem.textContent = text;
+        }
+      })
+    }
+  }
+
+  window.Clipboard = (function (window, document, navigator) {
+    var textArea,
+      copy;
+
+    // 判断是不是ios端
+    function isOS() {
+      return navigator.userAgent.match(/ipad|iphone/i);
+    }
+    //创建文本元素
+    function createTextArea(text) {
+      textArea = document.createElement('textArea');
+      textArea.value = text;
+      textArea.style.width = 0;
+      textArea.style.height = 0;
+      textArea.clientHeight = 0;
+      textArea.clientWidth = 0;
+      document.body.appendChild(textArea);
+    }
+    //选择内容
+    function selectText() {
+      var range,
+        selection;
+
+      if (isOS()) {
+        range = document.createRange();
+        range.selectNodeContents(textArea);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        textArea.select();
+      }
+    }
+
+    //复制到剪贴板
+    function copyToClipboard() {
+      try {
+        document.execCommand("Copy")
+      } catch (err) {
+        alert("复制错误！请手动复制！")
+      }
+      document.body.removeChild(textArea);
+    }
+
+    copy = function (text) {
+      createTextArea(text);
+      selectText();
+      copyToClipboard();
+    };
+
+    return {
+      copy: copy
+    };
+  })(window, document, navigator);
+
+  function copyCode(e) {
+    if (e.srcElement.tagName === 'SPAN' && e.srcElement.classList.contains('copy-code')) {
+      let code = e.currentTarget.querySelector('code');
+      var text = code.innerText;
+      if (e.srcElement.textContent === '复制成功') {
+        return;
+      }
+      e.srcElement.textContent = '复制成功';
+      (function (elem) {
+        setTimeout(() => {
+          if (elem.textContent === '复制成功') {
+            elem.textContent = '复制代码'
+          }
+        }, 1000);
+      })(e.srcElement)
+      Clipboard.copy(text);
+    }
+  }
+
+  let pres = document.querySelectorAll('pre');
+  pres.forEach(pre => {
+    let code = pre.querySelector('code');
+    let copyElem = document.createElement('span');
+    copyElem.classList.add('copy-code');
+    copyElem.textContent = '复制代码';
+    pre.appendChild(copyElem);
+    pre.onclick = copyCode
+  })
+
+</script>
+<script src="/media/js/motion.js"></script>
+
+
+  <script
+    src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+  <script>
+    var scroll = new SmoothScroll('a[href*="#"]', {
+      speed: 200
+    });
+  </script>
+
+
+
+
+
+
+</html>
