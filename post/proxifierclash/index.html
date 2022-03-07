@@ -8,7 +8,7 @@
 <meta name="keywords" content="Gridea静态个人博客">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>vasp学习总结 | 想不想该不该</title>
+<title>proxifier+clash | 想不想该不该</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1646635825060">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="vasp学习总结" />
+  <meta name="description" content="proxifier+clash" />
   <meta name="keywords" content="" />
 </head>
 
@@ -193,8 +193,7 @@
       <div class="sidebar-body gemini" id="sidebar_body">
         
           
-            <div class="post-side-meta" id="post_side_meta">
-              
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -236,288 +235,6 @@
   </div>
 
 </div>
-            </div>
-            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
-              <div class="toc-box right-motion">
-  <div class="toc-wrapper  auto"
-    id="toc_wrapper">
-    <ul class="markdownIt-TOC">
-<li><a href="#incar">INCAR</a>
-<ul>
-<li><a href="#1%E5%88%9D%E5%A7%8B%E5%8F%82%E6%95%B0">1.初始参数</a>
-<ul>
-<li><a href="#system%E6%B3%A8%E9%87%8A%E4%BD%93%E7%B3%BB">system注释体系</a></li>
-<li><a href="#istsrt%E5%A6%82%E6%9E%9C%E6%9C%89wavecar%E6%96%87%E4%BB%B6%E9%BB%98%E8%AE%A4%E5%80%BC%E4%B8%BA1%E5%90%A6%E5%88%99%E4%B8%BA0">ISTSRT：如果有wavecar文件，默认值为1，否则为0。</a></li>
-<li><a href="#icharg">ICHARG</a></li>
-</ul>
-</li>
-<li><a href="#2%E8%87%AA%E6%B4%BD%E8%BF%AD%E4%BB%A3">2.自洽迭代</a>
-<ul>
-<li><a href="#nelm%E5%85%81%E8%AE%B8%E7%94%B5%E5%AD%90%E8%87%AA%E6%B4%BD%E8%BF%AD%E4%BB%A3%E7%9A%84%E6%9C%80%E5%A4%A7%E6%AD%A5%E6%95%B0%E9%BB%98%E8%AE%A4%E4%B8%BA60%E6%9C%89%E7%9A%84%E7%BB%93%E6%9E%84%E5%A4%8D%E6%9D%82%E5%8F%AF%E4%BB%A5%E9%80%82%E5%BD%93%E5%A2%9E%E5%A4%A7-%E5%A6%82%E6%9E%9C%E6%97%A0%E6%B3%95%E8%87%AA%E6%B4%BD%E6%94%B6%E6%95%9B%E9%9C%80%E8%A6%81%E8%AE%BE%E7%BD%AE%E7%94%B5%E8%8D%B7%E7%94%B5%E8%8D%B7%E5%AF%86%E5%BA%A6%E6%B7%B7%E5%90%88%E6%96%B9%E6%B3%95">NELM：允许电子自洽迭代的最大步数，默认为60，有的结构复杂可以适当增大。如果无法自洽收敛，需要设置电荷电荷密度混合方法。</a></li>
-<li><a href="#ediff%E5%AE%83%E6%98%AF%E7%94%B5%E5%AD%90%E8%87%AA%E6%B4%BD%E6%94%B6%E6%95%9B%E7%9A%84%E6%A0%87%E5%87%86%E9%BB%98%E8%AE%A4%E4%B8%BA1e-4-%E5%BD%93%E4%B8%A4%E6%AC%A1%E5%B7%AE%E5%80%BC%E5%B0%8F%E4%BA%8Eediff%E6%97%B6%E5%81%9C%E6%AD%A2%E5%BE%AA%E7%8E%AF-%E6%8E%A7%E5%88%B6%E7%94%B5%E5%AD%90%E6%AD%A5%E8%87%AA%E6%B4%BD%E6%94%B6%E6%95%9B%E6%A0%87%E5%87%86%E4%BD%BF%E7%94%A81e-5%E5%BE%97%E5%88%B0%E7%9A%84%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96%E7%BB%93%E6%9E%9C%E5%8F%AF%E4%BF%A1">EDIFF：它是电子自洽收敛的标准，默认为1E-4。当两次差值小于EDIFF时停止循环。控制电子步（自洽）收敛标准，使用1E-5得到的结构优化结果可信。</a></li>
-<li><a href="#encut%E5%B9%B3%E9%9D%A2%E6%B3%A2%E6%88%AA%E6%96%AD%E8%83%BD%E9%BB%98%E8%AE%A4%E5%80%BC%E4%BB%8Epotcar%E4%B8%AD%E8%AF%BB%E5%85%A5%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E5%8F%96%E5%80%BC%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC">ENCUT：平面波截断能，默认值从POTCAR中读入，所有元素取值的最大值</a></li>
-<li><a href="#algo%E7%94%B5%E5%AD%90%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95normalialgo-38blocked-davidson%E6%96%B9%E6%B3%95-veryfastialgo-48rmm-diis%E7%AE%97%E6%B3%95fast%E4%B8%8A%E9%9D%A2%E4%B8%A4%E4%B8%AA%E7%AE%97%E6%B3%95%E7%9A%84%E6%B7%B7%E5%90%88">ALGO：电子优化算法：Normal：IALGO =38(blocked Davidson方法) VeryFast：IALGO =48（RMM-DIIS算法）Fast：上面两个算法的混合。</a></li>
-</ul>
-</li>
-<li><a href="#3%E5%8E%9F%E5%AD%90%E9%A9%B0%E8%B1%AB">3.原子驰豫</a>
-<ul>
-<li><a href="#1%E5%8E%9F%E5%AD%90%E5%A6%82%E4%BD%95%E7%A7%BB%E5%8A%A8%E4%BB%A5%E5%8F%8A%E6%AD%A5%E9%95%BF%E6%AD%A5%E6%95%B0%E5%92%8C%E9%A9%B0%E8%B1%AB%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B6">1.原子如何移动以及步长，步数和驰豫收敛条件：</a></li>
-<li><a href="#ibrion%E5%86%B3%E5%AE%9A%E4%BA%86%E5%8E%9F%E5%AD%90%E5%A6%82%E4%BD%95%E7%A7%BB%E5%8A%A8%E6%88%96%E8%80%85%E9%A9%B0%E8%B1%AB">IBRION：决定了原子如何移动或者驰豫。</a></li>
-<li><a href="#isif%E5%86%B3%E5%AE%9A%E4%BA%86%E6%98%AF%E5%90%A6%E8%AE%A1%E7%AE%97%E5%BA%94%E5%8A%9B-%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%AF%B9%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96">ISIF:决定了是否计算应力    以及如何对结构优化</a></li>
-<li><a href="#potim-nsw-ediffg">POTIM、NSW、EDIFFG ：</a></li>
-</ul>
-</li>
-<li><a href="#4%E6%80%81%E5%AF%86%E5%BA%A6%E7%A7%AF%E5%88%86">4.态密度积分</a>
-<ul>
-<li><a href="#ismear">ISMEAR：</a></li>
-<li><a href="#smearing">smearing</a></li>
-<li><a href="#eminemax%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E4%B8%AD%E6%9C%89-%E4%BB%A5%E5%8F%8A-nedos1000%E5%B9%B3%E6%BB%91%E5%BA%A6%E5%92%8Clorbitdos%E7%9A%84%E8%BE%93%E5%87%BA%E6%96%B9%E5%BC%8F%E5%8F%96%E5%80%BC%E4%B8%BA10%E5%8F%96%E5%80%BC11%E6%98%AF%E5%88%86%E8%BD%A8%E9%81%93%E8%BF%98%E6%9C%89nbands%E8%83%BD%E5%B8%A6%E6%95%B0%E7%9B%AE">EMIN/EMAX(输出文件中有) 以及 NEDOS（1000，平滑度）和LORBIT（DOS的输出方式取值为10，取值11是分轨道）还有NBANDS（能带数目）</a></li>
-</ul>
-</li>
-<li><a href="#5%E5%85%B6%E4%BB%96">5.其他</a>
-<ul>
-<li><a href="#prec-isym">PREC、ISYM</a></li>
-<li><a href="#%E7%A3%81%E6%80%A7%E4%BD%93%E7%B3%BB%E8%AE%A1%E7%AE%97co3o4-fe2o3-ispin-magmom%E7%A3%81%E7%9F%A9-voskown">磁性体系计算（Co3O4、Fe2O3）-ISPIN、MAGMOM（磁矩）、VOSKOWN</a></li>
-<li><a href="#%E9%80%BB%E8%BE%91%E5%8F%82%E6%95%B0lreal-lwave%E9%9D%9E%E5%B8%B8%E5%A4%A7%E6%80%A7%E8%B4%A8%E8%AE%A1%E7%AE%97%E5%86%8D%E6%89%93%E5%BC%80-lcharg%E9%9D%9E%E5%B8%B8%E5%A4%A7%E6%80%A7%E8%B4%A8%E8%AE%A1%E7%AE%97%E5%86%8D%E6%89%93%E5%BC%80">逻辑参数LREAL、LWAVE（非常大，性质计算再打开）、LCHARG（非常大，性质计算再打开）</a></li>
-<li><a href="#%E5%BC%BA%E5%85%B3%E8%81%94%E4%BD%93%E7%B3%BB%E6%B0%A7%E5%8C%96%E9%93%88%E7%AD%89lsdauldauldautypeldaul%E5%93%AA%E4%B8%AA%E8%BD%A8%E9%81%93%E6%B7%BB%E5%8A%A0uldauu%E5%9C%A8%E4%BD%8D%E5%BA%93%E4%BC%A6ldauj%E4%BA%A4%E6%8D%A2%E7%9B%B8%E4%BA%92">强关联体系(氧化铈等)L(S)DA+U：LDAU,LDAUTYPE,LDAUL（哪个轨道添加U）,LDAUU（在位库伦）,LDAUJ（交换相互）</a></li>
-<li><a href="#%E6%9D%82%E5%8C%96%E6%B3%9B%E5%87%BDhse06lhfcalchfscreenlmaxfockprecfock">杂化泛函（HSE06）LHFCALC,HFSCREEN,LMAXFOCK,PRECFOCK</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#kpoints">KPOINTS</a></li>
-<li><a href="#poscar">POSCAR</a></li>
-<li><a href="#potcar">POTCAR</a></li>
-<li><a href="#qe%E6%8F%90%E4%BA%A4%E4%BD%9C%E4%B8%9A">QE提交作业</a></li>
-<li><a href="#vasp%E7%94%B5%E5%A3%B0%E8%80%A6%E5%90%88-gaas%E5%B8%A6%E9%9A%99%E9%9A%8F%E7%9D%80%E6%B8%A9%E5%BA%A6%E7%9A%84%E5%8F%98%E5%8C%96">VASP电声耦合-GaAs带隙随着温度的变化</a></li>
-<li><a href="#vasp%E8%AE%A1%E7%AE%97%E6%80%A7%E8%B4%A8">VASP计算性质</a>
-<ul>
-<li><a href="#vasp%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86">VASP理论基础：第一性原理</a></li>
-</ul>
-</li>
-<li><a href="#vasp%E5%9F%BA%E6%9C%AC%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6">VASP基本输出文件</a>
-<ul>
-<li><a href="#outcar%E8%AE%A1%E7%AE%97%E7%BB%93%E6%9E%84%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6">OUTCAR：计算结构输出文件</a></li>
-<li><a href="#oszicar%E6%AF%8F%E6%AC%A1%E8%BF%AD%E4%BB%A3%E6%88%96%E5%8E%9F%E5%AD%90%E9%A9%B0%E8%B1%AB%E6%88%96%E8%80%85md%E7%9A%84%E8%83%BD%E9%87%8F%E4%BF%A1%E6%81%AF">OSZICAR：每次迭代或原子驰豫或者MD的能量信息</a></li>
-<li><a href="#contcar%E5%8E%9F%E5%AD%90%E9%A9%B0%E8%B1%AB%E6%88%96%E8%80%85md%E5%90%8E%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E6%96%87%E4%BB%B6%E5%88%86%E6%95%B0%E5%9D%90%E6%A0%87%E7%94%A8%E4%BA%8E%E7%BB%AD%E7%AE%97">CONTCAR：原子驰豫或者MD后的体系结构文件，分数坐标，用于续算</a></li>
-<li><a href="#chg-%E5%92%8C-chgcar%E7%94%B5%E8%8D%B7%E5%AF%86%E5%BA%A6%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83%E5%A4%A7%E5%9C%A8%E6%9C%80%E5%90%8E%E8%AE%A1%E7%AE%97%E5%86%8D%E4%BF%9D%E5%AD%98">CHG 和 CHGCAR：电荷密度文件，比较大，在最后计算再保存</a></li>
-<li><a href="#wavecar%E6%B3%A2%E5%87%BD%E6%95%B0%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83%E5%A4%A7%E6%9C%80%E5%90%8E%E8%AE%A1%E7%AE%97%E6%80%A7%E8%B4%A8%E5%86%8D%E4%BF%9D%E5%AD%98">WAVECAR：波函数文件，比较大，最后计算性质再保存</a></li>
-<li><a href="#doscar%E7%94%B5%E5%AD%90%E6%80%81%E5%AF%86%E5%BA%A6%E6%96%87%E4%BB%B6">DOSCAR：电子态密度文件</a></li>
-<li><a href="#eigenval%E5%90%84k%E7%82%B9%E6%9C%AC%E5%BE%81%E5%80%BC%E6%96%87%E4%BB%B6%E8%83%BD%E5%B8%A6%E6%95%B0%E7%9B%AE%E8%83%BD%E9%87%8F%E8%8C%83%E5%9B%B4">EIGENVAL：各k点本征值文件，能带数目，能量范围</a></li>
-<li><a href="#edatcar%E6%AF%8F%E6%AC%A1%E5%8E%9F%E5%AD%90%E9%A9%B0%E8%B1%AB%E5%90%8E%E7%9A%84%E6%AF%8F%E4%B8%80%E6%AD%A5%E8%BD%A8%E8%BF%B9%E6%96%87%E4%BB%B6">EDATCAR：每次原子驰豫后的每一步轨迹文件</a></li>
-<li><a href="#ibzkpt%E5%B8%83%E9%87%8C%E6%B8%8A%E5%8C%BA%E4%B8%AD%E7%9A%84k%E7%82%B9">IBZKPT：布里渊区中的k点</a></li>
-<li><a href="#pcdat%E5%AF%B9%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0">PCDAT：对关联函数</a></li>
-<li><a href="#procar-%E5%92%8C-proout%E6%B3%A2%E5%87%BD%E6%95%B0%E6%8A%95%E5%BD%B1%E6%88%96%E8%80%85%E5%88%86%E8%A7%A3%E7%9A%84%E6%96%87%E4%BB%B6">PROCAR 和 PROOUT：波函数投影或者分解的文件</a></li>
-<li><a href="#locpot%E6%80%BB%E7%9A%84%E5%B1%80%E5%9F%9F%E5%8A%BF">LOCPOT：总的局域势</a></li>
-<li><a href="#elfcat%E7%94%B5%E5%AD%90%E5%B1%80%E5%9F%9F%E5%87%BD%E6%95%B0">ELFCAT：电子局域函数</a></li>
-</ul>
-</li>
-<li><a href="#%E6%99%B6%E8%83%9E%E4%BC%98%E5%8C%96">晶胞优化</a>
-<ul>
-<li><a href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E7%9B%B4%E6%8E%A5%E4%BC%98%E5%8C%96-%E7%8A%B6%E6%80%81%E6%96%B9%E7%A8%8B%E5%92%8C%E5%AE%9E%E9%AA%8C%E5%AF%B9%E6%AF%94%E5%93%AA%E4%B8%AA%E5%A5%BD%E7%94%A8%E5%93%AA%E4%B8%AA">优化方法（直接优化、状态方程）和实验对比哪个好用哪个</a></li>
-</ul>
-</li>
-<li><a href="#%E8%A1%A8%E9%9D%A2%E5%90%B8%E9%99%84w%E8%A1%A8%E9%9D%A2%E5%90%B8%E9%99%84co%E6%B3%A8%E6%84%8Fisif">表面吸附（W表面吸附CO）注意ISIF</a></li>
-<li><a href="#%E6%80%81%E5%AF%86%E5%BA%A6%E8%AE%A1%E7%AE%97">态密度计算</a></li>
-<li><a href="#%E8%83%BD%E5%B8%A6%E7%BB%93%E6%9E%84">能带结构</a></li>
-<li><a href="#%E7%94%B5%E8%8D%B7%E5%AF%86%E5%BA%A6">电荷密度</a>
-<ul>
-<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
-</ul>
-</li>
-<li><a href="#bader%E7%94%B5%E8%8D%B7%E8%AE%A1%E7%AE%97">bader电荷计算</a>
-<ul>
-<li><a href="#bader%E7%94%B5%E8%8D%B7%E8%AE%A1%E7%AE%97%E5%87%86%E5%A4%87">bader电荷计算准备</a></li>
-<li><a href="#bader%E8%AE%A1%E7%AE%97%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE">bader计算环境配置</a></li>
-<li><a href="#bader%E8%AE%A1%E7%AE%97%E5%A4%84%E7%90%86">bader计算处理</a></li>
-</ul>
-</li>
-<li><a href="#%E8%83%BD%E9%87%8F%E6%8D%A2%E7%AE%97">能量换算</a></li>
-<li><a href="#%E5%90%B8%E9%99%84%E4%BD%8D%E7%BD%AE">吸附位置</a>
-<ul>
-<li><a href="#%E6%8A%8Aslab%E7%9A%84%E5%8E%9F%E5%AD%90%E5%85%A8%E9%83%A8%E5%9B%BA%E5%AE%9A%E4%BD%8F%E7%84%B6%E5%90%8E%E7%94%A8gamma%E7%82%B9%E7%AE%97%E4%B8%80%E4%B8%8B%E5%AE%83%E4%BB%AC%E7%9A%84%E5%90%B8%E9%99%84%E8%83%BD%E5%85%88%E5%A4%A7%E4%BD%93%E4%B8%8A%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%8B%E6%8A%8A%E9%82%A3%E4%BA%9B%E5%90%B8%E9%99%84%E7%89%B9%E5%88%AB%E5%BC%BA%E7%9A%84%E7%BB%93%E6%9E%84%E7%AD%9B%E9%80%89%E5%87%BA%E6%9D%A5%E7%94%A8%E4%BD%9C%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E8%AE%A1%E7%AE%97">把slab的原子全部固定住，然后用gamma点算一下它们的吸附能，先大体上判断一下，把那些吸附特别强的结构筛选出来，用作下一步的计算。</a></li>
-</ul>
-</li>
-<li><a href="#%E8%A1%A8%E9%9D%A2%E9%92%9D%E5%8C%96">表面钝化</a></li>
-<li><a href="#scf%E4%B8%8D%E6%94%B6%E6%95%9B">SCF不收敛</a></li>
-</ul>
-
-  </div>
-</div>
-
-<script>
-
-  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
-  let active = 'active-show', activeClass = 'active-current';
-  let tocWrapper = document.querySelector('#toc_wrapper');
-  let tocContent = tocWrapper.children[0];
-  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
-
-  function addTocNumber(elem, deep) {
-    if (!elem) {
-      return;
-    }
-    let prop = elem.__proto__;
-
-    if (prop === HTMLUListElement.prototype) {
-      for (let i = 0; i < elem.children.length; i++) {
-        addTocNumber(elem.children[i], deep + (i + 1) + '.');
-      }
-    } else if (prop === HTMLLIElement.prototype) {
-      // 保存li元素
-      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
-        lList.push(elem);
-      }
-      for (let i = 0; i < elem.children.length; i++) {
-        let cur = elem.children[i];
-        if (cur.__proto__ === HTMLAnchorElement.prototype) {
-          if (autoNumber) {
-            cur.text = deep + ' ' + cur.text;
-          }
-        } else if (cur.__proto__ === HTMLUListElement.prototype) {
-          addTocNumber(cur, deep);
-        }
-      }
-    }
-  }
-
-  function removeParentActiveClass() {
-    let parents = tocContent.querySelectorAll('.' + active)
-    parents.forEach(function (elem) {
-      elem.classList.remove(active);
-    });
-  }
-
-  function addActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.add(activeClass);
-    }
-  }
-
-  function removeActiveClass(index) {
-    if (index >= 0 && index < hList.length) {
-      lList[index].classList.remove(activeClass);
-    }
-  }
-
-  function addActiveLiElemment(elem, parent) {
-    if (!elem || elem === parent) {
-      return;
-    } else {
-      if (elem.__proto__ === HTMLLIElement.prototype) {
-        elem.classList.add(active);
-      }
-      addActiveLiElemment(elem.parentElement, parent);
-    }
-  }
-
-  function showToc() {
-    if (tocWrapper) {
-      postBody = document.querySelector('#post_body');
-      for (let i = 0; i < postBody.children.length; i++) {
-        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
-          hList.push(postBody.children[i]);
-        }
-      }
-      if (tocWrapper.classList.contains('compress')) {
-        tocContent.classList.add('closed');
-      } else if (tocWrapper.classList.contains('no_compress')) {
-        tocContent.classList.add('expanded');
-      } else {
-        if (hList.length > 10) {
-          active = 'active-hidden'
-          tocContent.classList.add('closed');
-        } else {
-          tocContent.classList.add('expanded');
-        }
-      }
-    }
-  }
-
-  (function () {
-    // 处理不是从#一级标题开始目录
-    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
-      let con = tocContent.children[0].children[0];
-      tocContent.innerHTML = con.innerHTML;
-    }
-    let markdownItTOC = document.querySelector('.markdownIt-TOC');
-    let innerHeight = window.innerHeight;
-    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
-    addTocNumber(tocContent, '');
-  })();
-
-  document.addEventListener('scroll', function (e) {
-    if (lList.length <= 0) {
-      return;
-    }
-    let scrollTop = document.scrollingElement.scrollTop + 10;
-    let dir;
-
-    if (lastTop - scrollTop > 0) {
-      dir = 'up';
-    } else {
-      dir = 'down';
-    }
-
-    lastTop = scrollTop;
-    if (scrollTop <= 0) {
-      if (lastIndex >= 0 && lastIndex < hList.length) {
-        lList[lastIndex].classList.remove(activeClass);
-      }
-      return;
-    }
-
-    let current = 0, hasFind = false;
-    for (let i = 0; i < hList.length; i++) {
-      if (hList[i].offsetTop > scrollTop) {
-        current = i;
-        hasFind = true;
-        break;
-      }
-    }
-    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
-      current = hList.length - 1;
-    } else {
-      current--;
-    }
-    if (dir === 'down') {
-      if (current > lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex)
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    } else {
-      if (current < lastIndex) {
-        addActiveClass(current);
-        removeActiveClass(lastIndex);
-        lastIndex = current;
-        removeParentActiveClass();
-        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
-      }
-    }
-  });
-
-
-  window.addEventListener('load', function () {
-    showToc();
-    document.querySelector('#sidebar').style = 'display: block;';
-    tocWrapper.classList.add('toc-active');
-    setTimeout(function () {
-      if ("createEvent" in document) {
-        let evt = document.createEvent("HTMLEvents");
-        evt.initEvent("scroll", false, true);
-        document.dispatchEvent(evt);
-      }
-      else {
-        document.fireEvent("scroll");
-      }
-    }, 500)
-  })
-
-</script>
-            </div>
           
         
       </div>
@@ -605,21 +322,21 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://songlinli.ml/post/vasp-xue-xi-zong-jie/"> vasp学习总结 </a>
+    <a class="post-title-link" href="https://songlinli.ml/post/proxifierclash/"> proxifier+clash </a>
   </h1>
   <div class="post-meta">
     
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2022-02-24 16:52:11">2022-02-24</span>
+      <span class="publish-time" data-t="2022-03-07 14:49:48">2022-03-07</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
       <span
-        >19<span class="language" data-lan="minute"
+        >1<span class="language" data-lan="minute"
           >分钟</span
         ></span
       >
@@ -628,7 +345,7 @@
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
       <span
-        >4854<span class="pc-show language" data-lan="words"
+        >10<span class="pc-show language" data-lan="words"
           >字数</span
         ></span
       >
@@ -638,375 +355,7 @@
 </section>
 
             <div class="post-body next-md-body" id="post_body">
-              <p>vasp学习常用参数设置以及纠错</p>
-<!-- more -->
-<h1 id="incar">INCAR</h1>
-<pre><code>SYSTEM = O atom     ##元素符号（计算说明，可以随便写）
-ISMEAR = 0          ##对于分子和原子使用0（不同的值对应的不同的展宽方法，分子原子用0 https://www.bigbrosci.com/2017/10/15/ex1_02_vasp_preparation_input_incar/）
-SIGMA = 0.01        ##对于分子或原子使用0.01（与ismear息息相关，参考网址同上）标准是SIGMA取值要保证OUTCAR中的entropy T*S 这一项，平均到每个原子上小于0.001 eV也就是1meV
-使用命令检查（grep 'entropy T' OUTCAR）
-</code></pre>
-<p><img src="https://songlinli.ml/post-images/1635771143608.png" alt="" loading="lazy"><br>
-1.初始参数、2.自洽迭代（电子优化，SCF）、3.原子驰豫（离子驰豫、结构优化）、4.态密度积分和参数、5.其他</p>
-<h2 id="1初始参数">1.初始参数</h2>
-<h3 id="system注释体系">system注释体系</h3>
-<h3 id="istsrt如果有wavecar文件默认值为1否则为0">ISTSRT：如果有wavecar文件，默认值为1，否则为0。</h3>
-<pre><code>0：开始新的计算，按iniwav初始化波函数
-1：接着计算，通常用在态密度、能带结构、光学性质等电子结构计算，读取已有的wavecar
-2：接着计算，希望保持基矢不变的计算中
-3：接着计算，读取上一次计算的到的电荷密度和波函数，不推荐用
-</code></pre>
-<h3 id="icharg">ICHARG</h3>
-<p>如果ISTART=0，则默认为2，否则为0。决定如何构造初始的电荷密度<br>
-0：从初始的波函数构造<br>
-1：从CHGCAR读入，并同原子密度进行线性插值<br>
-<strong>2：构造原子电子密度线性组合（LCAO），初始的电子密度由赝势来决定</strong><br>
-<strong>11：读入自洽的CHGCAR，并进行能带计算或者态密度的非自洽计算</strong><br>
-12：非自洽的原子密度计算<br>
-ISART和ICHARG这两个关键词分别定义了如何构建初始化的波函数和电荷密度、读入上一次的波函数和电荷密度。<br>
-推荐的做法：<br>
-在进行能带结构、电子态密度等的性质的计算时：设置ISTART=1，ICHARG=11。<br>
-其他情况：一般设置ISTART=0，ICHARG=2。</p>
-<h2 id="2自洽迭代">2.自洽迭代</h2>
-<p>单点计算、静态计算、自洽机刷都代表不优化结构只进行能量计算。</p>
-<h3 id="nelm允许电子自洽迭代的最大步数默认为60有的结构复杂可以适当增大-如果无法自洽收敛需要设置电荷电荷密度混合方法">NELM：允许电子自洽迭代的最大步数，默认为60，有的结构复杂可以适当增大。如果无法自洽收敛，需要设置电荷电荷密度混合方法。</h3>
-<h3 id="ediff它是电子自洽收敛的标准默认为1e-4-当两次差值小于ediff时停止循环-控制电子步自洽收敛标准使用1e-5得到的结构优化结果可信">EDIFF：它是电子自洽收敛的标准，默认为1E-4。当两次差值小于EDIFF时停止循环。控制电子步（自洽）收敛标准，使用1E-5得到的结构优化结果可信。</h3>
-<h3 id="encut平面波截断能默认值从potcar中读入所有元素取值的最大值">ENCUT：平面波截断能，默认值从POTCAR中读入，所有元素取值的最大值</h3>
-<p>2.8.3）ENCUT的取值与体系中所有的元素有关；参考文献中的或者按照以下设置<br>
-A）体系中含有不同元素的时候，查看这些元素POTCAR中的ENMAX值，找出最大的那个；<br>
-B）ENCUT的最小值为所有元素中ENMAX的最大值！<br>
-C）也就是说，找到最大的ENMAX（max）， ENCUT值大于等于ENMAX（max）。</p>
-<h3 id="algo电子优化算法normalialgo-38blocked-davidson方法-veryfastialgo-48rmm-diis算法fast上面两个算法的混合">ALGO：电子优化算法：Normal：IALGO =38(blocked Davidson方法) VeryFast：IALGO =48（RMM-DIIS算法）Fast：上面两个算法的混合。</h3>
-<h2 id="3原子驰豫">3.原子驰豫</h2>
-<h3 id="1原子如何移动以及步长步数和驰豫收敛条件">1.原子如何移动以及步长，步数和驰豫收敛条件：</h3>
-<p>IBRION,ISIF,POTIM,NSW,EDIFFG</p>
-<h3 id="ibrion决定了原子如何移动或者驰豫">IBRION：决定了原子如何移动或者驰豫。</h3>
-<p>3：初始结构很差时使用<br>
-2：共轭梯度法比较可靠<br>
-1：小范围结构优化<br>
-当与实验值在5%内认为是可靠的。<br>
-<img src="https://songlinli.ml/post-images/1635769201550.png" alt="" loading="lazy"></p>
-<h3 id="isif决定了是否计算应力-以及如何对结构优化">ISIF:决定了是否计算应力    以及如何对结构优化</h3>
-<p><img src="https://songlinli.ml/post-images/1635769319193.png" alt="" loading="lazy"><br>
-取值为3，在优化晶胞时使用。取值为2，优化分子时候，驰豫表面，重构表面计算</p>
-<h3 id="potim-nsw-ediffg">POTIM、NSW、EDIFFG ：</h3>
-<p><img src="https://songlinli.ml/post-images/1635769500820.png" alt="" loading="lazy"><br>
-NSW表示最大步数，最大为100000后者更大。EDIFFG表示离子步也就是几何优化的精度。EDIFFG=0.02；0.05或者0.01（高精度）在结构优化中使用（-0.01~-0.03）认可结果。<br>
-POTIM控制的小了使得vasp每次调节小，但是加大计算时间。</p>
-<p>2.分子动力学相关参数：<br>
-SMASS,TEBEG,TEEND,POMASS,NBLOC,KBLOCK,PSTRESS,NSW,POTIM<br>
-<img src="https://songlinli.ml/post-images/1635769635740.png" alt="" loading="lazy"></p>
-<h2 id="4态密度积分">4.态密度积分</h2>
-<p>1：smearing方法和参数：ISMEAR,SIGMA<br>
-2：计算态密度时的能量范围和点数：EMIN,EMAX,NEDOS<br>
-3：计算分波态密度的参数：LORBIT</p>
-<h3 id="ismear">ISMEAR：</h3>
-<p>ISMEAR这一项，目前需要记住的是：</p>
-<p>1）不同的值对应的是不同的展宽方法；<br>
-2）对于分子，原子的计算用0。<br>
-下面是VASP官网的一些解释，新手暂时看不懂不要紧，把需要记住的这两条死死记住就可以了。</p>
-<p>对于半导体和绝缘体体系，ISMEAR的值取绝对不能大于0， 一般用0；<br>
-对所有体系，如果想获取更加精确能量的时候用-5：但使用-5的时候，K点数目小于3则程序会罢工；<br>
-K 点少，半导体或者绝缘体，那么只能用 ISMEAR = 0；<br>
-在DOS能带计算中，使用ISMEAR= -5 用于获取精确的信息。<br>
-对于金属来说，ISMEAR的取值一般为0，1；<br>
-保守地说，ISMEAR = 0 (Gaussian Smearing) 可以满足大部分的体系（金属，导体，半导体，分子）；<br>
-如果不知道怎么取ISMEAR，1）直接用0；2）测试不同的值对计算的影响。</p>
-<h3 id="smearing">smearing</h3>
-<p><img src="https://songlinli.ml/post-images/1635769810181.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635769830617.png" alt="" loading="lazy"></p>
-<h3 id="eminemax输出文件中有-以及-nedos1000平滑度和lorbitdos的输出方式取值为10取值11是分轨道还有nbands能带数目">EMIN/EMAX(输出文件中有) 以及 NEDOS（1000，平滑度）和LORBIT（DOS的输出方式取值为10，取值11是分轨道）还有NBANDS（能带数目）</h3>
-<figure data-type="image" tabindex="1"><img src="https://songlinli.ml/post-images/1635769992712.png" alt="" loading="lazy"></figure>
-<h2 id="5其他">5.其他</h2>
-<h3 id="prec-isym">PREC、ISYM</h3>
-<figure data-type="image" tabindex="2"><img src="https://songlinli.ml/post-images/1635770227760.png" alt="" loading="lazy"></figure>
-<h3 id="磁性体系计算co3o4-fe2o3-ispin-magmom磁矩-voskown">磁性体系计算（Co3O4、Fe2O3）-ISPIN、MAGMOM（磁矩）、VOSKOWN</h3>
-<p>体系的磁矩在OSZICAR中的mag=XX可以看到磁矩大小。<br>
-初始磁矩可以设置为实验值<em>1.5<br>
-或者初始磁矩可以设置为未成对电子数</em>1.5<br>
-<img src="https://songlinli.ml/post-images/1635770343792.png" alt="" loading="lazy"></p>
-<h3 id="逻辑参数lreal-lwave非常大性质计算再打开-lcharg非常大性质计算再打开">逻辑参数LREAL、LWAVE（非常大，性质计算再打开）、LCHARG（非常大，性质计算再打开）</h3>
-<p><img src="https://songlinli.ml/post-images/1635770482184.png" alt="" loading="lazy"><br>
-E）这里LREAL设置为Auto，是为了和后面表面能计算统一。计算时要根据原子数的多少，以及后续的计算选择LREAL的值。不能拿LREAL=.FALSE.和LREAL=ON/.TRUE.计算的结果进行能量比较。<br>
-F) 注意：块体材料计算时，为了后续计算其他性质，常常要求整个计算中使用相同的<strong>ENCUT，ENAUG， PREC， LREAL， ROPT</strong>，这部分大家可以看看手册 8.3 What kind of “technical” errors do exist， overview</p>
-<h3 id="强关联体系氧化铈等lsdauldauldautypeldaul哪个轨道添加uldauu在位库伦ldauj交换相互">强关联体系(氧化铈等)L(S)DA+U：LDAU,LDAUTYPE,LDAUL（哪个轨道添加U）,LDAUU（在位库伦）,LDAUJ（交换相互）</h3>
-<figure data-type="image" tabindex="3"><img src="https://songlinli.ml/post-images/1635770618512.png" alt="" loading="lazy"></figure>
-<h3 id="杂化泛函hse06lhfcalchfscreenlmaxfockprecfock">杂化泛函（HSE06）LHFCALC,HFSCREEN,LMAXFOCK,PRECFOCK</h3>
-<figure data-type="image" tabindex="4"><img src="https://songlinli.ml/post-images/1635771052948.png" alt="" loading="lazy"></figure>
-<h1 id="kpoints">KPOINTS</h1>
-<pre><code>K-POINTS           ##第一行随便写都可以，但是不能没有
-0                  ##零，代表格子自动生成
-Gamma              ##gamma点的centered（只认第一个字母而且大小写都可以，G代表以gamma点为中心生成网络。M为原始的Monkhorst-Pack网格，M在G的基础上在三个方向上平移了1/(2N)个单位）
-1 1 1              ##1*1*1格子运算（在xyz方向上生成对应数目的K点，原子分子选择1，如果ISMEAR=-5计算能量那么就需要使用2 2 2 或者更高的3 3 3）
-0 0 0              ##S1 S2 S3，一般保持0 0 0不变
-</code></pre>
-<p><img src="https://songlinli.ml/post-images/1635766075450.png" alt="" loading="lazy"><br>
-<strong>KPOINTS的建议，一直使用gamma来计算；M平移会导致网格对称性和晶胞对称性不匹配情况，从而计算出错。对于六角晶系的结构必须用gamma。对于非六角晶系，如果M可以计算就使用M</strong></p>
-<h1 id="poscar">POSCAR</h1>
-<pre><code>O atom in a box    ##随便写，不可以不写            
-1.0                ## universal sacling parameters(缩放系数这里是1)
-8.0 0.0 0.0        ## lattice vector a(1)（坐标信息，xyz分别取8埃米）
-0.0 8.0 0.0        ## lattice vector a(2)
-0.0 0.0 8.0        ## lattice vector a(3)
-O                  ## O element ，not zero（体系元素，需要顶格写不能有空格，）
-1                  ## number of atoms
-cartesian          ## positions in cartesian  coordinates（坐标系选择，这里是笛卡尔坐标，也可以是分数坐标。只认识第一个字母，C为笛卡尔坐标，D为分数坐标）
-0 0 0              ## 氧原子的位置坐标PO
-</code></pre>
-<h1 id="potcar">POTCAR</h1>
-<p><img src="https://songlinli.ml/post-images/1635752258063.png" alt="" loading="lazy"><br>
-赝势的种类需要一致；赝势使用的泛函与incar中的泛函需要一致（PBE泛函选用PBE赝势）<br>
-各类元素的赝势文件，</p>
-<pre><code>grep TIT POTCAR可以查看使用了哪些赝势
-</code></pre>
-<p>某些元素，还有一些以 _h， _s 结尾的，应该是 hard和soft的缩写。带h的POTCAR中截断能比普通的要高出很多。带s的截断能要小很多。这里我们就可以通过grep 结合 ENMAX来查看一下：<br>
-VRHFIN 用来看元素的价电子排布，如果你元素周期表倒背如流，可以忽略这个参数；<br>
-LEXCH 表示这个POTCAR对应的是GGA-PBE泛函；如果INCAR中不设定泛函，则默认通过这个参数来设定。<br>
-TITEL 就不用说了，指的是哪个元素，以及POTCAR发布的时间；<br>
-ZVAL 指的是实际上POTCAR中价电子的数目，尤其是做Bader电荷分析的时候，极其重要。<br>
-ENMAX 代表默认的截断能。与INCAR中的ENCUT这个参数相关。</p>
-<pre><code>potpaw_LDA 和 potpaw_PBE。
-</code></pre>
-<h1 id="qe提交作业">QE提交作业</h1>
-<pre><code>#!/bin/bash
-#JSUB -n  10
-##JSUB -R &quot;span[ptile=10]&quot;
-#JSUB -q  normal
-##JSUB -gpgpu 1
-#JSUB -e error.%J
-#JSUB -o output.%J
-##JSUB -m node06
-source /apps/software/intel/2017u2/compilers_and_libraries/linux/bin/compilervars.sh  intel64
-module load gcc/9.4.0
-module load mkl/latest
-module load openmpi/intel/4.1.1
-export PATH=$PATH:~/opt/qe67/bin
-export OMP_NUM_THREADS=4
-
-. /apps/software/tools/hostfile
-mpirun -np $ncpu -ppn 1 -f  $nodelist  pw.x &lt; pwscf.in |tee pwscf.out
-rm   $nodelist
-</code></pre>
-<h1 id="vasp电声耦合-gaas带隙随着温度的变化">VASP电声耦合-GaAs带隙随着温度的变化</h1>
-<h1 id="vasp计算性质">VASP计算性质</h1>
-<p>几何性质（结构参数键长等）、电子性质（态密度等）、状态方程和力学性质（弹性模量）、表面性质（缺陷、吸附能等）、光学性质（折射率等）、分子动力学模拟（扩散系数等）、磁学性质（自旋轨道耦合等）、GW近似（激发态）VASP对材料、凝聚态、表面、催化展开研究。<br>
-<img src="https://songlinli.ml/post-images/1635734489557.png" alt="" loading="lazy"></p>
-<h2 id="vasp理论基础第一性原理">VASP理论基础：第一性原理</h2>
-<p><img src="https://songlinli.ml/post-images/1635737703739.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635737842923.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635737863727.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635737974726.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635738001583.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635738028198.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635738071914.png" alt="" loading="lazy"><br>
-DFT（LDA、GGA、meta-GGA、杂化泛函、范德华力-DFT）<br>
-<img src="https://songlinli.ml/post-images/1635738109320.png" alt="" loading="lazy"><br>
-LDA<br>
-<img src="https://songlinli.ml/post-images/1635738214229.png" alt="" loading="lazy"><br>
-GGA<br>
-<img src="https://songlinli.ml/post-images/1635738243102.png" alt="" loading="lazy"><br>
-+U修正（对于d、f轨道电子处理）半经验方法，使用文献中的，或者进行测试<br>
-<img src="https://songlinli.ml/post-images/1635738306431.png" alt="" loading="lazy"><br>
-杂化泛函（带隙计算精确但是时间增加）<br>
-<img src="https://songlinli.ml/post-images/1635738382061.png" alt="" loading="lazy"><br>
-DFT研究基本量从波函数到电子密度的变化。<br>
-赝势理论（内层电子进行了近似、考虑外层电子的简化处理）<br>
-<img src="https://songlinli.ml/post-images/1635738484735.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635738548560.png" alt="" loading="lazy"><br>
-模守恒赝势（NCPP）-超软赝势（US-PP）-平面波赝势（PAW）<br>
-模守恒赝势：全电子赝势，给出准确波函数<br>
-超软赝势：完全非局域的赝势，平面波比较平滑。截断能降低。对某些比较合适<br>
-平面波赝势：现在较常用<br>
-<img src="https://songlinli.ml/post-images/1635738779226.png" alt="" loading="lazy"></p>
-<h1 id="vasp基本输出文件">VASP基本输出文件</h1>
-<h2 id="outcar计算结构输出文件">OUTCAR：计算结构输出文件</h2>
-<pre><code>grep POTCAR OUTCAT来查找OUTCAR中的POSCAR
-grep E-fermi OUTCAR查找OUTCAR中的费米能级
-</code></pre>
-<p>在bashrc中加入<code>alias gr=&quot;grep 'reached required accuracy' OUTCAR&quot;</code> 来快速输入gr判定是否达到收敛。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Band No</th>
-<th style="text-align:center">band energy</th>
-<th style="text-align:center">occupation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">第几条能带1……</td>
-<td style="text-align:center">能量值</td>
-<td style="text-align:center">占据电子数</td>
-</tr>
-</tbody>
-</table>
-<h2 id="oszicar每次迭代或原子驰豫或者md的能量信息">OSZICAR：每次迭代或原子驰豫或者MD的能量信息</h2>
-<p>电子结构优化：固定几何结构，求解薛定谔方程求能量的最小值。<br>
-几何结构优化：在电子结构的基础上根据受力情况调整原子位置。电子步1-离子步1-电子步2-离子步2<br>
-N：电子步的步数；E：体系能量；dE：两步之间的差值……<br>
-DAV、RMM、CG分别是一个电子步中的迭代求解的自洽算法。在INCAR中ALGO=Fast、Normal等来选择；Normal对应DAV算法。<br>
-F前面的1代表几何结构优化次数（离子步）F=体系总能量，对应OUTCAR中的free energy toten；E0对应OUTCAR中的energy（sigma-&gt;0）的能量。一般计算中使用E0就可以了。<br>
-体系的磁矩在OSZICAR中的mag=XX可以看到磁矩大小。<br>
-初始磁矩可以设置为实验值<em>1.5<br>
-或者初始磁矩可以设置为未成对电子数</em>1.5</p>
-<h2 id="contcar原子驰豫或者md后的体系结构文件分数坐标用于续算">CONTCAR：原子驰豫或者MD后的体系结构文件，分数坐标，用于续算</h2>
-<h2 id="chg-和-chgcar电荷密度文件比较大在最后计算再保存">CHG 和 CHGCAR：电荷密度文件，比较大，在最后计算再保存</h2>
-<h2 id="wavecar波函数文件比较大最后计算性质再保存">WAVECAR：波函数文件，比较大，最后计算性质再保存</h2>
-<h2 id="doscar电子态密度文件">DOSCAR：电子态密度文件</h2>
-<h2 id="eigenval各k点本征值文件能带数目能量范围">EIGENVAL：各k点本征值文件，能带数目，能量范围</h2>
-<h2 id="edatcar每次原子驰豫后的每一步轨迹文件">EDATCAR：每次原子驰豫后的每一步轨迹文件</h2>
-<h2 id="ibzkpt布里渊区中的k点">IBZKPT：布里渊区中的k点</h2>
-<h2 id="pcdat对关联函数">PCDAT：对关联函数</h2>
-<h2 id="procar-和-proout波函数投影或者分解的文件">PROCAR 和 PROOUT：波函数投影或者分解的文件</h2>
-<h2 id="locpot总的局域势">LOCPOT：总的局域势</h2>
-<h2 id="elfcat电子局域函数">ELFCAT：电子局域函数</h2>
-<h1 id="晶胞优化">晶胞优化</h1>
-<p><img src="https://songlinli.ml/post-images/1635776322188.png" alt="" loading="lazy"><br>
-实验得到的晶格常数，可以只对原子位置进行驰豫优化。</p>
-<h2 id="优化方法直接优化-状态方程和实验对比哪个好用哪个">优化方法（直接优化、状态方程）和实验对比哪个好用哪个</h2>
-<p><img src="https://songlinli.ml/post-images/1635776395161.png" alt="" loading="lazy"><br>
-Si晶胞优化（晶格参数变化值1%）<br>
-<img src="https://songlinli.ml/post-images/1635776524252.png" alt="" loading="lazy"></p>
-<h1 id="表面吸附w表面吸附co注意isif">表面吸附（W表面吸附CO）注意ISIF</h1>
-<p><img src="https://songlinli.ml/post-images/1635779361287.png" alt="" loading="lazy"><br>
-（1）W晶胞优化<br>
-<img src="https://songlinli.ml/post-images/1635779502676.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635779903034.png" alt="" loading="lazy"><br>
-（4）优化CO<br>
-<img src="https://songlinli.ml/post-images/1635856433971.png" alt="" loading="lazy"></p>
-<h1 id="态密度计算">态密度计算</h1>
-<p><img src="https://songlinli.ml/post-images/1635857214291.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1636525257330.png" alt="" loading="lazy"><br>
-对INCAR进行修改专门计算态密度<br>
-<img src="https://songlinli.ml/post-images/1635857163161.png" alt="" loading="lazy"><br>
-KPOINTS(性质计算高于结构优化的k点)<br>
-态密度的INCAR专用茶参数<br>
-<img src="https://songlinli.ml/post-images/1635858255719.png" alt="" loading="lazy"></p>
-<h1 id="能带结构">能带结构</h1>
-<p><img src="https://songlinli.ml/post-images/1635858549774.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635858698003.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635858813233.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635858773242.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635858836574.png" alt="" loading="lazy"><br>
-能带处理<br>
-<img src="https://songlinli.ml/post-images/1635858955763.png" alt="" loading="lazy"><br>
-电子结构计算总结（scf静态计算、电子自洽迭代；dos态密度；bs能带结构）smyl生成能带路径<br>
-<img src="https://songlinli.ml/post-images/1635859002805.png" alt="" loading="lazy"></p>
-<h1 id="电荷密度">电荷密度</h1>
-<p>先结构优化，然后电子自洽scf等电子结构性质计算<br>
-<img src="https://songlinli.ml/post-images/1635859301178.png" alt="" loading="lazy"><br>
-电荷密度计算步骤<br>
-<img src="https://songlinli.ml/post-images/1635859538543.png" alt="" loading="lazy"><br>
-<img src="https://songlinli.ml/post-images/1635859951852.png" alt="" loading="lazy"><br>
-态密度计算K点要求<br>
-<img src="https://songlinli.ml/post-images/1638602322812.png" alt="" loading="lazy"></p>
-<h2 id="总结">总结</h2>
-<p>结构优化完毕后：</p>
-<p><strong>一步计算DOS</strong>必须的参数：<br>
-1 ISMEAR = -5<br>
-2 LORBIT = 11<br>
-3 高密度的K点</p>
-<p><strong>两步计算DOS</strong>必须的参数:<br>
-<strong>第一步：</strong><br>
-ISMEAR = -5<br>
-LCHARG = .TRUE.<br>
-<strong>稍微低密度的K点</strong><br>
-<strong>第二步：</strong><br>
-ISMEAR = -5<br>
-ICHARGE = 11<br>
-LORBIT = 11<br>
-<strong>高密度的K点</strong><br>
-如果结构优化的时候，存了WAVECAR，计算DOS的时候可以读取WAVECAR，直接一步计算搞定。</p>
-<h1 id="bader电荷计算">bader电荷计算</h1>
-<p>参考<a href="https://www.bigbrosci.com/2011/12/23/A07/">大师兄LVASPTHW</a></p>
-<h2 id="bader电荷计算准备">bader电荷计算准备</h2>
-<p>首先使用vasp获得稳定的结构<br>
-1.将前面的CONTCAR复制为POSCAR<br>
-2.设置INCAR必要参数</p>
-<pre><code>LAECHG=.TRUE. 
-LCHARG = .TRUE.
-NSW = 0
-IBRION = -1 ## 前面有了NSW = 0， 这个也可以不设置
-</code></pre>
-<p>3.KPOINTS可以使用结构优化参数也可以使用大一些的参数<br>
-4.WAVECAR，CHGCAR等有的话就读一下，没有可以适当增加电子步NELM=200</p>
-<h2 id="bader计算环境配置">bader计算环境配置</h2>
-<p>1.VTST脚本中的chgsum.pl<a href="http://theory.cm.utexas.edu/vtsttools/download.html">VTST·Tools-VTST Scripts</a><br>
-2.bader处理的脚本<a href="http://theory.cm.utexas.edu/henkelman/code/bader/">bader</a><br>
-下载解压两个文件夹到任意目录例如：~/bin/bader。<br>
-通过如下方式获得脚本执行权限</p>
-<pre><code>chmod u+x ~/bin/vtstscripts-978/chgsum.pl
-chmod u+x ~/bin/bader
-</code></pre>
-<h2 id="bader计算处理">bader计算处理</h2>
-<p>1.进入计算的scf目录<br>
-2.</p>
-<pre><code>~/bin/vtstscripts-978/chgsum.pl AECCAR0 AECCAR2
-chgsum.pl AECCAR0 AECCAR2
-</code></pre>
-<ol start="3">
-<li></li>
-</ol>
-<pre><code>~/bin/bader CHGCAR -ref CHGCAR_sum
-bader CHGCAR -ref CHGCAR_sum
-</code></pre>
-<ol start="4">
-<li>命令结束后，你会得到一些相应输出的文件：ACF.dat， BCF.dat， AVF.dat…</li>
-<li>本人一般查看的是ACF.dat文件</li>
-<li>ACF.dat文件中，第一列的数字对应的是POSCAR中的原子顺序。每个原子的电荷对应的是CHARGE那一列。注意，该列中的电荷是该原子价层电子中的电子总数。如果你想要知道这个原子是带正电或者负电荷，需要减去POTCAR中的电子数目。通过<code>grep ZVAL POTCAR</code>查找POTCAR中原子的电子数目。</li>
-</ol>
-<h1 id="能量换算">能量换算</h1>
-<p>换算系数为： 1 eV/Å2 = 16.02 J/m2<br>
-1 eV = 1.602176487e-19 J<br>
-1 Å2 = (1e-10) (1e-10) m2</p>
-<h1 id="吸附位置">吸附位置</h1>
-<p>不同表面位点：<br>
-观察不同位点的结构特征，在面心立方金属的(111)表面上有4种不同的位点:</p>
-<ol>
-<li>Top位，前面已经花了很多时间介绍了，本节就不再啰嗦</li>
-<li>Bridge位：从名字大家就可以推断这个位点的吸附为两个Top原子的中间。</li>
-<li>Fcc位和Hcp位：这两个吸附位点都是在三个原子的中心，为hollow位。</li>
-</ol>
-<p>那么这两个位点怎么区分呢？</p>
-<p>如果表面的Hollow位正下方（即第二层，图中黄色的）有原子，为Hcp位，在第三层的话（图中红色的），则这个hollow为Fcc位。<br>
-由于Fcc位点的原子在第三层，离表面最远（far），大家把英文单词的far 和 Fcc位的第一个字母关联起来即可。远的那个就是Fcc，近的是Hcp。<br>
-注意： Fcc 和 Hcp 分别是 face centered cubic 和 hexagonal close-packed 的缩写。</p>
-<h2 id="把slab的原子全部固定住然后用gamma点算一下它们的吸附能先大体上判断一下把那些吸附特别强的结构筛选出来用作下一步的计算">把slab的原子全部固定住，然后用gamma点算一下它们的吸附能，先大体上判断一下，把那些吸附特别强的结构筛选出来，用作下一步的计算。</h2>
-<h1 id="表面钝化">表面钝化</h1>
-<p>考虑终端钝化即bulk termination。切出来的slab模型通常(注)在最上层和最下层存在悬挂键（dangling bonds, DB）。在表面或者界面处的悬挂键是真实存在的，对他们的不同处理可以反应表面界面的不同属性。但是最下层的悬挂键却不应该存在，因为这部分的原子层在模拟体相bulk properties，所以需要进行合理的钝化处理。最常见的方式是加氢（或者赝氢）钝化，具体方式为：计算出来<strong>悬挂键</strong>的电子数目N，然后选择2-N个电子的赝氢即可。以III-V为例，可以参考我的文章[1-5]中均有提及：对于Ga，每一个DB有0.75e，所以需要1.25e的赝氢钝化；对于N，每一个DB有1.25e，所以需要0.75e的赝氢钝化。</p>
-<h1 id="scf不收敛">SCF不收敛</h1>
-<p>依次尝试以下方法：<br>
-参考<a href="http://bbs.keinsci.com/thread-11126-1-1.html">啦啦黑还黑</a><br>
-<a href="http://blog.wangruixing.cn/2019/05/01/scf/">世事如棋</a><br>
-（1）先检查几何结构是不是合理，非常离谱的初始结构会导致SCF难收敛。<br>
-（2）依次检查已经设置的参数，对照ppt的建议，是不是选择合理，对于+U和ICHARGE=11的任务，添加LMAXMIN=4 (对于d区体系)，添加LMAXMIN=6 (对于f区体系)。<br>
-（3）检查是不是ISTART=1读取了不合理的波函数，如果是，rm WAVECAR CHGCAR重新跑。<br>
-（4）如果ALGO=Fast或者VeryFast，换成Normal。<br>
-（5）尝试使用更大的SIGMA值，先粗略收敛，再读取CHGCAR和WAVECAR用小的SIGMA计算。<br>
-（5）对于非磁性体系（闭壳层ISPIN=1）添加：（注意AMIX和BMIX对收敛有很大影响，可以自己调试）<br>
-AMIX = 0.2<br>
-BMIX = 0.0001 #almost zero, but 0 will crash some versions<br>
-（6）对于磁性体系（自旋极化，ISPIN=2）添加：<br>
-AMIX = 0.2<br>
-BMIX = 0.0001 #almost zero, but 0 will crash some versions<br>
-AMIX MAG = 0.8<br>
-BMIX MAG = 0.0001 #almost zero, but 0 will crash some versions<br>
-(7)  尝试更换不同的ISMEAR。<br>
-(8)  检查体系是不是特殊的磁性排列，即MAGMOM设置是否合理。<br>
-(9)  提高积分精度，PREC=Accurate 。<br>
-(10) 提高格点精度，ADDGRID = .TRUE. 。<br>
-(11) 先用1 1 1 K点计算收敛，再读取CHGCAR，用高K点计算。<br>
-(12) 尝试不同的ALGO 比如：ALGO=Conjugate。<br>
-(13) 如果在结构优化或者MD过程中，某一步突然不收敛，使用MAXMIX = 50<br>
-(14) 尝试用更小的ENCUT或者更大的ENCUT的预收敛。<br>
-(15) 换更小的赝势或者更soft的赝势。<br>
-(16) 最后给出一个VASP官方教程里解决的不收敛的方法：<br>
-1.用ALGO=N （是否收敛N to 2，Y to 6）<br>
-2. ICHARG=12 (no charge update，非自洽计算，N to5, Y to 3)<br>
-3. ICHARG=2 AMIX=0.1 ; BMIX=0.01(N to 4, Y to 6)<br>
-4. increase BMIXBMIX=3.0 ; AMIN=0.01(N to 5, Y to 6)<br>
-5. Bug report<br>
-6. Use this setting</p>
+              <p>Proxifier+clash代理电脑任意软件</p>
 
             </div>
             
@@ -1023,7 +372,7 @@ BMIX MAG = 0.0001 #almost zero, but 0 will crash some versions<br>
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://songlinli.ml/post/vasp-xue-xi-zong-jie/" title="vasp学习总结">https://songlinli.ml/post/vasp-xue-xi-zong-jie/</a>
+      <a href="https://songlinli.ml/post/proxifierclash/" title="proxifier+clash">https://songlinli.ml/post/proxifierclash/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -1036,15 +385,11 @@ BMIX MAG = 0.0001 #almost zero, but 0 will crash some versions<br>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="Zotero+Scihub:自动下载保存文献" href="https://songlinli.ml/post/zoteroscihubzi-dong-xia-zai-bao-cun-wen-xian/">Zotero+Scihub:自动下载保存文献</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="Zotero+Scihub:自动下载保存文献" href="https://songlinli.ml/post/zoteroscihubzi-dong-xia-zai-bao-cun-wen-xian/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="Ubuntu 常用命令" href="https://songlinli.ml/post/ubuntu-chang-yong-ming-ling/">Ubuntu 常用命令</a>
-        <a class="nav-mobile-next" title="Ubuntu 常用命令" href="https://songlinli.ml/post/ubuntu-chang-yong-ming-ling/">下一篇</a>
+        <a class="nav-pc-next" title="Gridea简单教程+Freenom+Cloudflare" href="https://songlinli.ml/post/gridea-jian-dan-jiao-cheng-freenomcloudflare/">Gridea简单教程+Freenom+Cloudflare</a>
+        <a class="nav-mobile-next" title="Gridea简单教程+Freenom+Cloudflare" href="https://songlinli.ml/post/gridea-jian-dan-jiao-cheng-freenomcloudflare/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
