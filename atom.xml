@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://lisonglin-xidian.github.io</id>
+    <title>想不想该不该</title>
+    <updated>2023-11-10T07:30:03.442Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://lisonglin-xidian.github.io"/>
+    <link rel="self" href="https://lisonglin-xidian.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://lisonglin-xidian.github.io/images/avatar.png</logo>
+    <icon>https://lisonglin-xidian.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, 想不想该不该</rights>
+    <entry>
+        <title type="html"><![CDATA[SIESTA 教程-Nerdalytics]]></title>
+        <id>https://lisonglin-xidian.github.io/post/siesta-jiao-cheng-nerdalytics/</id>
+        <link href="https://lisonglin-xidian.github.io/post/siesta-jiao-cheng-nerdalytics/">
+        </link>
+        <updated>2023-05-16T02:21:17.000Z</updated>
+        <summary type="html"><![CDATA[<p>Youtube Siesta学习笔记</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Youtube Siesta学习笔记</p>
+<!-- more -->
+<h1 id="electrode-电极计算">electrode-电极计算</h1>
+<p><code>SolutionMethod diagon</code><br>
+SolutionMethod    计算方法<br>
+diagon 必须在电极计算中使用</p>
+<pre><code>SystemName Bi electrode
+SystemLabel elec_bi
+</code></pre>
+<p>SystemName和SystemLabel首选使用下划线而不是破折号</p>
+<pre><code># Number of species
+NumberOfSpecies 1
+%block ChemicalSpeciesLabel
+  1  83 Bi
+%endblock ChemicalSpeciesLabel
+</code></pre>
+<p>NumberOfSpecies 有多少个元素<br>
+ChemicalSpeciesLabel 第一个是元素编号，第二个是原子序数，第三个是元素符号<br>
+XC交换关联泛函相关参数:</p>
+<pre><code>PAO.BasisSize    DZP
+PAO.EnergyShift  0.005 Ry
+XC.functional   GGA
+XC.authors      PBE
+</code></pre>
+<p>BasisSize 基组设置，这里是DZP基组，SIESTA典型<br>
+EnergyShift是截止半径标准<br>
+泛函为GGA-PBE<br>
+K-points：计算时间等<br>
+原子数，晶格矢量，晶格坐标信息<br>
+<code>MD.NumCGsteps</code>离子步，如果已经完成离子步优化，在电极计算中设置为0<br>
+SCF-电子步设置参数<br>
+MD-离子步设置参数<br>
+Output 变量设置输出信息<br>
+电极计算必须在其他选项中打开TS.HS.Save。<br>
+赝势选择可以使用离子文件（.ion）需要添加参数<code>User.Basis .true.</code>如果使用psf或者psml文件需要将这里设置为<code>.false.</code>。</p>
+<h1 id="scanttering-散射区域计算">Scanttering-散射区域计算</h1>
+<p>求解方法<br>
+<code>SolutionMethod diagon</code><br>
+SolutionMethod    计算方法<br>
+Transiesta 瞬态求解方法，已经集成在siesta中。<br>
+系统名称以及系统标签<br>
+材料物种，<br>
+基组以及交换关联泛函相同<br>
+K-points在散射计算中和电极计算相同。<br>
+结构信息通过重复6次得到新的结构输出为xyz格式拷贝过来。<br>
+下面信息相似，需要注意的是添加transiesta散射区域计算代码。从0电位计算开始，到左右电极定义，这里到TS.ChemPot.Right结束。<br>
+必须从电极计算结果中复制TSHS格式的文件。<br>
+used atomes不需要添加，有部分教程中添加该参数。<br>
+其他选项是默认的，这里还通过TBT.DOS.A.ALL计算了态密度。<br>
+TS.SolutionMethod 计算方法是btd<br>
+TS.BTD.Pivot<br>
+进行散射计算前推荐先运行analyze<br>
+<code>siesta -fdf TS.Analyze RUN.fdf &gt; analyze.out</code><br>
+mpirun -np 16 transiesta &lt;scat.fdf&gt; Trans.out<br>
+tbtrans &lt;scat.fdf&gt; TBT.out</p>
+<h1 id="siesta-收敛性测试">SIESTA 收敛性测试：</h1>
+<p>计算结果的精确性<br>
+截断能，K-points，磁各项异性，超胞大小测试<br>
+分子动力学，使用共轭梯度方式得到最小化能量。<br>
+不同K点网格划分，MP mesh下得到晶格常数和自由能（Free Energy）。<br>
+极化分子在不同晶胞尺寸（lattice constant）下的electric dipole的收敛情况</p>
+<h1 id="结构优化">结构优化</h1>
+<p>共轭梯度法：收敛快，内存小；但是计算复杂，容易得到局域最低点，不是全局最优点。<br>
+分子动力学得到热稳定性。计算声子等<br>
+分子动力学采用伯恩奥本海默近似得到。<br>
+分态能带图，能带，<br>
+** Basis set In siesta 😗*<br>
+<strong>SZ</strong>- single zeta is a minimal basis set for quick simulation but not accurate enough<br>
+<strong>DZ</strong> - Double zeta, considers the radial flexibility of an atomic orbitals, is more accurate<br>
+<strong>DZP</strong>- considers the angular flexibility of an atomic orbitals P stands for polarization (electron spin effect)<br>
+<strong>Choosing DZP is accurate enough for any simulation</strong><br>
+Larger mesh-cutoff ➡️  Smaller spacing ➡️  more dense 3D mesh ➡️  more accurate simulation ➡️  but longer computational time.<br>
+<img src="https://lisonglin-xidian.github.io/post-images/1684571741313.jpg" alt="" loading="lazy"></p>
+<ol>
+<li>optimization of XC and basis sets<br>
+LDA and GGA for XC，SZ，DZ，and DZP for basis。DZP is found accurate enough for any simulation<br>
+如何使用siesta优化。<br>
+在研究材料或者纳米材料的不同特性之前需要优化所有系统。<br>
+以碘化银为例，分别优化mesh-cutoff，KPOINTS，latt_opt，tot_opt。<br>
+第一步：优化mesh-cutoff<br>
+<code>sh script_cutoff.sh</code><br>
+创建十个文件夹<br>
+<code>sh get_EvsC_script.sh</code><br>
+生成EvsC.dat文件并显示绘图，寻找最佳网格截止能量：mesh-cutoff<br>
+第二步：kpoint 优化<br>
+将kpoint_script.sh中的MeshCutoff值修改为上一步的结果，<br>
+运行<code>sh kpoint_script.sh</code>后得到不同文件夹下不同K值的siesta结果<br>
+运行<code>sh get_EvsK_script.sh</code><br>
+创建EvsK.dat文件并显示绘图，寻找最佳K点 （能量最低值）<br>
+第三步：晶格常数优化<br>
+替换脚本中的MeshCutoff以及K点<br>
+运行<code>sh la_opt_script.sh</code>将会在不同文件夹运行siesta<br>
+运行<code>sh get_Evsa_script.sh</code> 得到Evsa.dat文件并绘图，寻找最佳晶格常数（能量最低值）<br>
+第四步：总能优化<br>
+替换脚本中的截止能，K点，晶格常数然后运行脚本<br>
+<code>sh script_final_opt.sh</code></li>
+</ol>
+<h1 id="mpi运行示例">mpi运行示例</h1>
+<p><code>mpirun -np 16 siesta Bi.fdf &gt; Bi.out</code><br>
+<code>mpirun -np 16 siesta --electrode electrode.fdf &gt; electrode.out</code><br>
+作业脚本删除无用输出文件</p>
+<h1 id="dos">DOS</h1>
+<p>使用Utils下的Eig2DOS绘制DOS<br>
+Eig2DOS -f -s 0.100 -n 1000 -e -30 -E 20 Li2FeP2O7-tri.EIG&gt;dos.dat<br>
+展宽越小，计算精度越高，DOS图就尖锐瘦长一些，但是收敛的时间要长一些。</p>
+<p>当体系的电子结构在Fermi 能级附近出现多个简并能级时，体系的自洽过程会相当慢，甚至不能收敛。这是由于能级简并，或能级之间相差不大，导致电子“不知道”应该在哪里分布，从而不断地在几个能级之间“跳来跳去”，但无论电子分布在哪个前线能级上整个体系都不能自洽。<br>
+所谓拖尾，是指在前线轨道上，电子可以以分数分布，而不再要求一定要以整数分布，从而使电子可以一分为多地分布在能量相近的各个前线轨道，而不需要在各轨道之间“跳来跳去”，使体系更容易自洽。<br>
+使用该办法时要对拖尾效应设定一个能量值，使电子在能量相差在该值之内的轨道进行分数分布。设定值越小，计算结果越精确，但亦更难自洽。（也叫展宽）</p>
+<p>态密度的展宽从算法上来说是为了获得更加清楚平滑的曲线，但是从物理意义上来说是借用了光谱学中的一个概念，当一个体系有了在一个能级以后，我们计算得到的结果是一个静态的，也就是说得到的是一个准确的数值，如果我们把这些数值画出来，在每一个K点得到是一个冲击函数(delta(t)).但是实际情况中，体系是有外部的扰动的，比如热扰动，这种热扰动在光谱学中得到的能级是有一定的波动，这样我们得到能级是有一定的展度宽。为了描述这个扰动带来的能级的展宽，我们在分析态密度时引入了展宽的概念，这是和实际情况可比的一种处理手段。</p>
+<p>使用Utils下的fmpdos和pdosxml绘制PDOS<br>
+绘制PDOS需要添加block</p>
+<pre><code>%block ProjectedDensityOfStates
+-30 20 0.1 1000 eV
+%endblock ProjectedDensityOfStates
+</code></pre>
+<p>其中-30 20是能量范围<br>
+0.1是展宽<br>
+1000是绘制的点数</p>
+<pre><code>rm -rf CLOCK
+rm -rf INPUT*
+rm -rf MESSAGES
+rm -rf fdf-*
+rm -rf PARALLEL_DIST
+rm -rf O_NORMAL_EXIT
+rm -rf TIMES
+rm -rf OCCS
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ubuntu 20.04 Intel-Oneapi 编译 siesta-Max-1.3.1(psml)]]></title>
+        <id>https://lisonglin-xidian.github.io/post/ubuntu-2004-intel-oneapi-bian-yi-siesta-max-131psml/</id>
+        <link href="https://lisonglin-xidian.github.io/post/ubuntu-2004-intel-oneapi-bian-yi-siesta-max-131psml/">
+        </link>
+        <updated>2023-05-13T06:52:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>ubuntu 20.04编译安装siesta，TBtrans，siesta Max-1.3.1中的siesta已经包含transiesta。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>ubuntu 20.04编译安装siesta，TBtrans，siesta Max-1.3.1中的siesta已经包含transiesta。</p>
+<!-- more -->
+<h1 id="1-intel-onepai安装">1. Intel Onepai安装</h1>
+<p>略</p>
+<h1 id="2-编译-siesta">2. 编译 siesta</h1>
+<p>从siesta官网下载siesta-Max-1.3.1版本</p>
+<pre><code>tar -zxvf siesta-MaX-1.3.1.tar.gz
+cd siesta-MaX-1.3.1/Docs/
+</code></pre>
+<p>设置编译器安装netcdf，flook，psml和gribxc。这里一定要选择和后面编译siesta相同的环境，否则报错，安装成功后会提示编译参数复制保存。</p>
+<pre><code>export FC=ifort 
+export CC=icc 
+export MPICC=mpiicc 
+export MPIFC=mpiifort
+</code></pre>
+<p>支持psml赝势格式的siesta必须安装这两个内容：<br>
+安装psml以及gribxc</p>
+<pre><code>./install_psml.bash
+./install_gridxc.bash
+</code></pre>
+<p>安装必要文件后才可以安装netcdf4以及flook</p>
+<pre><code>sudo apt-get install m4
+./install_netcdf4.bash
+sudo apt-get install libreadline-dev 
+./install_flook.bash
+</code></pre>
+<p>成功后会在最后提示编译参数。复制保存后面使用<br>
+进入程序主目录下Obj目录，准备初步编译文件<br>
+<code>cd siesta-MaX-1.3.1/Obj</code><br>
+执行 <code>bash ../Src/obj_setup.sh</code><br>
+<code>cp intel.make arch.make</code><br>
+以下为MPI并行编译，包含库BLAS，LAPACK，ScaLAPACK，fdict，NetCDF，ncdf，flook，psml，gribxc等，不包含Metis，ELPA，MUMPS，PEXSI。<br>
+在<code>arch.make</code>文件中修改CC为mpicc，修改FC为mpiifort，<br>
+注释<code>COMP_LIBS = libsiestaLAPACK.a libsiestaBLAS.a</code>和<code>#LIBS =</code>这两行<br>
+添加内容（添加位置在<code># Dependency rules ---------</code>这一行前面）<br>
+将上面编译成功netcdf和flook后输出的编译参数复制到下方</p>
+<pre><code>#MPI
+MPI_INTERFACE = libmpi_f90.a
+MPI_INCLUDE = .
+FPPFLAGS += -DMPI
+
+#BLAS &amp; LAPACK &amp; SCALAPACK_LIBS
+LDFLAGS += -L/opt/intel/oneapi/mkl/2022.0.2/lib/intel64
+#LIBS += -lmkl_blas95_lp64 -lmkl_lapack95_lp64 -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_intel_lp64 -lmkl_core -openmp -lmkl_intel_thread
+LIBS += -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+
+#psml xmlf90
+XMLF90_ROOT = /home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build
+include $(XMLF90_ROOT)/share/org.siesta-project/xmlf90.mk
+PSML_ROOT = /home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build
+include $(PSML_ROOT)/share/org.siesta-project/psml.mk
+LDFLAGS += -Wl,-rpath,/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/lib
+
+#gridxc libxc
+GRIDXC_ROOT = /home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build
+include $(GRIDXC_ROOT)/share/org.siesta-project/gridxc_dp_mpi.mk
+LDFLAGS += -Wl,-rpath,/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/lib
+
+#NetCDF &amp; fdict &amp; hdf5 &amp; zlib &amp; ncdf
+INCFLAGS += -I/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/include
+LDFLAGS += -L/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/lib -Wl,-rpath,/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/lib
+LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+COMP_LIBS += libncdf.a libfdict.a
+FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+
+#flook
+INCFLAGS += -I/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/include
+LDFLAGS += -L/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/lib -Wl,-rpath,/home/mccc/software/siesta/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/lib
+LIBS += -lflookall -ldl
+COMP_LIBS += libfdict.a
+FPPFLAGS += -DSIESTA__FLOOK
+</code></pre>
+<p>完整的arch.make如下：</p>
+<pre><code># 
+# Copyright (C) 1996-2016	The SIESTA group
+#  This file is distributed under the terms of the
+#  GNU General Public License: see COPYING in the top directory
+#  or http://www.gnu.org/copyleft/gpl.txt.
+# See Docs/Contributors.txt for a list of contributors.
+#
+#-------------------------------------------------------------------
+# arch.make file for gfortran compiler.
+# To use this arch.make file you should rename it to
+#   arch.make
+# or make a sym-link.
+# For an explanation of the flags see DOCUMENTED-TEMPLATE.make
+
+.SUFFIXES:
+.SUFFIXES: .f .F .o .c .a .f90 .F90
+
+SIESTA_ARCH = ubuntu-intel-oneapi
+
+CC = mpicc
+FPP = $(FC) -E -P
+FC = mpiifort
+FC_SERIAL = ifort
+
+FFLAGS = -O2 -fPIC -fp-model source
+
+AR = ar
+RANLIB = ranlib
+
+SYS = nag
+
+SP_KIND = 4
+DP_KIND = 8
+KINDS = $(SP_KIND) $(DP_KIND)
+
+LDFLAGS =
+
+#COMP_LIBS = libsiestaLAPACK.a libsiestaBLAS.a
+
+FPPFLAGS = $(DEFS_PREFIX)-DFC_HAVE_ABORT
+
+#LIBS =
+
+#MPI
+MPI_INTERFACE = libmpi_f90.a
+MPI_INCLUDE = .
+FPPFLAGS += -DMPI
+
+#BLAS &amp; LAPACK &amp; SCALAPACK_LIBS
+LDFLAGS += -L/opt/intel/oneapi/mkl/2022.0.2/lib/intel64
+#LIBS += -lmkl_blas95_lp64 -lmkl_lapack95_lp64 -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_intel_lp64 -lmkl_core -openmp -lmkl_intel_thread
+LIBS += -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+
+XMLF90_ROOT = /home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build
+include $(XMLF90_ROOT)/share/org.siesta-project/xmlf90.mk
+PSML_ROOT = /home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build
+include $(PSML_ROOT)/share/org.siesta-project/psml.mk
+LDFLAGS += -Wl,-rpath,/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/lib
+
+
+GRIDXC_ROOT = /home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build
+include $(GRIDXC_ROOT)/share/org.siesta-project/gridxc_dp_mpi.mk
+LDFLAGS += -Wl,-rpath,/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/lib
+
+INCFLAGS += -I/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/include
+LDFLAGS += -L/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/lib
+LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+COMP_LIBS += libncdf.a libfdict.a
+FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+
+INCFLAGS += -I/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/include
+LDFLAGS += -L/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-pdf/siesta-MaX-1.3.1/Docs/build/flook/0.8.1/lib
+LIBS += -lflookall -ldl
+COMP_LIBS += libfdict.a
+FPPFLAGS += -DSIESTA__FLOOK
+
+# Dependency rules ---------
+
+FFLAGS_DEBUG = -g -O1 -fp-model source   # your appropriate flags here...
+
+# The atom.f code is very vulnerable. Particularly the Intel compiler
+# will make an erroneous compilation of atom.f with high optimization
+# levels.
+atom.o: atom.F
+	$(FC) -c $(FFLAGS_DEBUG) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F) $&lt; 
+state_analysis.o: state_analysis.F
+	$(FC) -c $(FFLAGS_DEBUG) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F) $&lt; 
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCFLAGS) $(CPPFLAGS) $&lt; 
+.F.o:
+	$(FC) -c $(FFLAGS) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F)  $&lt; 
+.F90.o:
+	$(FC) -c $(FFLAGS) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_free_F90) $&lt; 
+.f.o:
+	$(FC) -c $(FFLAGS) $(INCFLAGS) $(FCFLAGS_fixed_f)  $&lt;
+.f90.o:
+	$(FC) -c $(FFLAGS) $(INCFLAGS) $(FCFLAGS_free_f90)  $&lt;
+
+</code></pre>
+<p>注意$(FC)的前面是tab符号不是空格。<br>
+然后<br>
+在<code>siesta-MaX-1.3.1/Obj</code>文件夹下<br>
+执行<code>make</code><br>
+这里可以获得<code>siesta</code>执行文件<br>
+该目录运行<code>./siesta</code><br>
+输出内容如下：</p>
+<pre><code>Siesta Version  : unreleased 8ef31a088 (2021-10-19)
+Architecture    : ubuntu-intel-oneapi-Max
+Compiler version: ifort (IFORT) 2021.5.0 20211109
+Compiler flags  : mpiifort -O2 -fPIC -fp-model source
+PP flags        : -DFC_HAVE_ABORT -DMPI -DCDF -DNCDF -DNCDF_4 -DSIESTA__FLOOK
+Libraries       : libncdf.a libfdict.a libfdict.a -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64 -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz -lflookall -ldl
+Parallelisations: MPI
+NetCDF support
+NetCDF-4 support
+Lua support
+
+Runtime information:
+* Directory : /home/mccc/download/siesta
+* Running in serial mode (only 1 MPI rank).
+&gt;&gt; Start of run:  13-MAY-2023  15:03:20
+
+                           ***********************
+                           *  WELCOME TO SIESTA  *
+                           ***********************
+
+reinit: Reading from standard input
+reinit: Dumping input in INPUT_TMP.22936
+************************** Dump of input data file ****************************
+</code></pre>
+<p>选择执行如下内容(Max-1.3.1版本的siesta已经包含transiesta)：</p>
+<pre><code>直接执行`make transiesta`会报错需要先
+执行 `make clean-transiesta`
+然后运行`make transiesta`
+这里可以获得`transiesta`执行文件
+</code></pre>
+<p>然后<code>cd siesta-MaX-1.3.1/Util/TS/TBtrans</code><br>
+这里直接执行<code>make</code><br>
+获得<code>TBtrans</code>执行文件<br>
+在siesta-MaX-1.3.1文件夹下新建文件夹bin<br>
+<code>cd siesta-MaX-1.3.1</code><br>
+<code>mkdir bin</code><br>
+将<code>siesta</code>，<code>transiesta</code>，<code>TBtrans</code>拷贝到bin文件夹下<br>
+在<code>~/.bashrc</code> 中添加<br>
+<code>export PATH=:XXX/siesta-MaX-1.3.1/bin:$PATH</code><br>
+参考地址：<br>
+<a href="http://blog.chinaunix.net/uid-20339569-id-5846483.html">CentOS7+ifort14+mkl+mpich2环境下编译并行siesta</a><br>
+<a href="http://www.pseudo-dojo.org/index.html">psml格式赝势库</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ubuntu 20.04 Intel Oneapi 编译 siesta-4.1.5]]></title>
+        <id>https://lisonglin-xidian.github.io/post/ubuntu-intel-oneapi-bian-yi-siesta/</id>
+        <link href="https://lisonglin-xidian.github.io/post/ubuntu-intel-oneapi-bian-yi-siesta/">
+        </link>
+        <updated>2023-05-05T06:55:15.000Z</updated>
+        <summary type="html"><![CDATA[<p>ubuntu 20.04编译安装siesta，transiesta，TBtrans，siesta 4.1.5中的siesta已经包含transiesta。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>ubuntu 20.04编译安装siesta，transiesta，TBtrans，siesta 4.1.5中的siesta已经包含transiesta。</p>
+<!-- more -->
+<h1 id="1-intel-onepai安装">1. Intel Onepai安装</h1>
+<p>略</p>
+<h1 id="2-编译-siesta">2. 编译 siesta</h1>
+<p>从siesta官网下载4.1.5版本</p>
+<pre><code>tar -zxvf siesta-4.1.5.tar.gz
+cd siesta-4.1.5/Docs/
+</code></pre>
+<p>手动下载安装包：<br>
+<img src="https://lisonglin-xidian.github.io/post-images/1683508950537.jpg" alt="" loading="lazy"><br>
+设置编译器安装netcdf和flook，这里一定要选择和后面编译siesta相同的环境，否则报错</p>
+<pre><code>export CC=mpicc
+export FC=mpiifort
+</code></pre>
+<p>安装必要文件后才可以安装netcdf4以及flook</p>
+<pre><code>sudo apt-get install m4
+./install_netcdf4.bash
+</code></pre>
+<p>安装成功后会在最后提示编译参数，复制保存后面使用</p>
+<pre><code>sudo apt-get install libreadline-dev 
+./install_flook.bash
+</code></pre>
+<p>成功后会在最后提示编译参数。复制保存后面使用<br>
+进入程序主目录下Obj目录，准备初步编译文件<br>
+<code>cd siesta-4.1.5/Obj</code><br>
+执行 <code>bash ../Src/obj_setup.sh</code><br>
+<code>cp intel.make arch.make</code><br>
+以下为MPI并行编译，包含库BLAS，LAPACK，ScaLAPACK，fdict，NetCDF，ncdf，flook，<br>
+不包含Metis，ELPA，MUMPS，PEXSI。<br>
+在<code>arch.make</code>文件中修改CC为mpicc，修改FC为mpiifort，<br>
+注释<code>COMP_LIBS = libsiestaLAPACK.a libsiestaBLAS.a</code>和<code>#LIBS =</code>这两行<br>
+添加内容（添加位置在<code># Dependency rules ---------</code>这一行前面）<br>
+将上面编译成功netcdf和flook后输出的编译参数复制到下方</p>
+<pre><code>#MPI
+MPI_INTERFACE = libmpi_f90.a
+MPI_INCLUDE = .
+FPPFLAGS += -DMPI
+
+#BLAS &amp; LAPACK &amp; SCALAPACK_LIBS
+LDFLAGS += -L/opt/intel/oneapi/mkl/2022.0.2/lib/intel64
+#LIBS += -lmkl_blas95_lp64 -lmkl_lapack95_lp64 -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_intel_lp64 -lmkl_core -openmp -lmkl_intel_thread
+LIBS += -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+
+#NetCDF &amp; fdict &amp; hdf5 &amp; zlib &amp; ncdf
+INCFLAGS += -I/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/include
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib
+LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+COMP_LIBS += libncdf.a libfdict.a
+FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+
+#flook
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib
+LIBS += -lflookall -ldl
+COMP_LIBS += libfdict.a
+FPPFLAGS += -DSIESTA__FLOOK
+</code></pre>
+<p>完整的arch.make如下：</p>
+<pre><code>#
+# Copyright (C) 1996-2016       The SIESTA group
+#  This file is distributed under the terms of the
+#  GNU General Public License: see COPYING in the top directory
+#  or http://www.gnu.org/copyleft/gpl.txt.
+# See Docs/Contributors.txt for a list of contributors.
+#
+#-------------------------------------------------------------------
+# arch.make file for gfortran compiler.
+# To use this arch.make file you should rename it to
+#   arch.make
+# or make a sym-link.
+# For an explanation of the flags see DOCUMENTED-TEMPLATE.make
+
+.SUFFIXES:
+.SUFFIXES: .f .F .o .c .a .f90 .F90
+
+SIESTA_ARCH = unknown
+
+CC = mpicc
+FPP = $(FC) -E -P
+FC = mpiifort
+FC_SERIAL = ifort
+
+FFLAGS = -O2 -fPIC -fp-model source
+
+AR = ar
+RANLIB = ranlib
+
+SYS = nag
+
+SP_KIND = 4
+DP_KIND = 8
+KINDS = $(SP_KIND) $(DP_KIND)
+
+LDFLAGS =
+
+#COMP_LIBS = libsiestaLAPACK.a libsiestaBLAS.a
+
+FPPFLAGS = $(DEFS_PREFIX)-DFC_HAVE_ABORT
+
+#LIBS =
+#MPI
+MPI_INTERFACE = libmpi_f90.a
+MPI_INCLUDE = .
+FPPFLAGS += -DMPI
+
+#BLAS &amp; LAPACK &amp; SCALAPACK_LIBS
+LDFLAGS += -L/opt/intel/oneapi/mkl/2022.0.2/lib/intel64
+#LIBS += -lmkl_blas95_lp64 -lmkl_lapack95_lp64 -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lmkl_intel_lp64 -lmkl_core -openmp -lmkl_intel_thread
+LIBS += -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+
+#INCFLAGS += -I/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/include
+#LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib
+#LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib
+#LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib
+#LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+#COMP_LIBS += libncdf.a libfdict.a
+#FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+#LIBS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib -lnetcdff -lnetcdf -lhdf5_fortran -lhdf5 -lz
+#COMP_LIBS += libncdf.a libfdict.a
+#FPPFLAGS += -DNCDF -DNCDF_4
+#FPPFLAGS += -DNCDF_PARALLEL
+
+INCFLAGS += -I/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/include
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/zlib/1.2.11/lib
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/hdf5/1.12.0/lib
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/netcdf/4.7.4/lib
+LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+COMP_LIBS += libncdf.a libfdict.a
+FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+
+
+
+INCFLAGS += -I/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/include
+#LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib -Wl,-rpath,/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib
+#LIBS += -lflookall -ldl
+#COMP_LIBS += libfdict.a
+#FPPFLAGS += -DSIESTA__FLOOK
+LDFLAGS += -L/home/mccc/download/siesta/siesta-4.1.5/Docs/build/flook/0.8.1/lib
+LIBS += -lflookall -ldl
+COMP_LIBS += libfdict.a
+FPPFLAGS += -DSIESTA__FLOOK
+
+
+
+#NetCDF &amp; fdict &amp; hdf5 &amp; zlib &amp; ncdf
+#INCFLAGS += -I/opt/lib/netcdf/4.7.4/include
+#LDFLAGS += -L/opt/lib/zlib/1.2.11/lib -Wl,-rpath,/opt/lib/zlib/1.2.11/lib
+#LDFLAGS += -L/opt/lib/hdf5/1.12.0/lib -Wl,-rpath,/opt/lib/hdf5/1.12.0/lib
+#LDFLAGS += -L/opt/lib/netcdf/4.7.4/lib -Wl,-rpath,/opt/lib/netcdf/4.7.4/lib
+#LIBS += -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+#COMP_LIBS += libncdf.a libfdict.a
+#FPPFLAGS += -DCDF -DNCDF -DNCDF_4
+
+#flook
+#INCFLAGS += -I/opt/lib/flook/0.8.1/include
+#LDFLAGS += -L/opt/lib/flook/0.8.1/lib -Wl,-rpath,/opt/lib/flook/0.8.1/lib
+#LIBS += -lflookall -ldl
+#COMP_LIBS += libfdict.a
+#FPPFLAGS += -DSIESTA__FLOOK
+
+# Dependency rules ---------
+
+FFLAGS_DEBUG = -g -O1 -fp-model source   # your appropriate flags here...
+
+# The atom.f code is very vulnerable. Particularly the Intel compiler
+# will make an erroneous compilation of atom.f with high optimization
+# levels.
+atom.o: atom.F
+        $(FC) -c $(FFLAGS_DEBUG) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F) $&lt;
+state_analysis.o: state_analysis.F
+        $(FC) -c $(FFLAGS_DEBUG) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F) $&lt;
+
+.c.o:
+        $(CC) -c $(CFLAGS) $(INCFLAGS) $(CPPFLAGS) $&lt;
+.F.o:
+        $(FC) -c $(FFLAGS) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_fixed_F)  $&lt;
+.F90.o:
+        $(FC) -c $(FFLAGS) $(INCFLAGS) $(FPPFLAGS) $(FPPFLAGS_free_F90) $&lt;
+.f.o:
+        $(FC) -c $(FFLAGS) $(INCFLAGS) $(FCFLAGS_fixed_f)  $&lt;
+.f90.o:
+        $(FC) -c $(FFLAGS) $(INCFLAGS) $(FCFLAGS_free_f90)  $&lt;
+
+</code></pre>
+<p>然后<br>
+在<code>siesta-4.1.5/Obj</code>文件夹下<br>
+执行<code>make</code><br>
+这里可以获得<code>siesta</code>执行文件<br>
+该目录运行<code>./siesta</code><br>
+输出内容如下：</p>
+<pre><code>Siesta Version  : 4.1.5
+Architecture    : ubuntu-intel-oneapi
+Compiler version: ifort (IFORT) 2021.5.0 20211109
+Compiler flags  : mpiifort -O2 -fPIC -fp-model source
+PP flags        : -DFC_HAVE_ABORT -DMPI -DCDF -DNCDF -DNCDF_4 -DSIESTA__FLOOK
+Libraries       : libncdf.a libfdict.a libfdict.a -lmkl_intel_lp64 -lmkl_sequential -lmkl_core  -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64 -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz -lflookall -ldl
+PARALLEL version
+NetCDF support
+NetCDF-4 support
+Lua support
+
+* Running in serial mode with MPI
+&gt;&gt; Start of run:   8-MAY-2023   9:33:51
+
+                           ***********************
+                           *  WELCOME TO SIESTA  *
+                           ***********************
+
+reinit: Reading from standard input
+reinit: Dumped input in INPUT_TMP.93044
+************************** Dump of input data file ****************************
+</code></pre>
+<p>选择执行如下内容(4.1.5版本的siesta已经包含transiesta)：</p>
+<pre><code>直接执行`make transiesta`会报错需要先
+执行 `make clean-transiesta`
+然后运行`make transiesta`
+这里可以获得`transiesta`执行文件
+</code></pre>
+<p>然后<code>cd siesta-4.1.5/Util/TS/TBtrans</code><br>
+这里直接执行<code>make</code><br>
+获得<code>TBtrans</code>执行文件<br>
+在siesta-4.1.5文件夹下新建文件夹bin<br>
+<code>cd siesta-4.1.5</code><br>
+<code>mkdir bin</code><br>
+将<code>siesta</code>，<code>transiesta</code>，<code>TBtrans</code>拷贝到bin文件夹下<br>
+在<code>~/.bashrc</code> 中添加<br>
+<code>export PATH=:XXX/siesta-4.1.5/bin:$PATH</code><br>
+参考地址：<br>
+<a href="http://blog.chinaunix.net/uid-20339569-id-5846483.html">CentOS7+ifort14+mkl+mpich2环境下编译并行SIESTA-4.1.5</a><br>
+<a href="http://www.pseudo-dojo.org/index.html">psml格式赝势库</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Intel Oneapi编译Quantum ESPRESSO 7.2]]></title>
+        <id>https://lisonglin-xidian.github.io/post/intel-oneapi-bian-yi-quantum-espresso-72/</id>
+        <link href="https://lisonglin-xidian.github.io/post/intel-oneapi-bian-yi-quantum-espresso-72/">
+        </link>
+        <updated>2023-04-25T03:35:14.000Z</updated>
+        <summary type="html"><![CDATA[<p>Quantum ESPRESSO使用基于Intel Oneapi编译。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Quantum ESPRESSO使用基于Intel Oneapi编译。</p>
+<!-- more -->
+<h1 id="1-ubuntu安装intel-oneapi-base-hpc-toolkit">1. Ubuntu安装Intel® oneAPI Base &amp; HPC Toolkit</h1>
+<p>基础版和HPC版都是免费的</p>
+<h2 id="11-下载">1.1. 下载</h2>
+<p>在<a href="https://www.intel.cn/content/www/cn/zh/developer/tools/oneapi/base-toolkit-download.html">Download the Intel® oneAPI Base Toolkit</a>页面，选择 Linux-网络和本地-脱机，并下载l_BaseKit_p_2021.4.0.3422_offline.sh文件。<br>
+在<a href="https://www.intel.cn/content/www/cn/zh/developer/tools/oneapi/hpc-toolkit-download.html">Download the Intel® oneAPI HPC Toolkit</a>页面，选择 Linux-网络和本地-脱机，并下载l_HPCKit_p_2021.4.0.3347_offline.sh文件。</p>
+<h2 id="12-安装">1.2. 安装</h2>
+<p>cd进入，ls查看，而后安装：</p>
+<pre><code>sudo sh l_BaseKit_p_xxxx.x.x.xxxx_offline.sh
+sudo sh l_HPCKit_p_xxxx.x.x.xxxx_offline.sh
+</code></pre>
+<p>选择合适的安装路径：By default, &lt;install_dir&gt; is:<br>
+For root installations: /opt/intel/oneapi<br>
+For non-root installations: $HOME/intel</p>
+<h2 id="13-调用">1.3. 调用</h2>
+<p>修改bashrc<br>
+<code>vim ~/.bashrc</code><br>
+添加如下<br>
+<code>source /opt/intel/oneapi/setvars.sh intel64</code><br>
+输出文件：</p>
+<pre><code>source ~/.bashrc 
+ 
+:: initializing oneAPI environment ...
+   bash: BASH_VERSION = 5.0.17(1)-release
+:: advisor -- latest
+:: ccl -- latest
+:: clck -- latest
+:: compiler -- latest
+:: dal -- latest
+:: debugger -- latest
+:: dev-utilities -- latest
+:: dnnl -- latest
+:: dpcpp-ct -- latest
+:: dpl -- latest
+:: inspector -- latest
+:: intelpython -- latest
+:: ipp -- latest
+:: ippcp -- latest
+:: ipp -- latest
+:: itac -- latest
+:: mkl -- latest
+:: mpi -- latest
+:: tbb -- latest
+:: vpl -- latest
+:: vtune -- latest
+:: oneAPI environment initialized ::
+</code></pre>
+<p>验证是否调用成功：</p>
+<pre><code>$ ifort -V
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.4.0 Build 20210910_000000
+Copyright (C) 1985-2021 Intel Corporation.  All rights reserved.
+</code></pre>
+<h1 id="2-编译qe">2 编译QE</h1>
+<p>官网下载QE安装包：<a href="https://www.quantum-espresso.org/download-page/">quantum-espresso</a><br>
+tar -zxvf qe-7.2-ReleasePack.tar.gz<br>
+解压安装包，QE如果将intel放入bashrc文件中，QE可以识别编译器。这里可以直接运行<br>
+./configure<br>
+配置成功后修改库文件<br>
+vim make.inc<br>
+检查是否使用intel编译器。</p>
+<pre><code>MPIF90         = mpiifort
+F90           = ifort
+CC             = icc
+</code></pre>
+<p>根据<a href="https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html#gs.vq9ljy">intel动态链接库</a>修改BLAS_LIBS，LAPACK_LIBS，SCALAPACK_LIBS<br>
+<img src="https://lisonglin-xidian.github.io/post-images/1682394948598.jpg" alt="" loading="lazy"><br>
+我这里BLAS_LIBS自动识别为<code>BLAS_LIBS      =   -lmkl_intel_lp64  -lmkl_sequential -lmkl_core</code><br>
+修改LPACK_LIBS为<code>LAPACK_LIBS = -lmkl_blacs_intelmpi_lp64  -lpthread</code><br>
+修改SCALPACK_LIBS为<code>SCALAPACK_LIBS = -lmkl_scalapack_lp64</code><br>
+这里FFT_LIBS官方给的注释为 nothing needed here if the the internal copy of FFTW is compiled我们不做修改为空<br>
+MPI_LIBS内容的注释为MPI libraries (should not be needed)我们依然不做修改<br>
+最终make.inc文件内容如下：</p>
+<pre><code># make.inc.  Generated from make.inc.in by configure.
+
+# compilation rules
+
+.SUFFIXES :
+.SUFFIXES : .o .c .f90 .h .fh
+
+# most fortran compilers can directly preprocess c-like directives: use
+#       $(MPIF90) $(F90FLAGS) -c $&lt;
+# if explicit preprocessing by the C preprocessor is needed, use:
+#       $(CPP) $(CPPFLAGS) $&lt; -o $*.F90
+#       $(MPIF90) $(F90FLAGS) -c $*.F90 -o $*.o
+# remember the tabulator in the first column !!!
+
+.f90.o:
+        $(MPIF90) $(F90FLAGS) -c $&lt;
+
+.c.o:
+        $(CC) $(CFLAGS)  -c $&lt;
+
+.h.fh:
+        $(CPP) $(CPPFLAGS) $&lt; -o $*.fh
+
+
+
+# Top QE directory, useful for locating libraries,  linking QE with plugins
+# The following syntax should always point to TOPDIR:
+TOPDIR = $(dir $(abspath $(filter %make.inc,$(MAKEFILE_LIST))))
+# if it doesn't work, uncomment the following line (edit if needed):
+
+# TOPDIR = /home/lsl/software/quantum-espresso/qe-7.2
+
+# DFLAGS  = precompilation options (possible arguments to -D and -U)
+#           used by the C compiler and preprocessor
+# To use libxc (v&gt;=4.3.0), add -D__LIBXC to DFLAGS
+# See include/defs.h.README for a list of options and their meaning
+# With the exception of IBM xlf, FDFLAGS = $(DFLAGS)
+# For IBM xlf, FDFLAGS is the same as DFLAGS with separating commas
+
+# MANUAL_DFLAGS  = additional precompilation option(s), if desired
+#                  BEWARE: it does not work for IBM xlf! Manually edit FDFLAGS
+MANUAL_DFLAGS  =
+DFLAGS         =  -D__DFTI -D__MPI
+FDFLAGS        = $(DFLAGS) $(MANUAL_DFLAGS)
+
+# IFLAGS = how to locate directories with *.h or *.f90 file to be included
+#          typically -I$(TOPDIR)/include -I/some/other/directory/
+#          the latter contains .e.g. files needed by FFT libraries
+# for libxc add -I/path/to/libxc/include/
+
+IFLAGS         = -I. -I$(TOPDIR)/include -I/opt/intel/oneapi/mkl/2022.0.2/include
+
+# MOD_FLAG = flag used by f90 compiler to locate modules
+
+MOD_FLAG      = -I
+
+# BASEMOD_FLAGS points to directories containing basic modules,
+# while BASEMODS points to the corresponding module libraries.
+# More package-specific directories can be added in each Makefile
+# and stored into MODFLAGS, and the same for module libraries in QEMODS
+
+BASEMOD_FLAGS= $(MOD_FLAG)$(TOPDIR)/upflib \
+               $(MOD_FLAG)$(TOPDIR)/XClib \
+               $(MOD_FLAG)$(TOPDIR)/Modules \
+               $(MOD_FLAG)$(TOPDIR)/FFTXlib/src \
+               $(MOD_FLAG)$(TOPDIR)/LAXlib \
+               $(MOD_FLAG)$(TOPDIR)/UtilXlib \
+               $(MOD_FLAG)$(TOPDIR)/MBD \
+               $(MOD_FLAG)$(TOPDIR)/KS_Solvers $(FOX_MOD)
+
+# If A depends upon B, A should come before B in the list below
+# (most compilers don't care but some don't resolve cross links)
+BASEMODS= $(TOPDIR)/Modules/libqemod.a \
+          $(TOPDIR)/upflib/libupf.a \
+          $(TOPDIR)/XClib/xc_lib.a \
+          $(TOPDIR)/FFTXlib/src/libqefft.a \
+          $(TOPDIR)/LAXlib/libqela.a \
+          $(TOPDIR)/UtilXlib/libutil.a \
+          $(TOPDIR)/MBD/libmbd.a
+
+# Compilers: fortran-90, fortran-77, C
+# If a parallel compilation is desired, MPIF90 should be a fortran-90
+# compiler that produces executables for parallel execution using MPI
+# (such as for instance mpif90, mpf90, mpxlf90,...);
+# otherwise, an ordinary fortran-90 compiler (f90, g95, xlf90, ifort,...)
+
+MPIF90         = mpiifort
+F90           = ifort
+CC             = icc
+
+# GPU architecture (Kepler: 35, Pascal: 60, Volta: 70 )
+GPU_ARCH=
+
+# CUDA runtime (Pascal: 8.0, Volta: 9.0)
+CUDA_RUNTIME=
+
+# CUDA F90 Flags
+CUDA_F90FLAGS= $(MOD_FLAG)$(TOPDIR)/external/devxlib/src
+
+# CUDA C Flags
+CUDA_CFLAGS=
+
+# C preprocessor and preprocessing flags - for explicit preprocessing,
+# if needed (see the compilation rules above)
+# preprocessing flags must include DFLAGS and IFLAGS
+
+CPP            = cpp
+CPPFLAGS       = -P -traditional -Uvector $(DFLAGS) $(IFLAGS)
+
+# compiler flags: C, F90
+# C flags must include DFLAGS and IFLAGS
+# F90 flags must include MODFLAGS, IFLAGS, and FDFLAGS with appropriate syntax
+
+CFLAGS         = -O3 $(DFLAGS) $(IFLAGS) $(CUDA_CFLAGS)
+F90FLAGS       = $(FFLAGS) -nomodule -fpp -allow nofpp_comments $(FDFLAGS) $(CUDA_F90FLAGS) $(IFLAGS) $(MODFLAGS)
+
+# compiler flags with and without optimization for fortran-77
+# the latter is NEEDED to properly compile dlamch.f, used by lapack
+FFLAGS         = -O2 -assume byterecl -g -traceback
+FFLAGS_NOOPT   = -O0 -assume byterecl -g -traceback
+
+# compiler flag needed by some compilers when the main program is not fortran
+# Currently used for Yambo
+
+FFLAGS_NOMAIN   = -nofor_main
+
+# Linker, linker-specific flags (if any)
+# Typically LD coincides with F90 or MPIF90, LD_LIBS is empty
+# for libxc, set LD_LIBS=-L/path/to/libxc/lib/ -lxcf03 -lxc
+# If libxc release is 5.0.0 replace -lxcf03 with -lxcf90
+
+LD             = mpiifort
+LDFLAGS        =
+LD_LIBS        =
+
+# External Libraries (if any) : blas, lapack, fft, MPI
+
+# If you have nothing better, use the local copy
+# BLAS_LIBS = $(TOPDIR)/external/lapack/libblas.a
+
+BLAS_LIBS      =   -lmkl_intel_lp64  -lmkl_sequential -lmkl_core
+
+# If you have nothing better, use the local copy
+# LAPACK = liblapack
+# LAPACK_LIBS = $(TOPDIR)/external/lapack/liblapack.a
+
+LAPACK      =
+LAPACK_LIBS = -lmkl_blacs_intelmpi_lp64  -lpthread
+
+SCALAPACK_LIBS = -lmkl_scalapack_lp64
+
+# nothing needed here if the the internal copy of FFTW is compiled
+# (needs -D__FFTW in DFLAGS)
+
+FFT_LIBS       =
+
+# HDF5
+HDF5_LIBS =
+
+# FOX
+FOX      =
+FOX_MOD  =
+FOX_LIB  =
+FOX_FLAGS =
+
+# ENVIRON
+ENVIRON_LIBS =
+
+# MPI libraries (should not be needed)
+
+MPI_LIBS       =
+
+# IBM-specific: MASS libraries, if available and if -D__MASS is defined in FDFLAGS
+
+MASS_LIBS      =
+
+# CUDA libraries
+CUDA_LIBS= -L$(TOPDIR)/external/devxlib/src -ldevXlib
+CUDA_EXTLIBS = devxlib
+
+# ar command and flags - for most architectures: AR = ar, ARFLAGS = ruv
+
+AR             = ar
+ARFLAGS        = ruv
+
+# ranlib command. If ranlib is not needed (it isn't in most cases) use
+# RANLIB = echo
+
+RANLIB         = ranlib
+
+# all internal and external libraries - do not modify
+
+FLIB_TARGETS   = all
+
+LIBXC_LIBS     =
+QELIBS         = $(LIBXC_LIBS) \
+                 $(CUDA_LIBS) $(SCALAPACK_LIBS) $(LAPACK_LIBS) $(FOX_LIB) \
+                                 $(FFT_LIBS) $(BLAS_LIBS) $(MPI_LIBS) $(MASS_LIBS) $(HDF5_LIBS) \
+                                 $(ENVIRON_LIBS) $(LD_LIBS)
+
+# wget or curl - useful to download from network
+WGET = wget -O
+
+# Install directory - &quot;make install&quot; copies *.x executables there
+PREFIX = /usr/local
+</code></pre>
+<p>使用<code>make all</code>安装QE<br>
+安装成功后将QE添加到bashrc文件</p>
+<pre><code># Quantum Espresso
+export PATH=/home/lsl/software/quantum-espresso/qe-7.2/bin:$PATH
+</code></pre>
+<h1 id="3-测试qe">3 测试QE</h1>
+<p><code>cd test-suite</code><br>
+通过<code>make run-test</code>测试所有内容<br>
+或者通过<code>make run-test</code>Tab按键查看想要测试的内容，例如<code>make run-tests-pw-parallel</code><br>
+附录几个会用到的参考链接：<br>
+ntel动态链接库：<a href="https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html#gs.vq9ljy">Intel® oneAPI Math Kernel Library Link Line Advisor</a><br>
+QE配置: <a href="https://www.quantum-espresso.org/Doc/user_guide/node11.html">Building Quantum ESPRESSO with make</a><br>
+赝势文件：<a href="https://www.materialscloud.org/discover/sssp/table/efficiency#sssp-license">Standard solid-state pseudopotentials (SSSP)</a><br>
+Quantum ESPRESSO理论计算课: <a href="https://www.bilibili.com/video/BV12q4y1o7K3?p=2&amp;vd_source=d1ee00ea8d763f289a421e68b278201e">bilibili-42节Quantum Espresso理论计算课</a><br>
+Quantum ESPRESSO 教程：<a href="https://www.bilibili.com/video/BV1d4411r7c2?p=1&amp;vd_source=d1ee00ea8d763f289a421e68b278201e">Quantum ESPRESSO理论课</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu20.04安装单机版slurm+邮件通知]]></title>
+        <id>https://lisonglin-xidian.github.io/post/ubuntu2004-an-zhuang-dan-ji-ban-slurmyou-jian-tong-zhi/</id>
+        <link href="https://lisonglin-xidian.github.io/post/ubuntu2004-an-zhuang-dan-ji-ban-slurmyou-jian-tong-zhi/">
+        </link>
+        <updated>2022-11-05T02:17:15.000Z</updated>
+        <summary type="html"><![CDATA[<p>Slurm作业调度系统搭配s-nail实现作业启动以及运行完成邮件通知</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Slurm作业调度系统搭配s-nail实现作业启动以及运行完成邮件通知</p>
+<!-- more -->
+<h1 id="1-安装和配置slurm">1. 安装和配置Slurm</h1>
+<h2 id="11安装">1.1安装</h2>
+<p>使用Mobaxterm软件等终端，获取root用户权限，安装slurm软件</p>
+<pre><code>sudo su
+sudo apt install slurm-wlm slurm-wlm-doc -y
+</code></pre>
+<p>检查是否安装成功</p>
+<pre><code>slurmd --version
+</code></pre>
+<p>终端显示slurm-wlm 19.05.5</p>
+<h2 id="12配置slurm">1.2配置Slurm</h2>
+<p>配置文件在<code>/etc/slurm-llnl/</code>下面；新建文件<code>slurm.conf</code></p>
+<pre><code>sudo vim /etc/slurm-llnl/slurm.conf
+</code></pre>
+<p>编辑slurm.conf文件；有点儿长但是修改的地方不多。</p>
+<pre><code>ClusterName=cool
+ControlMachine=mcccnode1
+#ControlAddr=
+#BackupController=
+#BackupAddr=
+#
+MailProg=/usr/bin/s-nail
+SlurmUser=root
+#SlurmdUser=root
+SlurmctldPort=6817
+
+SlurmdPort=6818
+AuthType=auth/munge
+#JobCredentialPrivateKey=
+#JobCredentialPublicCertificate=
+StateSaveLocation=/var/spool/slurmctld
+SlurmdSpoolDir=/var/spool/slurmd
+SwitchType=switch/none
+MpiDefault=none
+SlurmctldPidFile=/var/run/slurmctld.pid
+SlurmdPidFile=/var/run/slurmd.pid
+ProctrackType=proctrack/pgid
+#PluginDir=
+#FirstJobId=
+ReturnToService=0
+#MaxJobCount=
+#PlugStackConfig=
+#PropagatePrioProcess=
+#PropagateResourceLimits=
+#PropagateResourceLimitsExcept=
+#Prolog=
+#Epilog=
+#SrunProlog=
+#SrunEpilog=
+#TaskProlog=
+#TaskEpilog=
+#TaskPlugin=
+#TrackWCKey=no
+#TreeWidth=50
+#TmpFS=
+#UsePAM=
+#
+# TIMERS
+SlurmctldTimeout=300
+SlurmdTimeout=300
+InactiveLimit=0
+MinJobAge=300
+KillWait=30
+Waittime=0
+#
+# SCHEDULING
+SchedulerType=sched/backfill
+#SchedulerAuth=
+
+#SelectType=select/cons_tres
+SelectType=select/cons_res
+SelectTypeParameters=CR_Core
+#SelectType=CR_CPU
+
+
+#PriorityType=priority/multifactor
+#PriorityDecayHalfLife=14-0
+#PriorityUsageResetPeriod=14-0
+#PriorityWeightFairshare=100000
+#PriorityWeightAge=1000
+#PriorityWeightPartition=10000
+#PriorityWeightJobSize=1000
+#PriorityMaxAge=1-0
+#
+# LOGGING
+
+SlurmctldDebug=info
+SlurmctldLogFile=/var/log/slurm-llnl/slurmctld.log
+SlurmdDebug=info
+SlurmdLogFile=/var/log/slurm-llnl/slurmd.log
+JobCompType=jobcomp/none
+#JobCompLoc=
+#
+# ACCOUNTING
+#JobAcctGatherType=jobacct_gather/linux
+#JobAcctGatherFrequency=30
+#
+#AccountingStorageType=accounting_storage/slurmdbd
+#AccountingStorageHost=
+#AccountingStorageLoc=
+#AccountingStoragePass=
+#AccountingStorageUser=
+#
+# COMPUTE NODES
+GresTypes=gpu
+PartitionName=mcccnode1 Nodes=mcccnode1 Default=NO MaxTime=INFINITE State=UP
+#NodeName=mcccnode1 State=UNKNOWN
+NodeName=mcccnode1 Sockets=2 CoresPerSocket=32 ThreadsPerCore=1 Gres=gpu:2 State=UNKNOWN
+
+</code></pre>
+<p>代码中需要修改的地方：</p>
+<p>ControlMachine=<font color=#FF0000 >master</font><br>
+PartitionName=<font color=#FF0000 >master</font> Nodes=<font color=#FF0000 >master</font> Default=NO MaxTime=INFINITE State=UP<br>
+#NodeName=<font color=#FF0000 >master</font> State=UNKNOWN<br>
+NodeName=<font color=#FF0000 >master</font> Sockets=<font color=#008000 >2</font> CoresPerSocket=<font color=#008000 >16</font> ThreadsPerCore=<font color=#008000 >1</font> State=UNKNOWN</p>
+<p><font color=#FF0000 >红色部分修改为hostname：</font><br>
+终端通过命令<code>hostname</code>得到的结果</p>
+<p><font color=#008000 >绿色部分修改：</font></p>
+<p>进阶：</p>
+<ol>
+<li><code>Gres=gpu:2</code> 这里本机有两个GPU用来计算所以数目为2；这个内容可以删除不影响CPU使用；</li>
+<li><code>GresTypes=gpu</code>添加支持GPU必备，同理这个内容删除不影响CPU使用；</li>
+<li>运行GPU任务还需要再slurm.conf相同目录下新建gres.conf文件，其中hostname和CPU中内容相同，内容如下：</li>
+</ol>
+<pre><code>NodeName=hostname Name=gpu File=/dev/nvidia-caps/nvidia-cap1
+NodeName=hostname Name=gpu File=/dev/nvidia-caps/nvidia-cap2
+</code></pre>
+<ol start="4">
+<li>这里的内容允许单节点运行多个任务，例如一共有20个核心，可以提交5个运行4核心的任务；</li>
+</ol>
+<pre><code>SelectType=select/cons_res 
+SelectTypeParameters=CR_Core
+</code></pre>
+<p><strong>Sockets</strong> 代表你服务器cpu的个数如果是通常情况普通电脑为1，双路服务器的为2；4路服务器的为4；<br>
+查看CPU个数的命令：<code>cat /proc/cpuinfo| grep &quot;physical id&quot;| sort| uniq| wc -l</code></p>
+<p><strong>CoresPerSocket</strong>代表每个cpu的核数，<br>
+查看CPU核数的命令：<code>cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq</code></p>
+<p><strong>ThreadsPerCore</strong>代表是否开启超线程；如果开启了这个结果为2；没有开启结果为1<br>
+测试超线程的脚本：<br>
+<code>vim cxc.sh</code><br>
+添加脚本内容：</p>
+<pre><code>#!/bin/bash
+cpuhx=`cat /proc/cpuinfo | grep &quot;cores&quot; | uniq | awk -F&quot;:&quot; '{print $2}'`
+echo &quot;CPU 核心数：$cpuhx&quot; ;
+cpuxc=`cat /proc/cpuinfo | grep &quot;processor&quot; | wc -l`
+echo &quot;CPU 线程数：$cpuxc&quot; ;
+echo &quot;如果线程数是核心数的两倍，为开启了超线程&quot;
+</code></pre>
+<p><font color=#FF0000 ><strong>如果是双路服务器关闭超线程情况下得到结果如果是两倍就没有开启超线程如果是4倍才是开启了超线程！！！</strong></font></p>
+<h2 id="13-启动slurm">1.3 启动Slurm</h2>
+<p>终端运行以下代码启动：</p>
+<pre><code>sudo systemctl enable slurmctld --now
+sudo systemctl enable slurmd --now
+</code></pre>
+<h1 id="2-配置邮件提醒">2. 配置邮件提醒</h1>
+<h2 id="21-安装s-nail">2.1 安装s-nail</h2>
+<p>终端输入<code>sudo apt install s-nail</code></p>
+<h2 id="22-配置s-nail">2.2 配置s-nail</h2>
+<p>使用vim打开配置文件:<code>vim /etc/s-nail.rc</code><br>
+s-nail.rc末尾添加一下内容</p>
+<pre><code>set from=&quot;你的qq邮箱&quot;
+set smtp=&quot;smtps://smtp.qq.com:465&quot; 
+set smtp-auth-user=&quot;你的qq邮箱&quot;
+set smtp-auth-password=&quot;qq邮箱授权码&quot; 
+set smtp-auth=login
+</code></pre>
+<p><a href="https://service.mail.qq.com/cgi-bin/help?subtype=1&amp;id=28&amp;no=1001256">qq邮箱授权码教程</a></p>
+<h2 id="23-测试">2.3 测试</h2>
+<p>在含有vasp文件（INCAR、KPOINTS、POSCAR、POTCAR）的文件夹内新建脚本vasp.slurm<br>
+vasp脚本内容：-N为节点数量；-n为提交的核数或者线程数；-J为作业名称；-p为上面提到的hostname；</p>
+<pre><code>#!/bin/bash
+#SBATCH -J VASP-m2690
+#SBATCH -p mccc-Virtual-Machine
+#SBATCH -N 1
+#SBATCH -n 24
+#SBATCH --mail-user=290462572@qq.com
+#SBATCH --mail-type=ALL
+mpirun -n 24 vasp
+</code></pre>
+<p><a href="https://zhuanlan.zhihu.com/p/356415669">Slurm 作业调度系统使用指南</a><br>
+查看QQ邮箱是否有邮件提醒<br>
+还可以通过<a href="https://jingyan.baidu.com/article/37bce2be4ef2601002f3a21c.html">微信添加QQ邮箱提醒</a></p>
+<h1 id="3-配置accounting">3. 配置accounting</h1>
+<h2 id="31-修改etcslurmslurmconf文件添加如下信息并重启服务">3.1 修改etc/slurm/slurm.conf文件添加如下信息并重启服务</h2>
+<pre><code># ACCOUNTING
+AccountingStorageEnforce=1
+
+AccountingStorageType=accounting_storage/filetxt
+AccountingStorageLoc=/opt/slurm/acct
+
+JobCompType=jobcomp/filetxt
+JobCompLoc=/opt/slurm/jobcomp
+
+JobAcctGatherType=jobacct_gather/linux
+JobAcctGatherFrequency=30
+</code></pre>
+<h2 id="32-新建文件夹">3.2 新建文件夹：</h2>
+<pre><code>sudo mkdir -p /opt/slurm
+sudo chmod -Rf 777 /opt/slurm
+cd /opt/slurm
+touch acct
+touch jobcomp
+</code></pre>
+<h2 id="33-重启服务">3.3 重启服务</h2>
+<pre><code>sudo systemctl restart slurmd
+sudo systemctl restart slurmctld
+</code></pre>
+<h2 id="34-查看历史作业">3.4 查看历史作业：</h2>
+<pre><code>sacct
+获取历史作业信息
+grep WorkDir /opt/slurm/jobcomp | grep Jobid
+获取历史作业工作目录
+</code></pre>
+<h1 id="4-常用slurm命令">4. 常用Slurm命令</h1>
+<p><code>scontrol suspend job_id</code> 可以暂停正在运行的任务，并且停止在当前执行的step上，以便恢复。<br>
+<code>scontrol resume job_id</code>来恢复上述暂停的任务<br>
+<code>sbatch vasp.slurm</code>提交vasp计算任务<br>
+<code>sinfo</code>查看队列信息<br>
+<code>squeue</code>查看作业队列<br>
+<code>scancel JOBID</code>取消作业<br>
+<code>sbatch vasp.slurm</code>提交作业<br>
+<code>scontrol show job JOBID</code>查看作业详细信息<br>
+<code>scontrol hold job_list</code>挂起排队中尚未运行的作业<br>
+<code>scontrol release job_list</code>继续排队被挂起的尚未运行作业<br>
+<code>scontrol requeue job_list</code>重新运行作业<br>
+<code>scontrol top job_list</code>最优先等待运行作业<br>
+<code>scontrol wait_job job_id</code>等待某个作业运行完，一般在脚本中使用<br>
+<code>scontrol update SPECIFICATION</code>更新作业信息<br>
+<code>SPECIFICATION</code>格式为<code>scontaol show job</code>显示出的，如下面命令将更新作业号为7的作业名<br>
+<code>scontrol update JobId=7 JobName=NewJobName</code>为NewJobName<br>
+参考地址：<br>
+<a href="http://bbs.keinsci.com/thread-32750-1-1.html">Ubuntu20.04 安装单机slurm教程</a><br>
+<a href="https://zhuanlan.zhihu.com/p/356415669">Slurm 作业调度系统使用指南</a><br>
+<a href="https://service.mail.qq.com/cgi-bin/help?subtype=1&amp;id=28&amp;no=1001256">百度-微信添加QQ邮箱提醒</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubuntu 20.04 LTS安装Docker以及Quantum Espresso-GNU版本]]></title>
+        <id>https://lisonglin-xidian.github.io/post/ubuntu-2004-lts-an-zhuang-docker-yi-ji-quantum-espresso-gnu-ban-ben/</id>
+        <link href="https://lisonglin-xidian.github.io/post/ubuntu-2004-lts-an-zhuang-docker-yi-ji-quantum-espresso-gnu-ban-ben/">
+        </link>
+        <updated>2022-09-05T07:54:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>使用Docker一键安装支持GPU的Quantum Espresso</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>使用Docker一键安装支持GPU的Quantum Espresso</p>
+<!-- more -->
+<h1 id="在-ubuntu-上安装-docker-desktop">在 Ubuntu 上安装 Docker Desktop</h1>
+<h2 id="卸载其他版本docker">卸载其他版本docker</h2>
+<p>参考链接：<a href="https://docs.docker.com/desktop/install/ubuntu/">在 Ubuntu 上安装 Docker Desktop</a>。</p>
+<h2 id="安装-docker-桌面">安装 Docker 桌面</h2>
+<p>设置 Docker 的包存储库。参考链接：<a href="https://docs.docker.com/engine/install/ubuntu/#set-up-the-repository">Install using the repository: Set up the repository</a><br>
+验证安装   <code> sudo docker run hello-world</code></p>
+<h2 id="普通用户启动问题">普通用户启动问题：</h2>
+<p><a href="https://blog.csdn.net/Nick_666/article/details/80972332">参考地址1</a></p>
+<pre><code>[root@localhost ~]# groupadd docker
+[root@localhost ~]# groups
+root
+[root@localhost ~]# usermod -a -G docker simon 
+[root@localhost ~]# grep docker /etc/group
+dockerroot:x:994:
+docker:x:1001:simon
+[root@localhost ~]# service docker restart
+Redirecting to /bin/systemctl restart docker.service
+[root@localhost ~]# sudo simon
+[simon@localhost ~]$ docker image ls
+</code></pre>
+<p><a href="https://cloud.tencent.com/developer/article/1912506">参考地址2</a></p>
+<pre><code>把普通用户加入到docker组中 
+这里的普通用户是huali，组docker在安装docker的时候，就已经添加了，所以只需要执行两个操作即可：
+# sudo gpasswd -a $USER docker 
+# newgrp docker
+将huali用户加入docker组之后，发现使用docker ps或者docker images不会提示权限不足了。
+</code></pre>
+<h1 id="nvidia-docker-安装">nvidia-docker 安装</h1>
+<p>nvidia-docker安装参考链接：<a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker"> nvidia-docker安装指南</a><br>
+设置默认运行时后，重新启动 Docker 守护程序以完成安装：<br>
+<code>sudo systemctl restart docker</code><br>
+此时，可以通过运行基本 CUDA 容器来测试工作设置：<br>
+<code>sudo docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi</code></p>
+<h1 id="docker-拉取镜像速度慢怎么破">Docker 拉取镜像速度慢怎么破？</h1>
+<p>修改Docker镜像服务器</p>
+<ol>
+<li>编辑 /etc/docker/daemon.json 配置文件</li>
+</ol>
+<pre><code>创建配置文件目录
+$ sudo mkdir /etc/docker
+编辑配置文件，如果文件不存在，以下命令会自动创建。
+$ sudo nano /etc/docker/daemon.json
+将配置信息粘贴到配置文件中，配置信息为 json 格式，可以根据实际需要设置多个国内的镜像服务器。(第一个为国内镜像地址；第二个大括号内时NVIDIA-docker配置)
+{
+      &quot;registry-mirrors&quot;: [
+                    &quot;https://fy707np5.mirror.aliyuncs.com&quot;,
+                    &quot;https://docker.mirrors.ustc.edu.cn&quot;,
+                    &quot;https://hub-mirror.c.163.com&quot;,
+                    &quot;https://mirror.baidubce.com&quot;,
+                    &quot;https://yxzrazem.mirror.aliyuncs.com&quot;
+            ]
+},
+{   &quot;runtimes&quot;: {
+        &quot;nvidia&quot;: {
+            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,
+            &quot;runtimeArgs&quot;: []
+        }
+    }
+}
+</code></pre>
+<ol start="2">
+<li>重新加载并重启 Docker 服务</li>
+</ol>
+<pre><code>sudo systemctl daemon-reload 
+sudo systemctl restart docker
+</code></pre>
+<ol start="3">
+<li>检查设置是否生效</li>
+</ol>
+<pre><code>sudo docker info
+结果中显示了我们设置的镜像服务器地址，则说明设置已经生效，返回的信息类似下面这样：
+ Registry Mirrors:
+  https://fy707np5.mirror.aliyuncs.com/
+  https://docker.mirrors.ustc.edu.cn/
+  https://hub-mirror.c.163.com/
+  https://mirror.baidubce.com/
+  https://yxzrazem.mirror.aliyuncs.com/
+</code></pre>
+<h1 id="quantum-espresso安装">Quantum ESPRESSO安装</h1>
+<p>根据<a href="https://catalog.ngc.nvidia.com/orgs/hpc/containers/quantum_espresso">Quantum ESPRESSO-NGC安装</a>操作。<br>
+注意：<code>export QE_TAG={TAG}</code>对Quantum Espresso的版本进行指定</p>
+<h1 id="quantum-espresso脚本">Quantum ESPRESSO脚本</h1>
+<p>QEtoolkit-2.sh 可以实现快速生成QE输入文件，需要安装Multiwfn，<a href="http://sobereva.com/multiwfn/">Multiwfn下载链接</a><br>
+Quantum ESPRSSO输入文件<a href="https://www.materialscloud.org/work/tools/qeinputgenerator?structure=tmprcavxfbm.xsf-ase">在线生成链接</a><br>
+pwgui可以生成输入文件以及可视化pw.x输入输出文件中的原子结构：<a href="http://www-k3.ijs.si/kokalj/pwgui/">下载链接</a><br>
+XCrySDen是一个晶体和分子结构可视化程序，旨在显示等值面和轮廓，可以叠加在晶体结构上，并以交互方式旋转和操纵。<a href="http://www.xcrysden.org/">下载链接</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[加密文章测试]]></title>
+        <id>https://lisonglin-xidian.github.io/post/jia-mi-wen-zhang-ce-shi/</id>
+        <link href="https://lisonglin-xidian.github.io/post/jia-mi-wen-zhang-ce-shi/">
+        </link>
+        <updated>2022-07-20T03:01:06.000Z</updated>
+        <summary type="html"><![CDATA[<p>加密测试：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>加密测试：</p>
+<!-- more -->
+<script language = JavaScript>
+ function password() {
+    var testV = 1;
+    var pass1 = prompt('please input the password','');
+    var passwordforthisarticle = "123";
+    var inputtimemax = 19960319;
+    while (testV < inputtimemax) {
+    if (!pass1)
+    history.go(-1);
+    if (pass1 == passwordforthisarticle) {
+    break;
+    }
+    testV+=1;
+    var pass1 =
+    prompt('Password error!');
+    }
+    if (pass1!= passwordforthisarticle & testV == inputtimemax)  
+    history.go(-1);
+    return " ";
+    }
+    document.write(password());
+</script>
+<p>给你看见了~~<br>
+进阶密码：<a href="http://www.jshaman.com/#free">jshaman</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MCCC实验室远程使用服务器]]></title>
+        <id>https://lisonglin-xidian.github.io/post/mccc-shi-yan-shi-yuan-cheng-shi-yong-fu-wu-qi/</id>
+        <link href="https://lisonglin-xidian.github.io/post/mccc-shi-yan-shi-yuan-cheng-shi-yong-fu-wu-qi/">
+        </link>
+        <updated>2022-07-14T02:08:24.000Z</updated>
+        <summary type="html"><![CDATA[<p>方式1：安装Zerotier分配IP并远程连接，内网穿透不知道公网IP也可以实现异地连接<br>
+方式2：通过ddns服务器cloudflare更新设备IP地址到固定域名（自动更新DNS解析到本机IP地址）没有公网IP地址的话只支持内网使用</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>方式1：安装Zerotier分配IP并远程连接，内网穿透不知道公网IP也可以实现异地连接<br>
+方式2：通过ddns服务器cloudflare更新设备IP地址到固定域名（自动更新DNS解析到本机IP地址）没有公网IP地址的话只支持内网使用</p>
+<!-- more -->
+<h1 id="方式1-zerotier">方式1-zerotier</h1>
+<h2 id="11-windows">1.1 Windows:</h2>
+<p>双击ZeroTier One.msi安装，<a href="https://www.zerotier.com/">官网</a>以及<a href="https://download.zerotier.com/dist/ZeroTier%20One.msi">安装包下载</a></p>
+<h2 id="12-linux">1.2 Linux</h2>
+<p>下载ZeroTier One并安装<br>
+<code>curl -s https://install.zerotier.com | sudo bash</code></p>
+<h2 id="13-添加网络">1.3 添加网络</h2>
+<h3 id="131windows-方式1">1.3.1Windows-方式1</h3>
+<ol>
+<li>右键单击复制My address</li>
+<li>将10位地址发送给管理员并等待管理员通过</li>
+</ol>
+<h3 id="132windows-方式2">1.3.2Windows-方式2</h3>
+<ol>
+<li>右键然后点击Join Network</li>
+<li>输入号码<code>a0cbf4b62a3bd002</code></li>
+<li>单击join完成并等待管理员通过</li>
+</ol>
+<h3 id="133linux">1.3.3Linux</h3>
+<p>终端输入：<br>
+<code>sudo zerotier-cli join a0cbf4b62a3bd002</code></p>
+<h2 id="14连接使用">1.4连接使用</h2>
+<p>等待ip分配完成后，ubuntu（8370Cx2+3090Tix2）服务器通过ssh连接，windows（5218x2+2080Tix5）server 2019通过远程桌面连接。</p>
+<h2 id="15连接软件">1.5连接软件</h2>
+<p>ubuntu远程用的SSH连接：<a href="https://mobaxterm.mobatek.net/">mobaxterm</a>官网，以及<a href="https://mobaxterm.mobatek.net/download-home-edition.html">下载</a>。</p>
+<h1 id="方式2-ddns">方式2-DDNS</h1>
+<p>前期准备：freenom或者其他地方注册的域名；注册Cloudflare用来解析域名到具体IP地址</p>
+<h2 id="21windows服务器端-被控制端">2.1Windows（服务器端、被控制端）</h2>
+<h3 id="下载ddnsexe-configjson-create-taskbat到本地文件夹">下载ddns.exe、config.json、create-task.bat到本地文件夹</h3>
+<p><a href="https://github.com/LiSonglin-xidian/DDNS">单击下载</a><br>
+ddns.exe为二进制版文件其他方式未测试<br>
+根据详细配置修改config.json文件为（其中index4为只更新名称为10.170.起始的IP地址到cloudflare域名）</p>
+<pre><code>{
+    &quot;id&quot;: &quot;cloudflare登陆邮箱&quot;,
+    &quot;token&quot;: &quot;cloudflare产生的秘钥&quot;,
+    &quot;dns&quot;: &quot;cloudflare&quot;,
+    &quot;ipv4&quot;: [&quot;cloudflare中的前置信息.freenom申请的域名&quot;],
+    &quot;index4&quot;: &quot;regex:10.170.*&quot;,
+    &quot;proxy&quot;: &quot;DIRECT&quot;,
+    &quot;debug&quot;: false
+  }
+</code></pre>
+<p>create-task.bat为创建windows定时任务</p>
+<h3 id="调试测试过程">调试测试过程：</h3>
+<p>1.在脚本的当前文件夹下运行cmd<br>
+2.在cmd窗口中运行./ddns.exe -c config.json<br>
+3.查看服务器端是否产生run.log文件<br>
+4.控制端使用cmd，对域名进行ping测试<br>
+5.测试完成双击运行create-task.bat脚本添加定时任务（推荐右键使用管理员方式运行否则会有cmd弹窗）</p>
+<h2 id="22linux被控制端服务器端">2.2linux(被控制端，服务器端)</h2>
+<h3 id="下载ddns-create-tasksh-configjson文件">下载ddns、create-task.sh、config.json文件</h3>
+<p><a href="https://github.com/LiSonglin-xidian/DDNS">单击下载</a><br>
+config.json配置和windows相同<br>
+ddns为二进制版文件其他方式未测试<br>
+create-task.sh为创建Ubuntu定时任务</p>
+<h3 id="调试测试过程-2">调试测试过程：</h3>
+<p>1.在ddns脚本的当前文件夹下打开终端<br>
+2.在终端中运行./ddns -c config.json<br>
+3.查看当前文件夹下是否产生run.log文件<br>
+4.控制端使用cmd等对域名进行ping测试<br>
+5.当前用户运行bash create-task.sh  或者root运行：sudo bash create-task.sh<br>
+如果没有权限使用chmod a+x create-task.sh后运行</p>
+<h2 id="23定时清理本地dns缓存本机控制端">2.3定时清理本地DNS缓存（本机，控制端）</h2>
+<h3 id="方式1下载create-task-clean-dnsbat到本地文件夹">方式1：下载create-task-clean-dns.bat到本地文件夹</h3>
+<p>双击create-task-clean-dns.bat创建定时清理dns缓存命令，否则当ip地址在本地不会更新ping 域名只会到缓存的dns的IP地址上。</p>
+<h3 id="方式2-cmd窗口运行命令">方式2: cmd窗口运行命令</h3>
+<p>命令：<code>ipconfig /flushdns</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[新建ubuntu用户+SSH密码连接]]></title>
+        <id>https://lisonglin-xidian.github.io/post/ssh-mi-ma-lian-jie/</id>
+        <link href="https://lisonglin-xidian.github.io/post/ssh-mi-ma-lian-jie/">
+        </link>
+        <updated>2022-07-11T13:30:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>新用户以及添加SSH连接</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>新用户以及添加SSH连接</p>
+<!-- more -->
+<p>1.<a href="https://blog.csdn.net/u013187057/article/details/80533249">添加新用户</a><br>
+<code>adduser xxx</code><br>
+设置密码等信息<br>
+<code>su xxx</code><br>
+切换到xxx用户<br>
+给用户添加sudo权限：<br>
+<code>sudo usermod -a -G sudo xxx</code>（xxx为新添加的用户名）<br>
+修改后的结果可以查看/etc/group，可以看到sudo这一栏中包含xxx<br>
+用户删除sudo权限<br>
+<code>sudo deluser xxx sudo</code></p>
+<p>2.添加ssh连接<br>
+修改配置文件/etc/ssh/sshd_config<br>
+<code>sudo vim /etc/ssh/sshd_config</code><br>
+末尾添加<code>AllowUsers master@192.168.0.1 user1 user2 user3 user4 user5</code><br>
+重启ssh<br>
+<code>sudo service sshd restart</code><br>
+通过常用ssh工具进行连接使用。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gridea-Markdown字体颜色]]></title>
+        <id>https://lisonglin-xidian.github.io/post/gridea-markdown-zi-ti-yan-se/</id>
+        <link href="https://lisonglin-xidian.github.io/post/gridea-markdown-zi-ti-yan-se/">
+        </link>
+        <updated>2022-06-17T14:04:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>文本颜色，字号，背景颜色等。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>文本颜色，字号，背景颜色等。</p>
+<!-- more -->
+<pre><code>&lt;font face=&quot;微软雅黑&quot; &gt;微软雅黑-想不想该不该&lt;/font&gt;
+&lt;font face=&quot;黑体&quot; &gt;黑体-想不想该不该&lt;/font&gt;
+&lt;font size=3 &gt;3号字&lt;/font&gt;
+&lt;font size=4 &gt;4号字&lt;/font&gt;
+&lt;font color=#FF0000 &gt;红色&lt;/font&gt;
+&lt;font color=#008000 &gt;绿色&lt;/font&gt;
+&lt;font color=#0000FF &gt;蓝色&lt;/font&gt;
+</code></pre>
+<p><font face="微软雅黑" >微软雅黑-想不想该不该</font><br>
+<font face="黑体" >黑体-想不想该不该</font><br>
+<font size=3 >3号字</font><br>
+<font size=4 >4号字</font><br>
+<font color=#FF0000 >红色</font><br>
+<font color=#008000 >绿色</font><br>
+<font color=#0000FF >蓝色</font></p>
+<p>设置字体为微软雅黑；字号为6；颜色为红色；内容为微软雅黑字体<br>
+<code>&lt;font face=&quot;微软雅黑&quot; size=6 color=#FF0000 &gt;微软雅黑字体&lt;/font&gt;</code><br>
+<font face="微软雅黑" size=6 color=#FF0000 >微软雅黑字体</font></p>
+<pre><code>
+借助 table, tr, td 等表格标签的 bgcolor 属性来实现背景色的功能。
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor=orange&gt; 背景色是 1 orange&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td bgcolor= BlueViolet &gt; 背景色2 BlueViolet &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+</code></pre>
+<table><tr><td bgcolor=orange> 背景色是 1 orange</td></tr></table>
+<table><tr><td bgcolor= BlueViolet > 背景色2 BlueViolet </td></tr></table>
+]]></content>
+    </entry>
+</feed>
